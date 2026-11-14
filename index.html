@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haider Albaaj — Customer Experience &amp; Call Center Specialist</title>
+<meta name="description" content="Haider Albaaj helps businesses build and improve customer support and call center operations — from workflow design to team training.">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Tokens ---------- */
+  :root{
+    --bg:#FAF8F4; --fg:#6B1E2E; --ink:#6B1E2E; --ink-deep:#4A1420; --muted-fg:#7D6165;
+    --accent:#8F5D1A; --on-accent:#FFFFFF; --surface:#F1E8E7; --border:#E8DBD9;
+    --font-head:'Archivo',sans-serif; --font-body:'Space Grotesk',sans-serif;
+    --container:1200px;
+    --sp-1:.5rem; --sp-2:1rem; --sp-3:1.5rem; --sp-4:2.5rem; --sp-5:4rem; --sp-6:6rem; --sp-7:9rem;
+    --fs-hero:clamp(2.75rem,5vw + 1.5rem,6rem);
+    --fs-h2:clamp(2rem,2.2vw + 1.2rem,3rem);
+    --fs-h3:clamp(1.15rem,.6vw + 1rem,1.4rem);
+    --ease:cubic-bezier(.16,.8,.3,1);
+  }
+  [data-theme="dark"]{
+    --bg:#200F14; --fg:#F6EDEC; --ink:#F6EDEC; --ink-deep:#150A0D; --muted-fg:#B99BA0;
+    --accent:#EFB255; --on-accent:#200F14; --surface:#331721; --border:#4A222D;
+  }
+  [dir="rtl"]{
+    --font-head:'Cairo',sans-serif; --font-body:'Cairo',sans-serif;
+  }
+
+  /* ---------- Reset ---------- */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg); color:var(--fg); font-family:var(--font-body);
+    font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;
+    transition:background .35s var(--ease),color .35s var(--ease);
+    overflow-x:hidden;
+  }
+  img,svg{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  ul{list-style:none}
+  h1,h2,h3{font-family:var(--font-head);color:var(--ink);line-height:1.05;letter-spacing:-.02em}
+  button{font:inherit;color:inherit;background:none;border:none}
+  a,button,.card,.theme-toggle,.nav__toggle{cursor:pointer}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+  :focus:not(:focus-visible){outline:none}
+
+  .container{max-width:var(--container);margin-inline:auto;padding-inline:clamp(1.25rem,4vw,3rem)}
+  .eyebrow{font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted-fg);font-weight:600}
+
+  /* ---------- Nav ---------- */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:1.1rem clamp(1.25rem,4vw,3rem);
+    background:transparent;border-bottom:1px solid transparent;
+    transition:background .3s var(--ease),border-color .3s var(--ease);
+  }
+  .nav.is-scrolled{background:color-mix(in srgb, var(--bg) 88%, transparent);backdrop-filter:blur(10px);border-color:var(--border)}
+  .nav__logo{font-family:var(--font-head);font-weight:800;font-size:1.05rem;letter-spacing:-.01em;
+    width:2.25rem;height:2.25rem;display:grid;place-items:center;border:1.5px solid var(--ink);border-radius:50%}
+  .nav__menu{display:flex;align-items:center;gap:clamp(1.25rem,2.5vw,2.25rem)}
+  .nav__link{font-size:.92rem;font-weight:500;position:relative;padding-bottom:2px}
+  .nav__link::after{content:"";position:absolute;inset-inline-start:0;bottom:0;width:0;height:1px;background:var(--ink);transition:width .25s var(--ease)}
+  .nav__link:hover::after{width:100%}
+  .theme-toggle{width:2.1rem;height:2.1rem;display:grid;place-items:center;border:1px solid var(--border);border-radius:50%;color:var(--ink);transition:transform .2s var(--ease),border-color .25s var(--ease)}
+  .theme-toggle:hover{border-color:var(--ink)}
+  .theme-toggle:active,.lang-toggle:active{transform:scale(.9)}
+  .theme-toggle svg{width:16px;height:16px;grid-area:1/1;transition:opacity .45s var(--ease),transform .55s var(--ease)}
+  .icon-sun{opacity:0;transform:rotate(-90deg) scale(.4)}
+  .icon-moon{opacity:1;transform:rotate(0) scale(1)}
+  [data-theme="dark"] .icon-sun{opacity:1;transform:rotate(0) scale(1)}
+  [data-theme="dark"] .icon-moon{opacity:0;transform:rotate(90deg) scale(.4)}
+  .nav__toggle{display:none;flex-direction:column;gap:5px;width:1.5rem}
+  .nav__toggle span{height:1.5px;background:var(--ink);transition:transform .25s var(--ease),opacity .25s var(--ease)}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:100svh;display:flex;flex-direction:column;justify-content:center;gap:var(--sp-3);
+    padding:clamp(6rem,10vw,8rem) clamp(1.25rem,4vw,3rem) var(--sp-5);max-width:var(--container);margin-inline:auto;
+  }
+  .hero__title{font-size:var(--fs-hero);font-weight:800}
+  .hero__subtitle{max-width:34rem;font-size:clamp(1.05rem,1vw + .8rem,1.3rem);color:var(--muted-fg)}
+  .hero__subtitle strong{color:var(--ink);font-weight:600}
+  .hero__meta{max-width:36rem;font-size:.85rem;color:var(--muted-fg)}
+  .hero__actions{display:flex;flex-wrap:wrap;gap:1rem;margin-top:var(--sp-2)}
+  .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.5rem;border-radius:100px;font-weight:600;font-size:.95rem;transition:transform .25s var(--ease),background .25s var(--ease)}
+  .btn svg{width:15px;height:15px;transition:transform .25s var(--ease)}
+  .btn:hover svg{transform:translate(2px,-2px)}
+  .btn--primary{background:var(--ink);color:var(--bg)}
+  .btn--primary:hover{transform:translateY(-2px)}
+  .btn--ghost{border:1px solid var(--border)}
+  .btn--ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+  .hero__scroll{display:flex;align-items:center;gap:.6rem;margin-top:var(--sp-4);font-size:.78rem;color:var(--muted-fg);text-transform:uppercase;letter-spacing:.1em;width:fit-content}
+  .hero__scroll-line{width:1px;height:28px;background:var(--muted-fg);position:relative;overflow:hidden}
+  .hero__scroll-line::after{content:"";position:absolute;top:-100%;inset-inline-start:0;width:100%;height:100%;background:var(--accent);animation:scrollLine 1.8s ease-in-out infinite}
+  @keyframes scrollLine{50%{top:0}100%{top:100%}}
+
+  /* ---------- Section shell ---------- */
+  section[id],header[id]{scroll-margin-top:90px}
+  section{padding:var(--sp-6) 0}
+  .section__head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:1rem;margin-bottom:var(--sp-4)}
+  .section__head h2{font-size:var(--fs-h2);font-weight:700}
+  .section__head p{color:var(--muted-fg);max-width:24rem}
+
+  /* ---------- Work grid ---------- */
+  .grid{display:grid;grid-template-columns:1fr;gap:1.5rem}
+  .card{border:1px solid var(--border);border-radius:20px;overflow:hidden;background:var(--bg);transition:transform .35s var(--ease),border-color .35s var(--ease)}
+  .card:hover{transform:translateY(-4px);border-color:var(--ink)}
+  .card__visual{position:relative;aspect-ratio:4/3;display:grid;place-items:center;overflow:hidden;background:linear-gradient(135deg,var(--ink),var(--ink-deep))}
+  .card:nth-child(2) .card__visual{background:linear-gradient(135deg,var(--ink) 30%,var(--accent) 170%)}
+  .card:nth-child(3) .card__visual{background:linear-gradient(135deg,var(--muted-fg),var(--ink-deep))}
+  .card:nth-child(4) .card__visual{background:linear-gradient(150deg,var(--ink),var(--accent) 170%)}
+  .card:nth-child(5) .card__visual{background:linear-gradient(135deg,var(--ink-deep),var(--muted-fg))}
+  .card__visual::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.05) 0 1px,transparent 1px 14px)}
+  .card__mark{position:relative;font-family:var(--font-head);font-weight:800;color:#fff;font-size:clamp(1.4rem,3vw,2.1rem);letter-spacing:-.02em;text-align:center;padding:0 1rem;transition:transform .5s var(--ease);text-shadow:0 2px 18px rgba(0,0,0,.45),0 1px 3px rgba(0,0,0,.5)}
+  .card:hover .card__mark{transform:scale(1.06)}
+  .card__info{padding:1.5rem}
+  .card__meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem}
+  .card__tag{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted-fg);font-weight:600;background:var(--surface);padding:.3rem .6rem;border-radius:100px}
+  .card__year{font-size:.78rem;color:var(--muted-fg)}
+  .card__info h3{margin-bottom:.5rem}
+  .card__info p{color:var(--muted-fg);font-size:.95rem}
+  .card--featured{grid-column:1 / -1}
+  .card--featured .card__visual{aspect-ratio:16/9}
+
+  /* ---------- About ---------- */
+  .about__grid{display:grid;gap:var(--sp-4)}
+  .about p{color:var(--muted-fg);max-width:42rem;margin-bottom:1.1rem}
+  .about p strong{color:var(--fg);font-weight:600}
+  .about blockquote{font-family:var(--font-head);font-size:var(--fs-h3);font-weight:600;color:var(--ink);max-width:34rem;border-inline-start:2px solid var(--accent);padding-inline-start:1.25rem;margin:var(--sp-3) 0}
+  .tags{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:var(--sp-2)}
+  .tags li{border:1px solid var(--border);padding:.5rem 1rem;border-radius:100px;font-size:.85rem;color:var(--muted-fg)}
+  .about__body{max-width:46rem}
+  .about__text > * + *{margin-top:var(--sp-2)}
+  .about__text ul{display:flex;flex-direction:column;gap:var(--sp-1)}
+  .about__text li{position:relative;padding-inline-start:1.15rem;color:var(--muted-fg)}
+  .about__text li::before{content:"";position:absolute;inset-inline-start:0;top:.6em;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+
+  /* ---------- Timeline ---------- */
+  .timeline{position:relative;display:flex;flex-direction:column;gap:var(--sp-4)}
+  .timeline::before{content:"";position:absolute;inset-inline-start:11px;top:8px;bottom:8px;width:1.5px;background:var(--border)}
+  .timeline__item{position:relative;padding-inline-start:var(--sp-5)}
+  .timeline__dot{position:absolute;inset-inline-start:0;top:6px;width:23px;height:23px;border-radius:50%;background:var(--bg);border:1.5px solid var(--ink);display:grid;place-items:center}
+  .timeline__dot::after{content:"";width:7px;height:7px;border-radius:50%;background:var(--ink)}
+  .timeline__item--current .timeline__dot{border-color:var(--accent)}
+  .timeline__item--current .timeline__dot::after{background:var(--accent)}
+  .timeline__head{display:flex;flex-wrap:wrap;align-items:center;gap:.65rem;margin-bottom:.35rem}
+  .timeline__period{font-size:.78rem;color:var(--muted-fg);font-weight:600;letter-spacing:.02em}
+  .timeline__badge{font-size:.66rem;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--accent);border:1px solid var(--accent);padding:.15rem .55rem;border-radius:100px}
+  .timeline__item h3{font-size:var(--fs-h3);margin-bottom:.2rem}
+  .timeline__company{color:var(--muted-fg);font-size:.92rem;font-weight:500;margin-bottom:.85rem}
+  .timeline__list{display:flex;flex-direction:column;gap:.5rem}
+  .timeline__list li{position:relative;padding-inline-start:1.15rem;color:var(--muted-fg);font-size:.95rem}
+  .timeline__list li::before{content:"";position:absolute;inset-inline-start:0;top:.55em;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+
+  /* ---------- Skills ---------- */
+  .skills__grid{display:grid;grid-template-columns:1fr;gap:1.25rem}
+  .skill-card{border:1px solid var(--border);border-radius:20px;padding:1.75rem;transition:border-color .3s var(--ease),transform .3s var(--ease)}
+  .skill-card:hover{border-color:var(--ink);transform:translateY(-3px)}
+  .skill-card h3{font-size:1.05rem;margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+  .skill-card h3::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
+  .skill-card ul{display:flex;flex-direction:column;gap:.55rem}
+  .skill-card li{position:relative;padding-inline-start:1.1rem;color:var(--muted-fg);font-size:.92rem}
+  .skill-card li::before{content:"";position:absolute;inset-inline-start:0;top:.55em;width:5px;height:5px;border-radius:50%;background:var(--border)}
+  .skill-card--wide{grid-column:1/-1}
+
+  /* ---------- Services ---------- */
+  .services__grid{display:grid;grid-template-columns:1fr;gap:1.25rem}
+  .service-card{border:1px solid var(--border);border-radius:20px;padding:1.75rem;transition:border-color .3s var(--ease),transform .3s var(--ease)}
+  .service-card:hover{border-color:var(--ink);transform:translateY(-3px)}
+  .service-card h3{font-size:1.05rem;margin-bottom:.65rem;display:flex;align-items:center;gap:.6rem}
+  .service-card h3::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
+  .service-card p{color:var(--muted-fg);font-size:.92rem}
+
+  /* ---------- Vision ---------- */
+  .vision h2{font-size:var(--fs-h2);font-weight:700;max-width:20ch;margin-bottom:var(--sp-3)}
+  .vision__quote{font-family:var(--font-head);font-weight:600;font-size:clamp(1.4rem,2vw + 1rem,2.1rem);color:var(--ink);max-width:42rem;line-height:1.3;border-inline-start:2px solid var(--accent);padding-inline-start:1.5rem;margin-bottom:var(--sp-3)}
+  .vision p.lede{color:var(--muted-fg);max-width:38rem;margin-bottom:var(--sp-4)}
+  .goals{display:flex;flex-direction:column;gap:.9rem;max-width:38rem}
+  .goals li{position:relative;padding-inline-start:1.85rem;color:var(--muted-fg)}
+  .goals li::before{content:"";position:absolute;inset-inline-start:0;top:.1em;width:1.15rem;height:1.15rem;border:1.5px solid var(--accent);border-radius:5px}
+  .goals li::after{content:"";position:absolute;inset-inline-start:.34rem;top:.4em;width:.5rem;height:.28rem;border-left:1.5px solid var(--accent);border-bottom:1.5px solid var(--accent);transform:rotate(-45deg)}
+
+  /* ---------- Contact ---------- */
+  .contact{border-top:1px solid var(--border)}
+  .contact__grid{display:grid;grid-template-columns:1fr;gap:var(--sp-5);align-items:start}
+  .contact__eyebrow-row{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
+  .contact__eyebrow-row::after{content:"";flex:1 1 auto;max-width:2.5rem;height:1px;background:var(--accent)}
+  .contact h2{font-size:var(--fs-hero);line-height:1.04;max-width:14ch}
+  .contact h2 .accent-text{color:var(--accent)}
+  .contact__lede{color:var(--muted-fg);max-width:32rem;margin:1.5rem 0 2rem;font-size:1.05rem}
+  .contact__cards{display:flex;flex-direction:column;gap:1rem}
+  .contact-card{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.25rem;border:1px solid var(--border);border-radius:16px;transition:border-color .3s var(--ease),transform .3s var(--ease)}
+  .contact-card:hover{border-color:var(--ink);transform:translateY(-2px)}
+  .contact-card__icon{flex:0 0 auto;width:2.75rem;height:2.75rem;border-radius:10px;background:var(--surface);display:grid;place-items:center;color:var(--ink)}
+  .contact-card__icon svg{width:18px;height:18px}
+  .contact-card__body{flex:1 1 auto;display:flex;flex-direction:column;gap:.2rem}
+  .contact-card__label{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted-fg);font-weight:600}
+  .contact-card__value{font-weight:600;font-size:1rem;color:var(--fg);unicode-bidi:isolate;direction:ltr}
+  .contact-card__arrow{flex:0 0 auto;color:var(--muted-fg);transition:transform .3s var(--ease)}
+  .contact-card:hover .contact-card__arrow{transform:translateX(3px);color:var(--ink)}
+  [dir="rtl"] .contact-card__arrow svg{transform:scaleX(-1)}
+  [dir="rtl"] .contact-card:hover .contact-card__arrow{transform:translateX(-3px)}
+  [dir="rtl"] .contact-card__value{text-align:right}
+
+  .contact-form{border:1px solid var(--border);border-radius:24px;padding:clamp(1.5rem,3vw,2.5rem);background:var(--surface)}
+  .contact-form h3{font-size:1.3rem;margin-bottom:1.5rem}
+  .form-field{margin-bottom:1.25rem}
+  .form-field label{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted-fg);font-weight:600;margin-bottom:.5rem}
+  .form-field input,.form-field textarea{width:100%;padding:.85rem 1rem;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:.95rem;transition:border-color .25s var(--ease)}
+  .form-field input::placeholder,.form-field textarea::placeholder{color:var(--muted-fg);opacity:.75}
+  .form-field input:focus,.form-field textarea:focus{outline:none;border-color:var(--accent)}
+  .form-field textarea{resize:vertical;min-height:110px;line-height:1.5}
+  .btn--accent{background:var(--accent);color:var(--on-accent);width:100%;justify-content:center;border-radius:12px}
+  .btn--accent:hover{transform:translateY(-2px)}
+
+  footer{border-top:1px solid var(--border);padding:var(--sp-3) 0 var(--sp-4)}
+  footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.85rem;color:var(--muted-fg)}
+
+  /* ---------- Responsive ---------- */
+  @media (min-width:768px){
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .about__grid{grid-template-columns:1.1fr .9fr}
+    .skills__grid{grid-template-columns:repeat(2,1fr)}
+    .skill-card--wide ul{display:grid;grid-template-columns:repeat(2,1fr);column-gap:2rem}
+    .services__grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (min-width:1024px){
+    .grid{grid-template-columns:repeat(3,1fr)}
+    .card--featured{grid-column:span 2}
+    .skills__grid{grid-template-columns:repeat(4,1fr)}
+    .contact__grid{grid-template-columns:1.05fr .95fr;gap:var(--sp-6)}
+  }
+  @media (min-width:1440px){
+    :root{--container:1320px}
+  }
+  @media (max-width:767px){
+    .nav__toggle{display:flex}
+    .nav__menu{
+      position:fixed;top:0;bottom:0;inset-inline-end:0;inset-inline-start:30%;background:var(--bg);flex-direction:column;justify-content:center;align-items:flex-start;
+      gap:2rem;padding:2rem;transform:translateX(100%);transition:transform .4s var(--ease);border-inline-start:1px solid var(--border)
+    }
+    [dir="rtl"] .nav__menu{transform:translateX(-100%)}
+    .nav__menu.is-open{transform:translateX(0)}
+    .nav__link{font-size:1.3rem}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  }
+
+  /* ---------- Arabic / RTL typography fixes ---------- */
+  /* Tight Latin tracking and all-caps break Arabic letter joining, so both are reset for RTL. */
+  [dir="rtl"] h1,[dir="rtl"] h2,[dir="rtl"] h3{letter-spacing:normal;line-height:1.35}
+  [dir="rtl"] .eyebrow,[dir="rtl"] .card__tag,[dir="rtl"] .timeline__badge,
+  [dir="rtl"] .contact-card__label,[dir="rtl"] .form-field label,[dir="rtl"] .hero__scroll{
+    letter-spacing:normal;text-transform:none;
+  }
+  [dir="rtl"] body{line-height:1.8}
+  [dir="rtl"] .nav__logo{font-family:'Archivo',sans-serif;letter-spacing:-.01em}
+
+  /* ---------- Language toggle ---------- */
+  .lang-toggle{padding:.4rem .85rem;border:1px solid var(--border);border-radius:100px;font-size:.8rem;font-weight:600;color:var(--ink);transition:transform .2s var(--ease),border-color .25s var(--ease)}
+  .lang-toggle:hover{border-color:var(--ink)}
+
+  /* ---------- View Transitions: theme = circular reveal from the click point, ---------- */
+  /* ---------- language = soft crossfade (a mirrored RTL/LTR layout can't tween positions) ---------- */
+  ::view-transition-old(root),::view-transition-new(root){
+    animation-duration:.5s; animation-timing-function:var(--ease);
+  }
+  html.vt-theme::view-transition-old(root),html.vt-theme::view-transition-new(root){animation:none}
+  html.vt-theme::view-transition-old(root){z-index:0}
+  html.vt-theme::view-transition-new(root){z-index:1}
+  @media (prefers-reduced-motion:reduce){
+    ::view-transition-old(root),::view-transition-new(root){animation:none !important}
+  }
+</style>
+</head>
+<body data-theme="light">
+
+  <nav class="nav" id="nav">
+    <a href="#top" class="nav__logo" data-i18n-aria="navLogoAria" aria-label="Haider Albaaj — home">HA</a>
+    <button class="nav__toggle" id="navToggle" data-i18n-aria="navToggleAria" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav__menu" id="navMenu">
+      <a href="#about" class="nav__link" data-i18n="navAbout">About</a>
+      <a href="#experience" class="nav__link" data-i18n="navExperience">Experience</a>
+      <a href="#skills" class="nav__link" data-i18n="navSkills">Skills</a>
+      <a href="#services" class="nav__link" data-i18n="navServices">Services</a>
+      <a href="#vision" class="nav__link" data-i18n="navVision">Vision</a>
+      <a href="#contact" class="nav__link" data-i18n="navContact">Contact</a>
+      <button class="lang-toggle" id="langToggle" type="button" data-i18n="langToggle" data-i18n-aria="langToggleAria" aria-label="Switch to Arabic">العربية</button>
+      <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 1020.354 15.354z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <p class="hero__eyebrow eyebrow" data-i18n="heroEyebrow">Based in Iraq — open to new opportunities</p>
+    <h1 class="hero__title" data-i18n="heroName">Haider Albaaj</h1>
+    <p class="hero__subtitle" data-i18n-html="heroSubtitle"><strong>Customer Experience &amp; Call Center Specialist</strong> — helping businesses build powerful support centers that drive loyalty, satisfaction, and long-term growth.</p>
+    <p class="hero__meta" data-i18n="heroMeta">3+ years of experience · from team member to team lead · restaurant, delivery, and technical support · currently at a global delivery company</p>
+    <div class="hero__actions">
+      <a href="#experience" class="btn btn--primary"><span data-i18n="btnViewExperience">View experience</span>
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12L12 4M12 4H5M12 4V11"/></svg>
+      </a>
+      <a href="#contact" class="btn btn--ghost" data-i18n="btnGetInTouch">Get in touch</a>
+    </div>
+    <a href="#about" class="hero__scroll"><span class="hero__scroll-line"></span><span data-i18n="heroScroll">Scroll</span></a>
+  </header>
+
+  <main>
+    <section class="about" id="about">
+      <div class="container">
+        <div class="section__head">
+          <h2 data-i18n="aboutHeading">About</h2>
+        </div>
+        <div class="about__body reveal">
+          <div class="about__text" data-i18n-html="aboutBody"><p>I'm a Customer Experience and Call Center specialist with 4+ years of hands-on experience across restaurants, food delivery, and technical support. My work centers on identifying operational gaps, streamlining support workflows, and partnering with teams to deliver faster, more effective solutions. I train employees on modern systems and customer service best practices to elevate both team performance and service quality.</p></div>
+          <blockquote data-i18n="aboutQuote">Today, I help businesses build stronger support teams — ones that earn customer loyalty and drive long-term growth.</blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section class="experience" id="experience">
+      <div class="container">
+        <div class="section__head">
+          <h2 data-i18n="expHeading">Professional experience</h2>
+        </div>
+        <div class="timeline" id="timelineList">
+
+          <article class="timeline__item timeline__item--current">
+            <span class="timeline__dot"></span>
+            <div class="timeline__head">
+              <span class="timeline__period" data-i18n="exp1Period">2026 — Present</span>
+              <span class="timeline__badge" data-i18n="exp1Badge">Current</span>
+            </div>
+            <h3 data-i18n="exp1Title">Order Management Agent &amp; Customer Experience</h3>
+            <p class="timeline__company" data-i18n="exp1Company">International Food Delivery Company</p>
+            <ul class="timeline__list" data-i18n-html="exp1Bullets">
+              <li>I oversee order operations across six provinces in Iraq, and treat every negative experience as a chance to learn.</li>
+              <li>Support a global food delivery company's operations across six provinces in Iraq</li>
+              <li>Monitor order operations to ensure timely processing and delivery for partner stores</li>
+              <li>Analyze customer feedback, with a focus on negative experiences, to identify and address root causes</li>
+              <li>Engage directly with dissatisfied customers to resolve issues and rebuild trust</li>
+              <li>Collaborate with the team to improve service quality and refine internal processes</li>
+            </ul>
+          </article>
+
+          <article class="timeline__item">
+            <span class="timeline__dot"></span>
+            <div class="timeline__head">
+              <span class="timeline__period" data-i18n="exp2Period">2023 — 2025</span>
+            </div>
+            <h3 data-i18n="exp2Title">Customer Support &amp; Call Center Team Leader</h3>
+            <p class="timeline__company" data-i18n="exp2Company">Restaurant Chains Support Center</p>
+            <ul class="timeline__list" data-i18n-html="exp2Bullets">
+              <li>I joined as a team member and grew into team lead, responsible for the day-to-day work from order to delivery.</li>
+              <li>Began as a support team member, handling customer orders and delivery tracking</li>
+              <li>Promoted to Team Leader for the morning shift, overseeing daily operations and team performance</li>
+              <li>Managed the company's food delivery app, coordinating orders and deliveries and resolving issues as they arose</li>
+              <li>Redesigned order management and customer service processes to boost satisfaction</li>
+              <li>Led regular briefings and training sessions to strengthen team efficiency and service quality</li>
+            </ul>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="skills" id="skills">
+      <div class="container">
+        <div class="section__head">
+          <h2 data-i18n="skillsHeading">Skills</h2>
+          <p data-i18n="skillsSubhead">Core strengths across support operations, leadership, and tools.</p>
+        </div>
+        <div class="skills__grid">
+
+          <div class="skill-card reveal">
+            <h3 data-i18n="skill1Title">Customer Support &amp; Communication</h3>
+            <ul data-i18n-html="skill1List">
+              <li>Strong communication and problem-solving abilities</li>
+              <li>Composure in handling difficult customers under pressure</li>
+              <li>Conflict resolution that protects customer satisfaction and brand reputation</li>
+              <li>Customer experience optimization through feedback analysis</li>
+            </ul>
+          </div>
+
+          <div class="skill-card reveal">
+            <h3 data-i18n="skill2Title">Call Center &amp; Order Management</h3>
+            <ul data-i18n-html="skill2List">
+              <li>Proficiency with modern call center software and support tools</li>
+              <li>Order tracking and delivery coordination</li>
+              <li>Team coordination, coaching, and performance monitoring</li>
+              <li>Workflow optimization to boost productivity</li>
+            </ul>
+          </div>
+
+          <div class="skill-card reveal">
+            <h3 data-i18n="skill3Title">Technical &amp; Computer Skills</h3>
+            <ul data-i18n-html="skill3List">
+              <li>Microsoft Office (Word, Excel, PowerPoint)</li>
+              <li>CRM and customer support software</li>
+              <li>Strong troubleshooting ability and computer proficiency</li>
+              <li>Fast, accurate typing and effective multitasking</li>
+            </ul>
+          </div>
+
+          <div class="skill-card reveal">
+            <h3 data-i18n="skill4Title">Personal &amp; Professional</h3>
+            <ul data-i18n-html="skill4List">
+              <li>Time management and multitasking</li>
+              <li>Adaptability under pressure and a fast learning curve</li>
+              <li>Detail-oriented, with a strong commitment to quality service</li>
+              <li>Experienced in coaching and employee training</li>
+            </ul>
+          </div>
+
+          <div class="skill-card skill-card--wide reveal">
+            <h3 data-i18n="skill5Title">AI &amp; Digital Solutions</h3>
+            <ul data-i18n-html="skill5List">
+              <li>Building websites, apps, and digital solutions with AI tools</li>
+              <li>Creating dashboards and professional business reports</li>
+              <li>Data analysis and extracting actionable insights</li>
+              <li>AI-powered workflow automation and process optimization</li>
+              <li>Turning ideas into functional digital products</li>
+              <li>Applying AI to solve problems and improve business operations</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="services" id="services">
+      <div class="container">
+        <div class="section__head">
+          <h2 data-i18n="servicesHeading">How I can help</h2>
+          <p data-i18n="servicesSubhead">Practical support for businesses building or improving their customer support operations.</p>
+        </div>
+        <div class="services__grid">
+
+          <div class="service-card reveal">
+            <h3 data-i18n="service1Title">Free Consulting on Support Centers</h3>
+            <p data-i18n="service1Body">I offer guidance to businesses looking to establish or improve their support centers — covering operations, workflows, training, and customer satisfaction strategies.</p>
+          </div>
+
+          <div class="service-card reveal">
+            <h3 data-i18n="service2Title">Flexible Work Arrangements</h3>
+            <p data-i18n="service2Body">Available for on-site or remote work, full-time or part-time, tailored to your company's needs and operating model.</p>
+          </div>
+
+          <div class="service-card reveal">
+            <h3 data-i18n="service3Title">Training &amp; Development Programs</h3>
+            <p data-i18n="service3Body">I design and deliver workshops on customer service excellence, technical systems, communication skills, and performance improvement for your team.</p>
+          </div>
+
+          <div class="service-card reveal">
+            <h3 data-i18n="service4Title">Support Center Optimization</h3>
+            <p data-i18n="service4Body">I analyze current support operations, identify weaknesses, and implement strategies to streamline workflows and elevate service quality.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="vision" id="vision">
+      <div class="container">
+        <p class="eyebrow reveal" style="margin-bottom:1rem" data-i18n="visionEyebrow">Vision &amp; goals</p>
+        <h2 class="reveal" data-i18n="visionHeading">Building the Future of Customer Support</h2>
+        <p class="lede reveal" data-i18n="visionLede">My goal is to raise awareness of the critical role support centers play in driving customer satisfaction and business growth — helping companies see professional, well-structured customer support as a genuine competitive advantage.</p>
+        <ul class="goals reveal" data-i18n-html="visionGoals">
+          <li>Establish a company offering comprehensive support center services for businesses of all sizes</li>
+          <li>Train and develop skilled, motivated support teams that deliver exceptional customer experiences</li>
+          <li>Build efficient support processes that strengthen client relationships and sustain loyalty</li>
+          <li>Promote a culture of professional customer support</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="contact__grid">
+
+          <div class="contact__intro reveal">
+            <div class="contact__eyebrow-row">
+              <p class="eyebrow" style="margin-bottom:0" data-i18n="contactEyebrow">Contact</p>
+            </div>
+            <h2 data-i18n-html="contactHeading">Let's Build Better<br>Support<br><span class="accent-text">Experiences</span></h2>
+            <p class="contact__lede" data-i18n="contactLede">Ready to strengthen your support operations? Reach out for a free consultation — I'll help you assess your current setup and outline a clear path forward.</p>
+
+            <div class="contact__cards">
+              <a class="contact-card" href="mailto:haider@haideralbaj.com">
+                <span class="contact-card__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+                </span>
+                <span class="contact-card__body">
+                  <span class="contact-card__label" data-i18n="contactEmailLabel">Email</span>
+                  <span class="contact-card__value">haider@haideralbaj.com</span>
+                </span>
+                <span class="contact-card__arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+              </a>
+              <a class="contact-card" href="https://wa.me/9647881102188" target="_blank" rel="noopener">
+                <span class="contact-card__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.2 2.2z"/></svg>
+                </span>
+                <span class="contact-card__body">
+                  <span class="contact-card__label" data-i18n="contactPhoneLabel">Phone / WhatsApp</span>
+                  <span class="contact-card__value">+964 788 110 2188</span>
+                </span>
+                <span class="contact-card__arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+              </a>
+            </div>
+          </div>
+
+          <form class="contact-form reveal" id="contactForm">
+            <h3 data-i18n="formHeading">Send a Message</h3>
+            <div class="form-field">
+              <label for="cf-name" data-i18n="formNameLabel">Your name</label>
+              <input type="text" id="cf-name" name="name" placeholder="Your full name" data-i18n-placeholder="formNamePlaceholder" required>
+            </div>
+            <div class="form-field">
+              <label for="cf-email" data-i18n="formEmailLabel">Email address</label>
+              <input type="email" id="cf-email" name="email" placeholder="you@company.com" required>
+            </div>
+            <div class="form-field">
+              <label for="cf-message" data-i18n="formMessageLabel">Message</label>
+              <textarea id="cf-message" name="message" placeholder="Tell me about your business..." data-i18n-placeholder="formMessagePlaceholder" required></textarea>
+            </div>
+            <button type="submit" class="btn btn--accent"><span data-i18n="formSubmit">Send message</span>
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12L12 4M12 4H5M12 4V11"/></svg>
+            </button>
+          </form>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p data-i18n="footerCopy">© 2026 Haider Albaaj.</p>
+      <p data-i18n="footerRole">Customer Experience &amp; Call Center Specialist</p>
+    </div>
+  </footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+/* ---------- Translations (English / Arabic) ---------- */
+const translations = {
+  en: {
+    navAbout: 'About', navExperience: 'Experience', navSkills: 'Skills', navServices: 'Services', navVision: 'Vision', navContact: 'Contact',
+    langToggle: 'العربية', langToggleAria: 'Switch to Arabic',
+    navLogoAria: 'Haider Albaaj — home', navToggleAria: 'Toggle menu',
+    pageTitle: 'Haider Albaaj — Customer Experience & Call Center Specialist',
+    heroEyebrow: 'Based in Iraq — open to new opportunities',
+    heroName: 'Haider Albaaj',
+    heroSubtitle: '<strong>Customer Experience &amp; Call Center Specialist</strong> — helping businesses build powerful support centers that drive loyalty, satisfaction, and long-term growth.',
+    heroMeta: '3+ years of experience · from team member to team lead · restaurant, delivery, and technical support · currently at a global delivery company',
+    btnViewExperience: 'View experience', btnGetInTouch: 'Get in touch', heroScroll: 'Scroll',
+    aboutHeading: 'About',
+    aboutBody: `<p>I'm a Customer Experience and Call Center specialist with 4+ years of hands-on experience across restaurants, food delivery, and technical support. My work centers on identifying operational gaps, streamlining support workflows, and partnering with teams to deliver faster, more effective solutions. I train employees on modern systems and customer service best practices to elevate both team performance and service quality.</p>`,
+    aboutQuote: 'Today, I help businesses build stronger support teams — ones that earn customer loyalty and drive long-term growth.',
+    expHeading: 'Professional experience',
+    exp1Period: '2026 — Present', exp1Badge: 'Current',
+    exp1Title: 'Order Management Agent & Customer Experience',
+    exp1Company: 'International Food Delivery Company',
+    exp1Bullets: `<li>I oversee order operations across six provinces in Iraq, and treat every negative experience as a chance to learn.</li>
+      <li>Support a global food delivery company's operations across six provinces in Iraq</li>
+      <li>Monitor order operations to ensure timely processing and delivery for partner stores</li>
+      <li>Analyze customer feedback, with a focus on negative experiences, to identify and address root causes</li>
+      <li>Engage directly with dissatisfied customers to resolve issues and rebuild trust</li>
+      <li>Collaborate with the team to improve service quality and refine internal processes</li>`,
+    exp2Period: '2023 — 2025',
+    exp2Title: 'Customer Support & Call Center Team Leader',
+    exp2Company: 'Restaurant Chains Support Center',
+    exp2Bullets: `<li>I joined as a team member and grew into team lead, responsible for the day-to-day work from order to delivery.</li>
+      <li>Began as a support team member, handling customer orders and delivery tracking</li>
+      <li>Promoted to Team Leader for the morning shift, overseeing daily operations and team performance</li>
+      <li>Managed the company's food delivery app, coordinating orders and deliveries and resolving issues as they arose</li>
+      <li>Redesigned order management and customer service processes to boost satisfaction</li>
+      <li>Led regular briefings and training sessions to strengthen team efficiency and service quality</li>`,
+    skillsHeading: 'Skills', skillsSubhead: 'Core strengths across support operations, leadership, and tools.',
+    skill1Title: 'Customer Support & Communication',
+    skill1List: `<li>Strong communication and problem-solving abilities</li>
+      <li>Composure in handling difficult customers under pressure</li>
+      <li>Conflict resolution that protects customer satisfaction and brand reputation</li>
+      <li>Customer experience optimization through feedback analysis</li>`,
+    skill2Title: 'Call Center & Order Management',
+    skill2List: `<li>Proficiency with modern call center software and support tools</li>
+      <li>Order tracking and delivery coordination</li>
+      <li>Team coordination, coaching, and performance monitoring</li>
+      <li>Workflow optimization to boost productivity</li>`,
+    skill3Title: 'Technical & Computer Skills',
+    skill3List: `<li>Microsoft Office (Word, Excel, PowerPoint)</li>
+      <li>CRM and customer support software</li>
+      <li>Strong troubleshooting ability and computer proficiency</li>
+      <li>Fast, accurate typing and effective multitasking</li>`,
+    skill4Title: 'Personal & Professional',
+    skill4List: `<li>Time management and multitasking</li>
+      <li>Adaptability under pressure and a fast learning curve</li>
+      <li>Detail-oriented, with a strong commitment to quality service</li>
+      <li>Experienced in coaching and employee training</li>`,
+    skill5Title: 'AI & Digital Solutions',
+    skill5List: `<li>Building websites, apps, and digital solutions with AI tools</li>
+      <li>Creating dashboards and professional business reports</li>
+      <li>Data analysis and extracting actionable insights</li>
+      <li>AI-powered workflow automation and process optimization</li>
+      <li>Turning ideas into functional digital products</li>
+      <li>Applying AI to solve problems and improve business operations</li>`,
+    servicesHeading: 'How I can help',
+    servicesSubhead: 'Practical support for businesses building or improving their customer support operations.',
+    service1Title: 'Free Consulting on Support Centers',
+    service1Body: 'I offer guidance to businesses looking to establish or improve their support centers — covering operations, workflows, training, and customer satisfaction strategies.',
+    service2Title: 'Flexible Work Arrangements',
+    service2Body: "Available for on-site or remote work, full-time or part-time, tailored to your company's needs and operating model.",
+    service3Title: 'Training & Development Programs',
+    service3Body: 'I design and deliver workshops on customer service excellence, technical systems, communication skills, and performance improvement for your team.',
+    service4Title: 'Support Center Optimization',
+    service4Body: 'I analyze current support operations, identify weaknesses, and implement strategies to streamline workflows and elevate service quality.',
+    visionEyebrow: 'Vision & goals',
+    visionHeading: 'Building the Future of Customer Support',
+    visionLede: 'My goal is to raise awareness of the critical role support centers play in driving customer satisfaction and business growth — helping companies see professional, well-structured customer support as a genuine competitive advantage.',
+    visionGoals: `<li>Establish a company offering comprehensive support center services for businesses of all sizes</li>
+      <li>Train and develop skilled, motivated support teams that deliver exceptional customer experiences</li>
+      <li>Build efficient support processes that strengthen client relationships and sustain loyalty</li>
+      <li>Promote a culture of professional customer support</li>`,
+    contactEyebrow: 'Contact',
+    contactHeading: "Let's Build Better<br>Support<br><span class=\"accent-text\">Experiences</span>",
+    contactLede: "Ready to strengthen your support operations? Reach out for a free consultation — I'll help you assess your current setup and outline a clear path forward.",
+    contactEmailLabel: 'Email', contactPhoneLabel: 'Phone / WhatsApp',
+    formHeading: 'Send a Message', formNameLabel: 'Your name', formNamePlaceholder: 'Your full name',
+    formEmailLabel: 'Email address', formMessageLabel: 'Message', formMessagePlaceholder: 'Tell me about your business...',
+    formSubmit: 'Send message',
+    footerCopy: '© 2026 Haider Albaaj.', footerRole: 'Customer Experience & Call Center Specialist',
+  },
+  ar: {
+    navAbout: 'نبذة عني', navExperience: 'الخبرة العملية', navSkills: 'المهارات', navServices: 'الخدمات', navVision: 'الرؤية', navContact: 'تواصل',
+    langToggle: 'English', langToggleAria: 'التبديل إلى الإنجليزية',
+    navLogoAria: 'حيدر البعاج — الصفحة الرئيسية', navToggleAria: 'فتح القائمة',
+    pageTitle: 'حيدر البعاج — أخصائي تجربة العملاء ومراكز الاتصال',
+    heroEyebrow: 'متاح لفرص عمل ومشاريع جديدة · العراق',
+    heroName: 'حيدر البعاج',
+    heroSubtitle: '<strong>ابني واطوّر فرق دعم العملاء ومراكز الاتصال - العميل اللي تنحل مشكلته صح، يرجع.</strong> اسعى بمساعدة الشركات تبني وترتب فرق الدعم مالتها، حتى تصير اسرع بالحل، اثبت تحت الضغط، واقرب للعميل.',
+    heroMeta: '3+ سنين خبرة · من عضو فريق لقائد فريق · قطاع المطاعم والتوصيل والدعم فني · حالياً ويا شركة توصيل عالمية',
+    btnViewExperience: 'شوف خبراتي', btnGetInTouch: 'تواصل وياي', heroScroll: 'مرر للأسفل',
+    aboutHeading: 'نبذة عني',
+    aboutBody: `<p>بديت شغلي بخدمة العملاء من اول خط: ارد على اتصالات العملاء، اتابع توصيل الطلبات، واسمع من العميل مباشرة شنو اللي مزعله.</p>
+<p>ومن هناك فهمت أن اغلب المشاكل ما تبدي من العميل، تبدي من طريقة الشغل ورا الكواليس.</p>
+<p>خلال اكثر من 4 سنين بمراكز اتصال المطاعم وتطبيقات التوصيل والدعم الفني، انتقلت من عضو بالفريق لقائد فريق، وصار تركيزي على ثلاث أشياء:</p>
+<ul>
+  <li>الگه وين الخلل بالعمليات قبل ما يتحول لشكوى</li>
+  <li>ابسّط طريقة شغل الفريق حتى يصير الحل أسرع وأوضح</li>
+  <li>ادرّب الموظفين على الأنظمة وعلى الطريقة الصح بالتعامل ويا العميل</li>
+</ul>`,
+    aboutQuote: 'اليوم اسعى اشتغل ويا الشركات حتى تبني فرق دعم ما تكتفي بحل المشكلة، وإنما تخلي العميل يثق ويرجع.',
+    expHeading: 'الخبرة العملية',
+    exp1Period: '2026 — لحد هسه', exp1Badge: 'الحالي',
+    exp1Title: 'مسؤول إدارة الطلبات وتجربة العملاء',
+    exp1Company: 'شركة توصيل طلبات عالمية',
+    exp1Bullets: `<li>اتابع عمليات الطلبات بست محافظات عراقية، وأشتغل على أن كل تجربة سلبية تصير فرصة نتعلم منها.</li>
+      <li>اتابع طلبات المتاجر الشريكة وأتأكد أنها تنعالج وتوصل بوقتها</li>
+      <li>احلل ملاحظات العملاء، خصوصاً السلبية، واوصل لسبب المشكلة الحقيقي وارفعها لإدارة المطاعم حتى ما تتكرر</li>
+      <li>اتواصل بنفسي ويا العملاء الزعلانين، احل مشكلتهم وارجّع ثقتهم بالخدمة</li>
+      <li>اشتغل ويا الفريق على تطوير الإجراءات الداخلية ورفع جودة الخدمة</li>`,
+    exp2Period: '2023 — 2025',
+    exp2Title: 'قائد فريق دعم العملاء ومركز الاتصال',
+    exp2Company: 'مركز دعم لسلاسل مطاعم',
+    exp2Bullets: `<li>دخلت كعضو بالفريق وطلعت قائد له، وخلال هالفترة كنت مسؤول عن الشغل اليومي من الطلب لحد ما يوصل للعميل.</li>
+      <li>بديت أستلم طلبات العملاء وأتابع التوصيل، وترقيت لقائد فريق الشفت الصباحي</li>
+      <li>ادرت تطبيق التوصيل الخاص بالشركة: انسق الطلبات والتوصيل واحل المشاكل اول ما تبين</li>
+      <li>اعدت ترتيب إجراءات إدارة الطلبات وخدمة العملاء حتى يصير الشغل اوضح والعميل ارضى</li>
+      <li>قدت جلسات تدريب وتوجيه دورية رفعت كفاءة الفريق وثبّتت جودة الخدمة</li>`,
+    skillsHeading: 'المهارات', skillsSubhead: 'أبرز نقاط القوة في عمليات الدعم والقيادة والأدوات المستخدمة.',
+    skill1Title: 'دعم العملاء والتواصل',
+    skill1List: `<li>مهارات تواصل قوية وقدرة على حل المشكلات</li>
+      <li>الهدوء في التعامل مع العملاء الصعبين تحت الضغط</li>
+      <li>حل النزاعات بما يحافظ على رضا العملاء وسمعة العلامة التجارية</li>
+      <li>تحسين تجربة العملاء من خلال تحليل الملاحظات</li>`,
+    skill2Title: 'مركز الاتصال وإدارة الطلبات',
+    skill2List: `<li>إتقان برامج مراكز الاتصال الحديثة وأدوات الدعم</li>
+      <li>تتبع الطلبات وتنسيق التوصيل</li>
+      <li>تنسيق الفريق والتوجيه ومتابعة الأداء</li>
+      <li>تحسين مسارات العمل لرفع الإنتاجية</li>`,
+    skill3Title: 'المهارات التقنية والحاسوبية',
+    skill3List: `<li>برامج مايكروسوفت أوفيس (Word، Excel، PowerPoint)</li>
+      <li>أنظمة إدارة علاقات العملاء (CRM) وبرامج الدعم</li>
+      <li>قدرة عالية على استكشاف الأخطاء وإتقان استخدام الحاسوب</li>
+      <li>طباعة سريعة ودقيقة وقدرة على تعدد المهام بفعالية</li>`,
+    skill4Title: 'مهارات شخصية ومهنية',
+    skill4List: `<li>إدارة الوقت وتعدد المهام</li>
+      <li>التكيف تحت الضغط وسرعة التعلم</li>
+      <li>الاهتمام بالتفاصيل والالتزام بجودة الخدمة</li>
+      <li>خبرة في توجيه وتدريب الموظفين</li>`,
+    skill5Title: 'الذكاء الاصطناعي والحلول الرقمية',
+    skill5List: `<li>بناء مواقع وتطبيقات وحلول رقمية باستخدام أدوات الذكاء الاصطناعي</li>
+      <li>إعداد لوحات بيانات وتقارير أعمال احترافية</li>
+      <li>تحليل البيانات واستخلاص رؤى قابلة للتنفيذ</li>
+      <li>أتمتة مسارات العمل وتحسين الإجراءات باستخدام الذكاء الاصطناعي</li>
+      <li>تحويل الأفكار إلى منتجات رقمية فعلية</li>
+      <li>توظيف الذكاء الاصطناعي لحل المشكلات وتحسين عمليات الأعمال</li>`,
+    servicesHeading: 'كيف يمكنني المساعدة',
+    servicesSubhead: 'دعم عملي للشركات الراغبة في بناء أو تحسين عمليات دعم العملاء لديها.',
+    service1Title: 'استشارات مجانية لمراكز الدعم',
+    service1Body: 'أقدّم إرشادًا للشركات الراغبة في تأسيس أو تحسين مراكز الدعم لديها — يشمل ذلك العمليات ومسارات العمل والتدريب واستراتيجيات رضا العملاء.',
+    service2Title: 'ترتيبات عمل مرنة',
+    service2Body: 'متاح للعمل الحضوري أو عن بُعد، بدوام كامل أو جزئي، بما يتناسب مع احتياجات شركتك ونموذج عملها.',
+    service3Title: 'برامج التدريب والتطوير',
+    service3Body: 'أصمم وأقدّم ورش عمل حول التميز في خدمة العملاء والأنظمة التقنية ومهارات التواصل وتحسين أداء فريقك.',
+    service4Title: 'تحسين مراكز الدعم',
+    service4Body: 'أحلل عمليات الدعم الحالية، وأحدد نقاط الضعف، وأطبّق استراتيجيات لتبسيط مسارات العمل والارتقاء بجودة الخدمة.',
+    visionEyebrow: 'الرؤية والأهداف',
+    visionHeading: 'نحو بناء مستقبل دعم العملاء',
+    visionLede: 'هدفي هو رفع الوعي بالدور الجوهري الذي تلعبه مراكز الدعم في تعزيز رضا العملاء ونمو الأعمال — ومساعدة الشركات على النظر إلى دعم العملاء الاحترافي والمنظم كميزة تنافسية حقيقية.',
+    visionGoals: `<li>تأسيس شركة تقدّم خدمات شاملة لمراكز الدعم لمختلف أحجام الأعمال</li>
+      <li>تدريب وتطوير فرق دعم ماهرة ومتحمسة تقدّم تجارب استثنائية للعملاء</li>
+      <li>بناء إجراءات دعم فعالة تعزز العلاقة مع العملاء وتحافظ على ولائهم</li>
+      <li>ترسيخ ثقافة الدعم الاحترافي للعملاء</li>`,
+    contactEyebrow: 'تواصل',
+    contactHeading: 'لنبني تجارب<br>دعم<br><span class="accent-text">أفضل</span>',
+    contactLede: 'هل أنت مستعد لتعزيز عمليات الدعم لديك؟ تواصل معي للحصول على استشارة مجانية — سأساعدك في تقييم وضعك الحالي ووضع خطة واضحة للمضي قدمًا.',
+    contactEmailLabel: 'البريد الإلكتروني', contactPhoneLabel: 'الهاتف / واتساب',
+    formHeading: 'أرسل رسالة', formNameLabel: 'اسمك', formNamePlaceholder: 'اسمك الكامل',
+    formEmailLabel: 'البريد الإلكتروني', formMessageLabel: 'الرسالة', formMessagePlaceholder: 'أخبرني عن نشاطك التجاري...',
+    formSubmit: 'إرسال الرسالة',
+    footerCopy: '© 2026 حيدر البعاج.', footerRole: 'أخصائي تجربة العملاء ومراكز الاتصال',
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const body = document.body;
+
+  /* Language */
+  const LANG_KEY = 'haiderPortfolioLang';
+  let currentLang = 'en';
+  try { currentLang = localStorage.getItem(LANG_KEY) || 'en'; } catch (err) { /* storage unavailable, default to en */ }
+  const themeToggle = document.getElementById('themeToggle');
+  const themeLabels = {
+    en: { dark: 'Switch to dark mode', light: 'Switch to light mode' },
+    ar: { dark: 'التبديل إلى الوضع الداكن', light: 'التبديل إلى الوضع الفاتح' }
+  };
+  const syncThemeLabel = () => themeToggle.setAttribute('aria-label', themeLabels[currentLang][body.dataset.theme === 'dark' ? 'light' : 'dark']);
+
+  function applyLanguage(lang) {
+    if (!translations[lang]) return;
+    currentLang = lang;
+    const dict = translations[lang];
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.title = dict.pageTitle;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key] !== undefined) el.textContent = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.getAttribute('data-i18n-html');
+      if (dict[key] !== undefined) el.innerHTML = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (dict[key] !== undefined) el.placeholder = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+      const key = el.getAttribute('data-i18n-aria');
+      if (dict[key] !== undefined) el.setAttribute('aria-label', dict[key]);
+    });
+    syncThemeLabel();
+    try { localStorage.setItem(LANG_KEY, lang); } catch (err) { /* storage unavailable, language just won't persist */ }
+  }
+
+  applyLanguage(currentLang);
+
+  /* Animate a DOM-mutating update via the View Transitions API when it's available;
+     falls back to an instant, un-animated update on unsupported browsers or reduced motion. */
+  function withViewTransition(update, { circleFrom } = {}) {
+    if (prefersReduced || typeof document.startViewTransition !== 'function') {
+      update();
+      return;
+    }
+    if (circleFrom) {
+      const html = document.documentElement;
+      html.classList.add('vt-theme');
+      const { x, y } = circleFrom;
+      const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      const transition = document.startViewTransition(() => update());
+      transition.ready.then(() => {
+        html.animate(
+          { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`] },
+          { duration: 600, easing: 'ease-in-out', pseudoElement: '::view-transition-new(root)' }
+        );
+      }).catch(() => {});
+      transition.finished.finally(() => html.classList.remove('vt-theme'));
+    } else {
+      document.startViewTransition(() => update());
+    }
+  }
+
+  const langToggle = document.getElementById('langToggle');
+  langToggle.addEventListener('click', () => {
+    withViewTransition(() => applyLanguage(currentLang === 'en' ? 'ar' : 'en'));
+  });
+
+  /* Theme */
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  body.dataset.theme = prefersDark ? 'dark' : 'light';
+  syncThemeLabel();
+  themeToggle.addEventListener('click', (e) => {
+    const rect = themeToggle.getBoundingClientRect();
+    const origin = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+    withViewTransition(() => {
+      body.dataset.theme = body.dataset.theme === 'dark' ? 'light' : 'dark';
+      syncThemeLabel();
+    }, { circleFrom: origin });
+  });
+
+  const nav = document.getElementById('nav');
+
+  /* Mobile nav */
+  const navToggle = document.getElementById('navToggle');
+  const navMenu = document.getElementById('navMenu');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navMenu.classList.toggle('is-open');
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  /* In-page links: scroll to target, offset by the fixed nav's height */
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const targetId = link.getAttribute('href');
+      navMenu.classList.remove('is-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      if (!targetId || targetId.length < 2) return;
+      const target = document.querySelector(targetId);
+      if (!target) return;
+      e.preventDefault();
+      const y = target.getBoundingClientRect().top + window.pageYOffset - nav.offsetHeight - 16;
+      window.scrollTo({ top: Math.max(y, 0), behavior: prefersReduced ? 'auto' : 'smooth' });
+      history.pushState(null, '', targetId);
+    });
+  });
+
+  /* Nav background on scroll */
+  window.addEventListener('scroll', () => nav.classList.toggle('is-scrolled', window.scrollY > 40), { passive: true });
+
+  /* Contact form -> opens a pre-filled email draft (static page, no backend) */
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = contactForm.name.value.trim();
+      const email = contactForm.email.value.trim();
+      const message = contactForm.message.value.trim();
+      const subject = encodeURIComponent(`New inquiry from ${name}`);
+      const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
+      window.location.href = `mailto:haider@haideralbaj.com?subject=${subject}&body=${body}`;
+    });
+  }
+
+  /* Motion */
+  if (!prefersReduced && window.gsap) {
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.timeline({ defaults: { ease: 'power3.out' } })
+      .from('.hero__eyebrow', { opacity: 0, y: 12, duration: .5 })
+      .from('.hero__title', { opacity: 0, y: 24, duration: .7 }, '-=.3')
+      .from('.hero__subtitle', { opacity: 0, y: 16, duration: .6 }, '-=.4')
+      .from('.hero__actions', { opacity: 0, y: 16, duration: .6 }, '-=.4')
+      .from('.hero__scroll', { opacity: 0, duration: .5 }, '-=.3');
+
+    gsap.from('#timelineList .timeline__item', {
+      scrollTrigger: { trigger: '#timelineList', start: 'top 82%' },
+      opacity: 0, y: 24, duration: .55,
+      stagger: { each: .15, from: 'start' },
+      ease: 'power2.out'
+    });
+
+    gsap.utils.toArray('.reveal').forEach(el => {
+      gsap.from(el, {
+        scrollTrigger: { trigger: el, start: 'top 88%' },
+        opacity: 0, y: 20, duration: .6, ease: 'power2.out'
+      });
+    });
+  }
+});
+</script>
+</body>
+</html>
