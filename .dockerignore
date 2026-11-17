@@ -1,0 +1,11 @@
+node_modules
+.next
+.env
+.stockfish-src
+bin
+standalone/dist
+standalone/single
+data/pz-*
+*.tsbuildinfo
+Dockerfile
+docker-compose.yml

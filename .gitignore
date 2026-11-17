@@ -1,0 +1,10 @@
+node_modules
+.next
+.env
+data/pz-*.jsonl
+*.tsbuildinfo
+next-env.d.ts
+.stockfish-src
+bin/
+standalone/dist
+standalone/single

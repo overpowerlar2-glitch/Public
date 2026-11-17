@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45">
+<defs><linearGradient id="gtabiyabp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#55555c"/><stop offset="1" stop-color="#17171a"/></linearGradient></defs>
+<g stroke="#0b0b0c" stroke-width="3" stroke-linejoin="round" fill="#0b0b0c"><rect x="9" y="36.5" width="27" height="4" rx="1.6"/><rect x="11.5" y="33.5" width="22" height="4" rx="1.4"/><path d="M14.5 34 C15 28 17.5 24.5 20 22.5 L25 22.5 C27.5 24.5 30 28 30.5 34 Z"/><ellipse cx="22.5" cy="21.6" rx="6" ry="1.9"/><circle cx="22.5" cy="14.2" r="5.6"/></g>
+<g fill="url(#gtabiyabp)"><rect x="9" y="36.5" width="27" height="4" rx="1.6"/><rect x="11.5" y="33.5" width="22" height="4" rx="1.4"/><path d="M14.5 34 C15 28 17.5 24.5 20 22.5 L25 22.5 C27.5 24.5 30 28 30.5 34 Z"/><ellipse cx="22.5" cy="21.6" rx="6" ry="1.9"/><circle cx="22.5" cy="14.2" r="5.6"/></g>
+
+<g fill="none" stroke="#d8d3c8" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></g>
+</svg>
