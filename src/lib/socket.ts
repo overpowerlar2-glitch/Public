@@ -1,5 +1,6 @@
 'use client';
 import { io, type Socket } from 'socket.io-client';
+import { tx } from './i18n';
 
 let socket: Socket | null = null;
 
@@ -14,7 +15,7 @@ export function resetSocket() {
 export function emitAck<T>(event: string, payload?: unknown, timeout = 8000): Promise<T> {
   return new Promise((resolve, reject) => {
     const s = getSocket();
-    const cb = (err: Error | null, res: T) => (err ? reject(new Error('The server did not respond. Check your connection.')) : resolve(res));
+    const cb = (err: Error | null, res: T) => (err ? reject(new Error(tx('The server did not respond. Check your connection.'))) : resolve(res));
     if (payload === undefined) s.timeout(timeout).emit(event, cb); else s.timeout(timeout).emit(event, payload, cb);
   });
 }

@@ -42,7 +42,7 @@ fs.writeFileSync(`${out}/index.html`, `<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tabiya — chess in your browser</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="app.css">
 <script>try{var s=JSON.parse(localStorage.getItem('tabiya-settings')||'{}').state||{};var d=document.documentElement;d.dataset.theme=s.theme||'dark';d.dataset.board=s.board||'walnut';d.dataset.anim=s.animation===false?'off':'on'}catch(e){}</script>
 </head>

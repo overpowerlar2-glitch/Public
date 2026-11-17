@@ -3,6 +3,10 @@
 @import '@fontsource-variable/geist-mono';
 @import '@fontsource/instrument-serif/400.css';
 @import '@fontsource/instrument-serif/400-italic.css';
+@import '@fontsource/ibm-plex-sans-arabic/400.css';
+@import '@fontsource/ibm-plex-sans-arabic/500.css';
+@import '@fontsource/ibm-plex-sans-arabic/600.css';
+@import '@fontsource/ibm-plex-sans-arabic/700.css';
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
@@ -72,9 +76,9 @@
   --color-bad: var(--bad);
   --color-warn: var(--warn);
   --color-info: var(--info);
-  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
-  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-sans: 'Geist Variable', 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', 'IBM Plex Sans Arabic', ui-monospace, monospace;
+  --font-display: 'Instrument Serif', 'IBM Plex Sans Arabic', Georgia, serif;
   --shadow-card: var(--shadow);
 }
 
@@ -87,8 +91,16 @@ button:disabled { cursor: not-allowed; }
 * { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
 .tnum { font-variant-numeric: tabular-nums; }
 
+/* Arabic: letter-spacing breaks joined letters, and the display face has no Arabic glyphs, so headings use a heavier weight. */
+[dir='rtl'] [class*='tracking-'] { letter-spacing: normal; }
+[dir='rtl'] .font-display { font-weight: 600; letter-spacing: normal; }
+[dir='rtl'] .italic { font-style: normal; }
+/* Direction-bearing icons point the other way in right-to-left. */
+[dir='rtl'] :is(.lucide-chevron-first, .lucide-chevron-last, .lucide-chevron-left, .lucide-chevron-right, .lucide-arrow-right, .lucide-arrow-left, .lucide-log-in, .lucide-log-out) { transform: scaleX(-1); }
+
 /* ── Chessboard ────────────────────────────────────────────────── */
 .board {
+  direction: ltr; /* files a–h always run left to right */
   position: relative; width: 100%; aspect-ratio: 1; user-select: none; -webkit-user-select: none; touch-action: none;
   border-radius: 6px; overflow: hidden; isolation: isolate;
   background: repeating-conic-gradient(var(--sq-d) 0 25%, var(--sq-l) 0 50%) 0 0 / 25% 25%;

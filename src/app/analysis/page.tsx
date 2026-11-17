@@ -14,6 +14,7 @@ import { createEngine } from '@/lib/engine-factory';
 import { buildPgn, START_FEN } from '@/lib/chess/util';
 import { playMove } from '@/lib/sound';
 import type { Color, GameState } from '@/lib/types';
+import { tx, useT } from '@/lib/i18n';
 
 type Node = { id: number; parent: Node | null; children: Node[]; san: string; from: string; to: string; uci: string; fen: string; ply: number; glyph?: string; cp?: number; best?: string };
 type Review = { accuracy: { w: number; b: number }; counts: Record<Color, Record<string, number>> };
@@ -51,6 +52,7 @@ function isSacrifice(parent: Node, node: Node): boolean {
 }
 
 function TreeView({ root, cursor, onSelect }: { root: Node; cursor: Node; onSelect: (n: Node) => void }) {
+  const tr = useT();
   const active = useRef<HTMLButtonElement>(null);
   useEffect(() => { active.current?.scrollIntoView({ block: 'nearest' }); }, [cursor]);
   const moveBtn = (n: Node, forceNo: boolean) => {
@@ -58,10 +60,10 @@ function TreeView({ root, cursor, onSelect }: { root: Node; cursor: Node; onSele
     const white = n.ply % 2 === 1;
     return (
       <span key={n.id} className="inline-flex items-baseline">
-        {(white || forceNo) && <span className="tnum mr-0.5 font-mono text-xs text-mute">{Math.ceil(n.ply / 2)}{white ? '.' : '…'}</span>}
+        {(white || forceNo) && <span className="tnum me-0.5 font-mono text-xs text-mute">{Math.ceil(n.ply / 2)}{white ? '.' : '…'}</span>}
         <button ref={n === cursor ? active : undefined} onClick={() => onSelect(n)} aria-current={n === cursor}
           className={cx('rounded px-1.5 py-0.5 font-mono text-[13px]', n === cursor ? 'bg-accent/25 font-semibold' : 'hover:bg-raised')}>
-          {n.san}{g && <span className={cx('ml-0.5 font-sans text-xs font-bold', g.cls)} title={g.label}>{g.sym}</span>}
+          {n.san}{g && <span className={cx('ms-0.5 font-sans text-xs font-bold', g.cls)} title={g.label}>{g.sym}</span>}
         </button>
       </span>
     );
@@ -78,11 +80,12 @@ function TreeView({ root, cursor, onSelect }: { root: Node; cursor: Node; onSele
     }
     return out;
   };
-  if (!root.children.length) return <p className="p-6 text-center text-sm text-mute">Make a move on the board, or import a PGN to begin.</p>;
+  if (!root.children.length) return <p className="p-6 text-center text-sm text-mute">{tr("Make a move on the board, or import a PGN to begin.")}</p>;
   return <div className="flex flex-wrap items-baseline gap-x-0.5 gap-y-1 p-3 leading-relaxed">{line(root.children[0], false)}</div>;
 }
 
 function EvalGraph({ nodes, cursor, onSelect }: { nodes: Node[]; cursor: Node; onSelect: (n: Node) => void }) {
+  const tr = useT();
   const pts = nodes.filter((n) => n.cp !== undefined);
   if (pts.length < 3) return null;
   const W = 300, H = 56;
@@ -92,7 +95,7 @@ function EvalGraph({ nodes, cursor, onSelect }: { nodes: Node[]; cursor: Node; o
   const d = nodes.map((n, i) => { if (n.cp === undefined) return ''; const cmd = started ? 'L' : 'M'; started = true; return `${cmd}${x(i).toFixed(1)},${y(n).toFixed(1)}`; }).join(' ');
   const ci = nodes.indexOf(cursor);
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="h-14 w-full cursor-pointer rounded-md bg-[#2a2a2c]" preserveAspectRatio="none" role="img" aria-label="Evaluation over the game"
+    <svg viewBox={`0 0 ${W} ${H}`} className="h-14 w-full cursor-pointer rounded-md bg-[#2a2a2c]" preserveAspectRatio="none" role="img" aria-label={tr("Evaluation over the game")}
       onClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); onSelect(nodes[Math.round(((e.clientX - r.left) / r.width) * (nodes.length - 1))]); }}>
       <path d={`${d} L${W},${H} L0,${H} Z`} fill="#f1efe9" />
       <line x1="0" x2={W} y1={H / 2} y2={H / 2} stroke="var(--mute)" strokeWidth="0.5" strokeDasharray="3 3" />
@@ -103,6 +106,7 @@ function EvalGraph({ nodes, cursor, onSelect }: { nodes: Node[]; cursor: Node; o
 }
 
 function Analysis() {
+  const tr = useT();
   const params = useSearchParams();
   const rootRef = useRef<Node>(mkRoot(START_FEN));
   const [cursor, setCursor] = useState<Node>(rootRef.current);
@@ -126,7 +130,7 @@ function Analysis() {
 
   const load = useCallback((pgn: string, hdr?: Record<string, string>) => {
     const c = new Chess();
-    try { c.loadPgn(pgn.trim()); } catch { throw new Error('That PGN could not be read. Check it is a single, complete game.'); }
+    try { c.loadPgn(pgn.trim()); } catch { throw new Error(tx('That PGN could not be read. Check it is a single, complete game.')); }
     const h = c.getHeaders() as Record<string, string>;
     const root = mkRoot(h.FEN || START_FEN);
     let n = root;
@@ -134,7 +138,7 @@ function Analysis() {
     rootRef.current = root; setHeaders({ ...h, ...hdr }); setReview(null); setCursor(root.children.length ? mainline(root).pop()! : root);
   }, []);
   const loadFen = useCallback((fen: string) => {
-    try { new Chess(fen); } catch { throw new Error('That FEN is not a legal position.'); }
+    try { new Chess(fen); } catch { throw new Error(tx('That FEN is not a legal position.')); }
     rootRef.current = mkRoot(fen); setHeaders({}); setReview(null); setCursor(rootRef.current);
   }, []);
 
@@ -184,9 +188,9 @@ function Analysis() {
 
   async function runReview() {
     const nodes = mainline(rootRef.current);
-    if (nodes.length < 2) return toast.info('Add some moves first — there is nothing to review yet.');
+    if (nodes.length < 2) return toast.info(tx('Add some moves first — there is nothing to review yet.'));
     let e: ChessEngine;
-    try { e = reviewEngine.current ??= createEngine(); await e.ready; } catch { return toast.error('The engine could not be started.'); }
+    try { e = reviewEngine.current ??= createEngine(); await e.ready; } catch { return toast.error(tx('The engine could not be started.')); }
     setProgress(0); setReview(null);
     for (let i = 0; i < nodes.length; i++) {
       const n = nodes[i], c = new Chess(n.fen), t = c.turn();
@@ -214,7 +218,7 @@ function Analysis() {
   useEffect(() => () => reviewEngine.current?.destroy(), []);
 
   const pgn = () => buildPgn(full.slice(1).map((n) => n.san), { ...headers, ...(opening ? { ECO: opening.slice(0, 3), Opening: opening.slice(4) } : {}) }, rootRef.current.fen);
-  const copyText = async (t: string, what: string) => { try { await navigator.clipboard.writeText(t); toast.success(`${what} copied to the clipboard.`); } catch { toast.error('Copy failed. Your browser blocked clipboard access.'); } };
+  const copyText = async (t: string, what: string) => { try { await navigator.clipboard.writeText(t); toast.success(tx('{what} copied to the clipboard.', { what })); } catch { toast.error(tx('Copy failed. Your browser blocked clipboard access.')); } };
   const download = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([pgn()], { type: 'application/x-chess-pgn' })); a.download = 'tabiya-analysis.pgn'; a.click(); URL.revokeObjectURL(a.href); };
 
   const top = lines[0];
@@ -227,7 +231,7 @@ function Analysis() {
 
   return (
     <div ref={wrap} className={cx(fs.active && 'h-full overflow-auto bg-bg p-6')}>
-      {!fs.active && <PageHeader title="Analysis" sub={headers.White && headers.Black ? `${headers.White}${headers.WhiteElo ? ` (${headers.WhiteElo})` : ''} vs ${headers.Black}${headers.BlackElo ? ` (${headers.BlackElo})` : ''}${headers.Result && headers.Result !== '*' ? ` · ${headers.Result}` : ''}` : 'Explore any position with Stockfish, review your games and keep variations side by side.'} />}
+      {!fs.active && <PageHeader title={tr("Analysis")} sub={headers.White && headers.Black ? `${headers.White}${headers.WhiteElo ? ` (${headers.WhiteElo})` : ''} ${tr('vs')} ${headers.Black}${headers.BlackElo ? ` (${headers.BlackElo})` : ''}${headers.Result && headers.Result !== '*' ? ` · ${headers.Result}` : ''}` : tr('Explore any position with Stockfish, review your games and keep variations side by side.')} />}
       <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_400px]">
         <div className="mx-auto flex w-full gap-2" style={{ maxWidth: 'min(100%, calc(100dvh - 11rem))' }}>
           <EvalBar white={evalWhite} label={evalLabel} orientation={orientation} />
@@ -238,50 +242,50 @@ function Analysis() {
           <Card className="overflow-hidden">
             <div className="flex items-center gap-3 border-b border-line px-4 py-3">
               <Cpu className="size-4 text-mute" />
-              <div className="min-w-0 flex-1"><p className="truncate text-sm font-semibold">{engineName}</p><p className="text-xs text-mute">{engineOn ? (gameOver ? 'Game over' : top ? `Depth ${top.depth}` : 'Starting…') : 'Engine off'}</p></div>
+              <div className="min-w-0 flex-1"><p className="truncate text-sm font-semibold">{engineName}</p><p className="text-xs text-mute">{engineOn ? (gameOver ? tr('Game over') : top ? tr('Depth {n}', { n: top.depth }) : tr('Starting…')) : tr('Engine off')}</p></div>
               <span className="tnum font-mono text-xl font-semibold">{engineOn || cursor.cp !== undefined ? evalLabel : '–'}</span>
-              <Toggle checked={engineOn} onChange={setEngineOn} label="Engine analysis" />
+              <Toggle checked={engineOn} onChange={setEngineOn} label={tr("Engine analysis")} />
             </div>
             <ErrorNote>{engineError}</ErrorNote>
             {engineOn && !gameOver && (
               <div className="min-h-[5.25rem] divide-y divide-line/60">
                 {lines.map((l) => { const sans = pvSan(l); return (
-                  <button key={l.multipv} onClick={() => l.pv[0] && move({ from: l.pv[0].slice(0, 2), to: l.pv[0].slice(2, 4), promotion: l.pv[0][4] })} className="flex w-full items-baseline gap-3 px-4 py-1.5 text-left hover:bg-raised" title="Play this move">
+                  <button key={l.multipv} onClick={() => l.pv[0] && move({ from: l.pv[0].slice(0, 2), to: l.pv[0].slice(2, 4), promotion: l.pv[0][4] })} className="flex w-full items-baseline gap-3 px-4 py-1.5 text-start hover:bg-raised" title={tr("Play this move")}>
                     <span className={cx('tnum w-12 shrink-0 rounded px-1 text-center font-mono text-xs font-semibold', lineToWhiteCp(l, turn) >= 0 ? 'bg-[#f1efe9] text-[#222]' : 'bg-[#2a2a2c] text-[#eee]')}>{formatEval(l, turn)}</span>
                     <span className="truncate font-mono text-[13px]"><span className="font-semibold">{sans[0]}</span> <span className="text-mute">{sans.slice(1).join(' ')}</span></span>
                   </button>
                 ); })}
               </div>
             )}
-            {(opening || g) && <p className="border-t border-line px-4 py-2 text-xs text-mute">{g && <span className={cx('mr-2 font-semibold', g.cls)}>{g.sym} {g.label}{cursor.parent?.best && cursor.glyph !== 'best' && cursor.glyph !== 'brilliant' ? ` — best was ${(() => { try { return new Chess(cursor.parent!.fen).move({ from: cursor.parent!.best!.slice(0, 2), to: cursor.parent!.best!.slice(2, 4), promotion: cursor.parent!.best![4] }).san; } catch { return '?'; } })()}` : ''}</span>}{opening}</p>}
+            {(opening || g) && <p className="border-t border-line px-4 py-2 text-xs text-mute">{g && <span className={cx('me-2 font-semibold', g.cls)}>{g.sym} {tr(g.label)}{cursor.parent?.best && cursor.glyph !== 'best' && cursor.glyph !== 'brilliant' ? ` — ${tr('best was {san}', { san: (() => { try { return new Chess(cursor.parent!.fen).move({ from: cursor.parent!.best!.slice(0, 2), to: cursor.parent!.best!.slice(2, 4), promotion: cursor.parent!.best![4] }).san; } catch { return '?'; } })() })}` : ''}</span>}{opening}</p>}
           </Card>
 
           <Card className="overflow-hidden">
             <div className="max-h-64 min-h-28 overflow-y-auto"><TreeView root={rootRef.current} cursor={cursor} onSelect={setCursor} /></div>
             <NavButtons ply={idx} max={full.length - 1} onSelect={(i) => setCursor(full[Math.max(0, Math.min(full.length - 1, i))])} onFlip={() => setOrientation((o) => (o === 'w' ? 'b' : 'w'))} />
             <div className="grid grid-cols-4 gap-1 border-t border-line p-1.5">
-              <Button size="sm" variant="ghost" onClick={undo} disabled={!cursor.parent} title="Delete this move and everything after it"><Trash2 className="size-4" /> Undo</Button>
-              <Button size="sm" variant="ghost" onClick={() => { setImportError(null); setImportOpen(true); }}><FileUp className="size-4" /> Import</Button>
-              <Button size="sm" variant="ghost" onClick={download} disabled={full.length < 2}><Download className="size-4" /> PGN</Button>
-              <Button size="sm" variant="ghost" onClick={fs.toggle}>{fs.active ? <Minimize2 className="size-4" /> : <Maximize2 className="size-4" />} Full</Button>
+              <Button size="sm" variant="ghost" onClick={undo} disabled={!cursor.parent} title={tr("Delete this move and everything after it")}><Trash2 className="size-4" /> {tr("Undo")}</Button>
+              <Button size="sm" variant="ghost" onClick={() => { setImportError(null); setImportOpen(true); }}><FileUp className="size-4" /> {tr("Import")}</Button>
+              <Button size="sm" variant="ghost" onClick={download} disabled={full.length < 2}><Download className="size-4" /> {tr("PGN")}</Button>
+              <Button size="sm" variant="ghost" onClick={fs.toggle}>{fs.active ? <Minimize2 className="size-4" /> : <Maximize2 className="size-4" />} {tr('Full')}</Button>
             </div>
           </Card>
 
           <Card className="p-4">
             <div className="flex items-center justify-between gap-3">
-              <div><p className="font-semibold">Game review</p><p className="text-xs text-mute">Stockfish checks every move of the main line.</p></div>
-              <Button variant="primary" size="sm" onClick={runReview} loading={progress !== null} disabled={main.length < 2}><Sparkles className="size-4" /> {review ? 'Re-run' : 'Review'}</Button>
+              <div><p className="font-semibold">{tr("Game review")}</p><p className="text-xs text-mute">{tr("Stockfish checks every move of the main line.")}</p></div>
+              <Button variant="primary" size="sm" onClick={runReview} loading={progress !== null} disabled={main.length < 2}><Sparkles className="size-4" /> {tr(review ? 'Re-run' : 'Review')}</Button>
             </div>
             {progress !== null && <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-raised" role="progressbar" aria-valuenow={Math.round(progress * 100)} aria-valuemin={0} aria-valuemax={100}><div className="h-full bg-accent transition-[width]" style={{ width: `${progress * 100}%` }} /></div>}
             {review && (
               <div className="mt-4 space-y-3">
                 <EvalGraph nodes={main} cursor={cursor} onSelect={setCursor} />
                 <table className="w-full text-sm">
-                  <thead><tr className="text-xs text-mute"><th className="py-1 text-left font-medium">{headers.White ?? 'White'}</th><th /><th className="py-1 text-right font-medium">{headers.Black ?? 'Black'}</th></tr></thead>
+                  <thead><tr className="text-xs text-mute"><th className="py-1 text-start font-medium">{headers.White ?? tr('White')}</th><th /><th className="py-1 text-end font-medium">{headers.Black ?? tr('Black')}</th></tr></thead>
                   <tbody>
-                    <tr className="border-t border-line"><td className="tnum py-1.5 font-mono text-lg font-semibold">{review.accuracy.w}%</td><td className="text-center text-mute">Accuracy</td><td className="tnum text-right font-mono text-lg font-semibold">{review.accuracy.b}%</td></tr>
+                    <tr className="border-t border-line"><td className="tnum py-1.5 font-mono text-lg font-semibold">{review.accuracy.w}%</td><td className="text-center text-mute">{tr("Accuracy")}</td><td className="tnum text-end font-mono text-lg font-semibold">{review.accuracy.b}%</td></tr>
                     {(['brilliant', 'best', 'inaccuracy', 'mistake', 'blunder'] as const).map((k) => (
-                      <tr key={k} className="border-t border-line/60"><td className="tnum py-1 font-mono">{review.counts.w[k] ?? 0}</td><td className={cx('text-center', GLYPH[k].cls)}>{GLYPH[k].sym} {GLYPH[k].label}</td><td className="tnum text-right font-mono">{review.counts.b[k] ?? 0}</td></tr>
+                      <tr key={k} className="border-t border-line/60"><td className="tnum py-1 font-mono">{review.counts.w[k] ?? 0}</td><td className={cx('text-center', GLYPH[k].cls)}>{GLYPH[k].sym} {tr(GLYPH[k].label)}</td><td className="tnum text-end font-mono">{review.counts.b[k] ?? 0}</td></tr>
                     ))}
                   </tbody>
                 </table>
@@ -289,16 +293,16 @@ function Analysis() {
             )}
           </Card>
           <div className="flex gap-2">
-            <Button size="sm" variant="ghost" onClick={() => copyText(cursor.fen, 'FEN')}><ClipboardCopy className="size-4" /> Copy FEN</Button>
-            <Button size="sm" variant="ghost" onClick={() => copyText(pgn(), 'PGN')} disabled={full.length < 2}><ClipboardCopy className="size-4" /> Copy PGN</Button>
+            <Button size="sm" variant="ghost" onClick={() => copyText(cursor.fen, 'FEN')}><ClipboardCopy className="size-4" /> {tr("Copy FEN")}</Button>
+            <Button size="sm" variant="ghost" onClick={() => copyText(pgn(), 'PGN')} disabled={full.length < 2}><ClipboardCopy className="size-4" /> {tr("Copy PGN")}</Button>
           </div>
         </div>
       </div>
 
-      <Modal open={importOpen} onClose={() => setImportOpen(false)} title="Import a game or position" wide>
-        <p className="mb-2 text-sm text-mute">Paste a PGN, or a FEN to set up a position.</p>
-        <textarea value={pgnText} onChange={(e) => setPgnText(e.target.value)} rows={9} spellCheck={false} placeholder={'[Event "…"]\n\n1. e4 e5 2. Nf3 Nc6 …'} aria-label="PGN or FEN" className="w-full rounded-lg border border-line bg-bg p-3 font-mono text-xs focus:border-accent focus:outline-none" />
-        <label className="mt-2 inline-flex cursor-pointer items-center gap-2 text-sm text-accent hover:underline"><FileUp className="size-4" /> Choose a .pgn file
+      <Modal open={importOpen} onClose={() => setImportOpen(false)} title={tr("Import a game or position")} wide>
+        <p className="mb-2 text-sm text-mute">{tr("Paste a PGN, or a FEN to set up a position.")}</p>
+        <textarea value={pgnText} onChange={(e) => setPgnText(e.target.value)} rows={9} spellCheck={false} placeholder={'[Event "…"]\n\n1. e4 e5 2. Nf3 Nc6 …'} aria-label={tr("PGN or FEN")} className="w-full rounded-lg border border-line bg-bg p-3 font-mono text-xs focus:border-accent focus:outline-none" />
+        <label className="mt-2 inline-flex cursor-pointer items-center gap-2 text-sm text-accent hover:underline"><FileUp className="size-4" /> {tr("Choose a .pgn file")}
           <input type="file" accept=".pgn,text/plain" className="sr-only" onChange={async (e) => { const f = e.target.files?.[0]; if (f) setPgnText(await f.text()); }} />
         </label>
         <div className="mt-3"><ErrorNote>{importError}</ErrorNote></div>
@@ -306,7 +310,7 @@ function Analysis() {
           const t = pgnText.trim();
           try { if (/^[rnbqkpRNBQKP1-8/]+ [wb] /.test(t) && !t.includes('\n')) loadFen(t); else load(t); setImportOpen(false); setPgnText(''); }
           catch (e) { setImportError((e as Error).message); }
-        }}>Load</Button>
+        }}>{tr("Load")}</Button>
       </Modal>
     </div>
   );

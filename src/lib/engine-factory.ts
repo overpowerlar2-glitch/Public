@@ -2,6 +2,7 @@
 // Picks the engine: native Stockfish on the server when the server offers it, otherwise the WASM build in the browser.
 import { Engine, type ChessEngine, type EngineLine, type SearchOptions, type SearchResult } from './engine';
 import { emitAck, getSocket } from './socket';
+import { tx } from './i18n';
 
 let nextId = 1; // shared by every remote engine on this connection so result ids never collide
 type Reply = { bestmove: string | null; lines: EngineLine[]; stale?: boolean; error?: string };
@@ -43,7 +44,7 @@ class HybridEngine implements ChessEngine {
 
   constructor() {
     this.ready = emitAck<{ available: boolean; name: string }>('engine:status', undefined, 2500)
-      .then((s) => { if (!s.available) throw new Error('no server engine'); this.impl = new RemoteEngine(`${s.name} · server`); this.remote = true; })
+      .then((s) => { if (!s.available) throw new Error('no server engine'); this.impl = new RemoteEngine(`${s.name} · ${tx('server')}`); this.remote = true; })
       .catch(() => this.useLocal())
       .then(() => { this.name = this.impl!.name; });
   }

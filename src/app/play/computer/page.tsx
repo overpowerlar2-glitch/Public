@@ -12,6 +12,7 @@ import { buildPgn, replay, START_FEN } from '@/lib/chess/util';
 import { play, playMove, playResult } from '@/lib/sound';
 import { useMe } from '@/lib/client';
 import type { Color } from '@/lib/types';
+import { useT } from '@/lib/i18n';
 
 const LEVELS = [
   { name: 'Beginner', elo: '≈ 600', blurb: 'Often misses threats and gives pieces away.', skill: 0, depth: 1, random: 0.4 },
@@ -23,9 +24,10 @@ const LEVELS = [
 ] as const;
 const CLOCKS = [{ label: 'No clock', initial: 0, inc: 0 }, { label: '5+0', initial: 300, inc: 0 }, { label: '10+0', initial: 600, inc: 0 }, { label: '15+10', initial: 900, inc: 10 }];
 
-type Outcome = { result: '1-0' | '0-1' | '1/2-1/2'; text: string };
+type Outcome = { result: '1-0' | '0-1' | '1/2-1/2'; text: string; side?: 'White' | 'Black' }; // text is an English key, translated when shown
 
 export default function ComputerPage() {
+  const tr = useT();
   const router = useRouter();
   const { me } = useMe();
   const { get: engine, error: engineError } = useEngine();
@@ -69,7 +71,7 @@ export default function ComputerPage() {
     sansRef.current = next;
     setSans(next); setPly(next.length); setHint(null);
     if (tc.inc) setClock((cl) => cl && { ...cl, [m.color]: cl[m.color] + tc.inc * 1000 });
-    if (c.isCheckmate()) setOutcome({ result: m.color === 'w' ? '1-0' : '0-1', text: `Checkmate — ${m.color === 'w' ? 'White' : 'Black'} wins` });
+    if (c.isCheckmate()) setOutcome({ result: m.color === 'w' ? '1-0' : '0-1', text: 'Checkmate — {side} wins', side: m.color === 'w' ? 'White' : 'Black' });
     else if (c.isStalemate()) setOutcome({ result: '1/2-1/2', text: 'Draw by stalemate' });
     else if (c.isInsufficientMaterial()) setOutcome({ result: '1/2-1/2', text: 'Draw — insufficient material' });
     else if (c.isThreefoldRepetition()) setOutcome({ result: '1/2-1/2', text: 'Draw by threefold repetition' });
@@ -110,7 +112,7 @@ export default function ComputerPage() {
       setClock((c) => {
         if (!c) return c;
         const left = c[turn] - dt;
-        if (left <= 0) { finish({ result: turn === 'w' ? '0-1' : '1-0', text: `${turn === 'w' ? 'White' : 'Black'} ran out of time` }); return { ...c, [turn]: 0 }; }
+        if (left <= 0) { finish({ result: turn === 'w' ? '0-1' : '1-0', text: '{side} ran out of time', side: turn === 'w' ? 'White' : 'Black' }); return { ...c, [turn]: 0 }; }
         return { ...c, [turn]: left };
       });
     }, 100);
@@ -155,24 +157,24 @@ export default function ComputerPage() {
   if (phase === 'setup') {
     return (
       <div className="mx-auto max-w-3xl">
-        <PageHeader title="Play the computer" sub="Stockfish runs right in your browser — no account or connection needed once the page has loaded." />
+        <PageHeader title={tr("Play the computer")} sub={`${tr('Stockfish runs right in your browser — no account or connection needed once the page has loaded.')} ${tr('Games against the computer are practice: they never change your rating.')}`} />
         <ErrorNote>{engineError}</ErrorNote>
         <Card className="p-5 sm:p-6">
-          <h2 className="mb-3 text-sm font-semibold">Strength</h2>
-          <div className="grid gap-2 sm:grid-cols-2" role="radiogroup" aria-label="Difficulty">
+          <h2 className="mb-3 text-sm font-semibold">{tr("Strength")}</h2>
+          <div className="grid gap-2 sm:grid-cols-2" role="radiogroup" aria-label={tr("Difficulty")}>
             {LEVELS.map((l, i) => (
               <button key={l.name} role="radio" aria-checked={level === i} onClick={() => setLevel(i)}
-                className={cx('rounded-xl border p-3.5 text-left transition-colors', level === i ? 'border-accent bg-accent/10' : 'border-line hover:border-mute/60')}>
-                <span className="flex items-baseline justify-between"><span className="font-semibold">{l.name}</span><span className="tnum font-mono text-xs text-mute">{l.elo}</span></span>
-                <span className="mt-1 block text-[13px] leading-snug text-mute">{l.blurb}</span>
+                className={cx('rounded-xl border p-3.5 text-start transition-colors', level === i ? 'border-accent bg-accent/10' : 'border-line hover:border-mute/60')}>
+                <span className="flex items-baseline justify-between"><span className="font-semibold">{tr(l.name)}</span><span className="tnum font-mono text-xs text-mute">{l.elo}</span></span>
+                <span className="mt-1 block text-[13px] leading-snug text-mute">{tr(l.blurb)}</span>
               </button>
             ))}
           </div>
           <div className="mt-6 flex flex-wrap gap-x-8 gap-y-4">
-            <div><h2 className="mb-2 text-sm font-semibold">You play</h2><Segmented label="Your colour" value={colorPref} onChange={setColorPref} options={[{ value: 'w', label: 'White' }, { value: 'random', label: 'Random' }, { value: 'b', label: 'Black' }]} /></div>
-            <div><h2 className="mb-2 text-sm font-semibold">Clock</h2><Segmented label="Clock" value={String(clockIdx)} onChange={(v) => setClockIdx(+v)} options={CLOCKS.map((c, i) => ({ value: String(i), label: c.label }))} /></div>
+            <div><h2 className="mb-2 text-sm font-semibold">{tr("You play")}</h2><Segmented label={tr("Your colour")} value={colorPref} onChange={setColorPref} options={[{ value: 'w', label: 'White' }, { value: 'random', label: 'Random' }, { value: 'b', label: 'Black' }]} /></div>
+            <div><h2 className="mb-2 text-sm font-semibold">{tr("Clock")}</h2><Segmented label={tr("Clock")} value={String(clockIdx)} onChange={(v) => setClockIdx(+v)} options={CLOCKS.map((c, i) => ({ value: String(i), label: c.label }))} /></div>
           </div>
-          <Button variant="primary" size="lg" className="mt-7 w-full sm:w-auto" onClick={start}>Start game</Button>
+          <Button variant="primary" size="lg" className="mt-7 w-full sm:w-auto" onClick={start}>{tr("Start game")}</Button>
         </Card>
       </div>
     );
@@ -182,7 +184,7 @@ export default function ComputerPage() {
   const top: Color = orientation === 'w' ? 'b' : 'w';
   const last = ply > 0 ? ([steps[ply - 1].from, steps[ply - 1].to] as [string, string]) : null;
   const bar = (c: Color) => (
-    <PlayerBar name={c === color ? me?.username ?? 'You' : `Stockfish · ${lv.name}`} avatar={c === color ? me?.avatar : null} fen={fen} color={c}
+    <PlayerBar name={c === color ? me?.username ?? tr('You') : tr('Stockfish · {level}', { level: tr(lv.name) })} avatar={c === color ? me?.avatar : null} fen={fen} color={c}
       clockMs={clock ? clock[c] : null} running={!!clock && !outcome && turn === c} thinking={c !== color && thinking} sub={c !== color ? lv.elo : undefined} />
   );
 
@@ -196,21 +198,21 @@ export default function ComputerPage() {
       <Card className="flex max-h-[calc(100dvh-7rem)] flex-col overflow-hidden">
         {outcome && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="border-b border-line bg-accent/10 px-4 py-4">
-            <p className="font-display text-2xl">{outcome.result === '1/2-1/2' ? 'Draw' : (outcome.result === '1-0') === (color === 'w') ? 'You won' : 'You lost'}</p>
-            <p className="text-sm text-mute">{outcome.text}</p>
-            <div className="mt-3 flex flex-wrap gap-2"><Button variant="primary" size="sm" onClick={start}>Rematch</Button><Button size="sm" onClick={analyze}><Microscope className="size-4" /> Analyse game</Button><Button size="sm" variant="ghost" onClick={() => setPhase('setup')}>Change settings</Button></div>
+            <p className="font-display text-2xl">{tr(outcome.result === '1/2-1/2' ? 'Draw' : (outcome.result === '1-0') === (color === 'w') ? 'You won' : 'You lost')}</p>
+            <p className="text-sm text-mute">{tr(outcome.text, outcome.side && { side: tr(outcome.side) })}</p>
+            <div className="mt-3 flex flex-wrap gap-2"><Button variant="primary" size="sm" onClick={start}>{tr("Rematch")}</Button><Button size="sm" onClick={analyze}><Microscope className="size-4" /> {tr("Analyse game")}</Button><Button size="sm" variant="ghost" onClick={() => setPhase('setup')}>{tr("Change settings")}</Button></div>
           </motion.div>
         )}
         {engineError && <div className="border-b border-line p-3"><ErrorNote>{engineError}</ErrorNote></div>}
         <MoveList sans={sans} ply={ply} onSelect={setPly} className="min-h-40 flex-1" />
         <NavButtons ply={ply} max={sans.length} onSelect={(p) => setPly(Math.max(0, Math.min(sans.length, p)))} onFlip={() => setFlipped((f) => !f)} />
         <div className="grid grid-cols-3 gap-1.5 border-t border-line p-2">
-          <Button size="sm" variant="ghost" onClick={takeback} disabled={!!outcome || !sans.length}><Undo2 className="size-4" /> Takeback</Button>
-          <Button size="sm" variant="ghost" onClick={showHint} disabled={!!outcome || turn !== color}><Lightbulb className="size-4" /> Hint</Button>
-          <Button size="sm" variant="ghost" onClick={() => finish({ result: color === 'w' ? '0-1' : '1-0', text: 'You resigned' })} disabled={!!outcome}><Flag className="size-4" /> Resign</Button>
-          <Button size="sm" variant="ghost" onClick={() => setBlindfold((b) => !b)} aria-pressed={blindfold} className={cx(blindfold && 'text-accent')}><EyeOff className="size-4" /> Blindfold</Button>
-          <Button size="sm" variant="ghost" onClick={fs.toggle}>{fs.active ? <Minimize2 className="size-4" /> : <Maximize2 className="size-4" />} {fs.active ? 'Exit' : 'Fullscreen'}</Button>
-          <Button size="sm" variant="ghost" onClick={() => setPhase('setup')}><RotateCcw className="size-4" /> New game</Button>
+          <Button size="sm" variant="ghost" onClick={takeback} disabled={!!outcome || !sans.length}><Undo2 className="size-4" /> {tr("Takeback")}</Button>
+          <Button size="sm" variant="ghost" onClick={showHint} disabled={!!outcome || turn !== color}><Lightbulb className="size-4" /> {tr("Hint")}</Button>
+          <Button size="sm" variant="ghost" onClick={() => finish({ result: color === 'w' ? '0-1' : '1-0', text: 'You resigned' })} disabled={!!outcome}><Flag className="size-4" /> {tr("Resign")}</Button>
+          <Button size="sm" variant="ghost" onClick={() => setBlindfold((b) => !b)} aria-pressed={blindfold} className={cx(blindfold && 'text-accent')}><EyeOff className="size-4" /> {tr("Blindfold")}</Button>
+          <Button size="sm" variant="ghost" onClick={fs.toggle}>{fs.active ? <Minimize2 className="size-4" /> : <Maximize2 className="size-4" />} {tr(fs.active ? 'Exit' : 'Fullscreen')}</Button>
+          <Button size="sm" variant="ghost" onClick={() => setPhase('setup')}><RotateCcw className="size-4" /> {tr("New game")}</Button>
         </div>
       </Card>
     </div>

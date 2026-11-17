@@ -45,8 +45,9 @@ check('illegal move rejected by server', illegal.ok === false);
 const outOfTurn = await ack(B, 'game:move', { id, uci: 'e7e5' });
 check('out-of-turn move rejected', outOfTurn.ok === false);
 for (const [s, u] of [[W, 'f2f3'], [B, 'e7e5'], [W, 'g2g4']]) await ack(s, 'game:move', { id, uci: u });
-await wait(300);
-check('clock is running for the side to move', a.state?.clock?.running === 'b' && a.state.clock.b < 180000 && a.state.clock.b > 170000, JSON.stringify(a.state?.clock));
+await wait(400);
+const fresh = (await ack(a, 'game:join', { id })).state; // a new snapshot: the clock has been running for ~400 ms
+check('clock is running for the side to move', fresh.clock?.running === 'b' && fresh.clock.b < 180000 && fresh.clock.b > 170000, JSON.stringify(fresh.clock));
 await ack(B, 'game:move', { id, uci: 'd8h4' });
 check('checkmate ends the game 0-1', await until(() => a.state?.status === 'finished' && a.state.result === '0-1' && a.state.reason === 'checkmate'));
 check('ratings updated', a.state.ratingDiff && a.state.ratingDiff.b > 0 && a.state.ratingDiff.w < 0, JSON.stringify(a.state.ratingDiff));

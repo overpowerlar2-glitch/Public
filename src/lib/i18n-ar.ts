@@ -1,0 +1,236 @@
+// Arabic interface text. Keys are the English strings used in the code; missing keys fall back to English.
+export const AR: Record<string, string> = {
+  /* ── Navigation & shell ── */
+  'Home': 'الرئيسية', 'Play': 'العب', 'Puzzles': 'الألغاز', 'Analysis': 'التحليل', 'Openings': 'الافتتاحيات', 'Watch': 'شاهد',
+  'Leaderboard': 'المتصدرون', 'Settings': 'الإعدادات', 'Computer': 'الكمبيوتر', 'Online': 'أونلاين',
+  'Sign in': 'تسجيل الدخول', 'Sign out': 'تسجيل الخروج', 'Create account': 'إنشاء حساب', 'Create an account': 'أنشئ حساباً',
+  'Find a player': 'ابحث عن لاعب', 'Searching…': 'جارٍ البحث…', 'No players match “{q}”.': 'لا يوجد لاعب يطابق «{q}».',
+  'Skip to content': 'انتقل إلى المحتوى', 'Tabiya home': 'الصفحة الرئيسية', 'Main': 'القائمة الرئيسية', 'Toggle colour theme': 'تبديل الوضع الفاتح والداكن',
+  'Your profile': 'ملفك الشخصي', 'Resume': 'تابع', 'Game in progress vs {name}': 'مباراة جارية ضد {name}', 'Blitz {n}': 'خاطف {n}',
+  'Signed out.': 'تم تسجيل الخروج.', 'Language': 'اللغة',
+
+  /* ── Generic UI ── */
+  'Loading': 'جارٍ التحميل', 'Close': 'إغلاق', 'Online now': 'متصل الآن', 'Offline': 'غير متصل', 'Cancel': 'إلغاء',
+  'Something went wrong': 'حدث خطأ ما', 'Try again': 'حاول مجدداً', 'An unexpected error occurred.': 'حدث خطأ غير متوقع.',
+  'This square is empty': 'هذا المربع فارغ', 'The page you were looking for does not exist or has moved.': 'الصفحة التي تبحث عنها غير موجودة أو نُقلت.',
+  'Back to the board': 'العودة إلى الرقعة',
+
+  /* ── Chess vocabulary ── */
+  'White': 'الأبيض', 'Black': 'الأسود', 'Random': 'عشوائي', 'You': 'أنت', 'Draw': 'تعادل', 'You won': 'فزت', 'You lost': 'خسرت',
+  'White won': 'فاز الأبيض', 'Black won': 'فاز الأسود', 'Game aborted': 'أُلغيت المباراة',
+  'White to move': 'دور الأبيض', 'Black to move': 'دور الأسود',
+  'Rated': 'مصنّفة', 'Casual': 'غير مصنّفة', 'rated': 'مصنّفة', 'casual': 'غير مصنّفة',
+  'bullet': 'رصاصة', 'blitz': 'خاطف', 'rapid': 'سريع', 'classical': 'كلاسيكي', 'correspondence': 'بالمراسلة', 'puzzle': 'ألغاز',
+  'Bullet': 'رصاصة', 'Blitz': 'خاطف', 'Rapid': 'سريع', 'Classical': 'كلاسيكي', 'Correspondence': 'بالمراسلة',
+  'Checkmate': 'كش مات', 'Resignation': 'استسلام', 'Time out': 'انتهاء الوقت', 'Stalemate': 'جمود (تعادل)', 'Draw by agreement': 'تعادل بالاتفاق',
+  'Threefold repetition': 'تكرار الوضع ثلاث مرات', 'Insufficient material': 'قطع غير كافية للفوز', 'Fifty-move rule': 'قاعدة الخمسين نقلة',
+  'Opponent left the game': 'غادر الخصم المباراة', 'Time out vs insufficient material': 'انتهى الوقت والخصم لا يملك قطعاً كافية للفوز',
+  'Queen': 'وزير', 'Rook': 'قلعة', 'Bishop': 'فيل', 'Knight': 'حصان', 'Choose promotion piece': 'اختر قطعة الترقية',
+  'Chess board, White to move': 'رقعة شطرنج، دور الأبيض', 'Chess board, Black to move': 'رقعة شطرنج، دور الأسود',
+  'Unlimited': 'بلا وقت', '{n} day/move': '{n} يوم لكل نقلة', '{n} days/move': '{n} أيام لكل نقلة',
+
+  /* ── Move list & game widgets ── */
+  'No moves yet.': 'لا توجد نقلات بعد.', 'Moves': 'النقلات', 'First move': 'أول نقلة', 'Previous move': 'النقلة السابقة', 'Next move': 'النقلة التالية',
+  'Last move': 'آخر نقلة', 'Flip board': 'اقلب الرقعة', 'Thinking': 'يفكّر', 'Engine evaluation': 'تقييم المحرك',
+  'Brilliant': 'رائعة', 'Best move': 'أفضل نقلة', 'Inaccuracy': 'عدم دقة', 'Mistake': 'خطأ', 'Blunder': 'خطأ فادح',
+  '{name} clock': 'ساعة {name}', 'Captured by White: {n} pieces': 'قطع أكلها الأبيض: {n}', 'Captured by Black: {n} pieces': 'قطع أكلها الأسود: {n}',
+
+  /* ── Home ── */
+  'Puzzle of the day': 'لغز اليوم', 'Correct!': 'صحيح!', 'Not quite — try again': 'ليست هذه — حاول مجدداً', 'Rated {n}': 'تصنيفه {n}',
+  'See the full solution': 'شاهد الحل كاملاً', 'Open in puzzles': 'افتحه في الألغاز', "Today's puzzle is not available": 'لغز اليوم غير متوفر',
+  '{n} online': '{n} متصل', '{n} games in play': '{n} مباراة جارية', '{n} game in play': 'مباراة واحدة جارية',
+  'Your move.': 'دورك.', 'Make it count.': 'اجعلها نقلة تُحسب.',
+  'Real-time games against real opponents, a full-strength engine for analysis, and puzzles checked move by move. No ads, no clutter.':
+    'مباريات مباشرة ضد خصوم حقيقيين، ومحرك بكامل قوته للتحليل، وألغاز مدقّقة نقلةً نقلة. بلا إعلانات ولا فوضى.',
+  'Finding an opponent…': 'جارٍ البحث عن خصم…', 'Quick play · 5 min': 'لعب سريع · ٥ دقائق', 'Quick play · 5 min · rated': 'لعب سريع · ٥ دقائق · مصنّفة',
+  'All time controls': 'كل أوقات اللعب',
+  'Searching for a {kind} 5+0 game. Click the button again to cancel.': 'جارٍ البحث عن مباراة {kind} ‎5+0‎. اضغط الزر مرة أخرى للإلغاء.',
+  'Play a friend': 'العب مع صديق', 'Send a link, pick the clock': 'أرسل رابطاً واختر الوقت', 'Play the computer': 'العب ضد الكمبيوتر', 'Six Stockfish levels': 'ستة مستويات من Stockfish',
+  'Solve puzzles': 'حل الألغاز', 'Rated tactics and streaks': 'تكتيكات مصنّفة وسلاسل', 'Analyse': 'حلّل', 'Engine review of any game': 'مراجعة أي مباراة بالمحرك',
+  '3,865 named lines': '٣٨٦٥ خطاً مسمّى', 'Live now': 'مباشر الآن', 'Watch all': 'شاهد الكل',
+  'No games in progress right now': 'لا توجد مباريات جارية الآن', 'Start one and it will appear here for others to watch.': 'ابدأ مباراة وستظهر هنا ليشاهدها الآخرون.',
+  'Top players': 'أفضل اللاعبين', 'No rated games have been played yet. The first winner takes the top spot.': 'لم تُلعب أي مباراة مصنّفة بعد. أول فائز يأخذ الصدارة.',
+  'Players': 'اللاعبون', 'Games played': 'المباريات الملعوبة', 'Load the puzzle set with': 'حمّل الألغاز بالأمر',
+
+  /* ── Play lobby ── */
+  'Pick a time control to be paired with the next available opponent, or set up a game with a friend.': 'اختر وقت اللعب لتُقرَن بأول خصم متاح، أو جهّز مباراة مع صديق.',
+  'Game mode': 'نوع المباراة', 'Playing as a guest — casual only': 'تلعب كزائر — مباريات غير مصنّفة فقط', 'Sign in to play rated games.': 'سجّل الدخول لتلعب مباريات مصنّفة.',
+  'Rated games change your rating: a win adds points, a loss takes them away.': 'المباريات المصنّفة تغيّر تصنيفك: الفوز يضيف نقاطاً والخسارة تُنقصها.',
+  'Casual games never change your rating.': 'المباريات غير المصنّفة لا تغيّر تصنيفك أبداً.',
+  'Looking for an opponent…': 'جارٍ البحث عن خصم…', "{tc} · {kind} · you'll be taken to the board as soon as someone joins": '{tc} · {kind} · ستنتقل إلى الرقعة فور انضمام أحد',
+  'Searching…_': 'جارٍ البحث…', 'Custom': 'مخصص', 'Private game with an invitation link': 'مباراة خاصة برابط دعوة', 'Six levels of Stockfish': 'ستة مستويات من Stockfish',
+  'Seeking': 'يبحثون', 'Live games': 'مباريات مباشرة', 'Custom game': 'مباراة مخصصة', 'Find an opponent': 'ابحث عن خصم',
+  'Rated — both players need an account.': 'مصنّفة — يحتاج اللاعبان إلى حساب.', 'Casual game.': 'مباراة غير مصنّفة.',
+  'Send challenge': 'أرسل التحدي', 'Create invitation link': 'أنشئ رابط دعوة', 'Challenge sent to {name}.': 'أُرسل التحدي إلى {name}.',
+  '{from} challenges you to a {kind} {tc} game': '{from} يتحداك في مباراة {kind} بوقت {tc}', 'Accept': 'اقبل',
+
+  /* ── Time-control picker ── */
+  'Game type': 'نوع اللعب', 'Real-time': 'مباشر', 'Minutes per side': 'دقائق لكل لاعب', 'Increment in seconds': 'زيادة بالثواني لكل نقلة', 'Days per move': 'أيام لكل نقلة',
+  'No clock. Unlimited games are always casual.': 'بلا ساعة. المباريات بلا وقت دائماً غير مصنّفة.', 'Time control:': 'وقت اللعب:',
+  'Challenge a player (optional)': 'تحدَّ لاعباً (اختياري)', 'Leave empty to get a link you can send to anyone.': 'اتركه فارغاً لتحصل على رابط ترسله لأي شخص.', 'Username': 'اسم المستخدم',
+
+  /* ── Live game ── */
+  'This game is unavailable': 'هذه المباراة غير متاحة', 'Back to the lobby': 'العودة إلى صالة اللعب', 'Waiting for opponent…': 'بانتظار الخصم…',
+  'Invite your opponent': 'ادعُ خصمك', 'Send this link. The game starts as soon as someone opens it.': 'أرسل هذا الرابط. تبدأ المباراة فور أن يفتحه أحد.',
+  'Invitation link': 'رابط الدعوة', 'Copy': 'نسخ', 'Copied': 'تم النسخ', 'Waiting for an opponent to join…': 'بانتظار انضمام خصم…',
+  'Could not copy — select the link and copy it manually.': 'تعذّر النسخ — حدّد الرابط وانسخه يدوياً.',
+  'New game': 'مباراة جديدة', 'Share': 'مشاركة', 'Your opponent offers a draw': 'خصمك يعرض التعادل', 'Decline draw': 'ارفض التعادل',
+  '{name} disconnected. They forfeit if they don’t return within a minute.': 'انقطع اتصال {name}. يخسر إذا لم يعد خلال دقيقة.',
+  'Abort game': 'إلغاء المباراة', 'Draw offered': 'عُرض التعادل', 'Offer draw': 'اعرض التعادل', 'Confirm resign': 'تأكيد الاستسلام', 'Resign': 'استسلم',
+  'You are watching this game live.': 'أنت تشاهد هذه المباراة مباشرة.', 'It’s your move — return to the live position': 'دورك — ارجع إلى الوضع الحالي',
+  'Say hello — chat is visible only to you and your opponent.': 'قل مرحباً — المحادثة تظهر لك ولخصمك فقط.', 'Message your opponent': 'راسل خصمك',
+  'Chat message': 'رسالة المحادثة', 'Send message': 'أرسل الرسالة', 'Game chat': 'محادثة المباراة', 'Spectators': 'المشاهدون',
+  'Connection lost — reconnecting…': 'انقطع الاتصال — جارٍ إعادة الاتصال…', 'Fullscreen': 'ملء الشاشة', 'Exit fullscreen': 'الخروج من ملء الشاشة', 'Exit': 'خروج',
+  'rating {diff}': 'التصنيف {diff}', 'Casual game — ratings don’t change.': 'مباراة غير مصنّفة — التصنيف لا يتغير.',
+  'Rated game — the result changes both players’ ratings.': 'مباراة مصنّفة — النتيجة تغيّر تصنيف اللاعبين.',
+
+  /* ── Computer ── */
+  'Stockfish runs right in your browser — no account or connection needed once the page has loaded.': 'يعمل Stockfish داخل متصفحك مباشرة — بلا حساب ولا اتصال بعد تحميل الصفحة.',
+  'Games against the computer are practice: they never change your rating.': 'المباريات ضد الكمبيوتر للتدريب: لا تغيّر تصنيفك أبداً.',
+  'Strength': 'القوة', 'Difficulty': 'الصعوبة', 'You play': 'تلعب بـ', 'Your colour': 'لونك', 'Clock': 'الساعة', 'No clock': 'بلا ساعة', 'Start game': 'ابدأ المباراة',
+  'Beginner': 'مبتدئ', 'Easy': 'سهل', 'Intermediate': 'متوسط', 'Advanced': 'متقدم', 'Expert': 'خبير', 'Master': 'أستاذ',
+  'Often misses threats and gives pieces away.': 'كثيراً ما يغفل عن التهديدات ويخسر قطعاً.', 'Plays simple moves; punishes only obvious blunders.': 'يلعب نقلات بسيطة ولا يعاقب إلا على الأخطاء الواضحة.',
+  'Solid club player with occasional tactical slips.': 'لاعب نادٍ متمكن مع هفوات تكتيكية أحياناً.', 'Sees most tactics and plays sound positional chess.': 'يرى معظم التكتيكات ويلعب شطرنجاً موضعياً سليماً.',
+  'Strong, precise and unforgiving.': 'قوي ودقيق ولا يرحم.', 'Full-strength Stockfish. Good luck.': 'Stockfish بكامل قوته. بالتوفيق.',
+  'Rematch': 'مباراة ثأرية', 'Analyse game': 'حلّل المباراة', 'Change settings': 'غيّر الإعدادات', 'Takeback': 'تراجع', 'Hint': 'تلميح', 'Blindfold': 'معصوب العينين',
+  'You resigned': 'استسلمت', 'Checkmate — {side} wins': 'كش مات — فاز {side}', 'Draw by stalemate': 'تعادل بالجمود', 'Draw — insufficient material': 'تعادل — قطع غير كافية للفوز',
+  'Draw by threefold repetition': 'تعادل بتكرار الوضع ثلاث مرات', 'Draw by the fifty-move rule': 'تعادل بقاعدة الخمسين نقلة', '{side} ran out of time': 'انتهى وقت {side}',
+  'Stockfish · {level}': 'Stockfish · {level}', 'Game vs computer': 'مباراة ضد الكمبيوتر',
+
+  /* ── Analysis ── */
+  'Explore any position with Stockfish, review your games and keep variations side by side.': 'استكشف أي وضع مع Stockfish، وراجع مبارياتك واحتفظ بالتفرعات جنباً إلى جنب.',
+  'Engine analysis': 'تحليل المحرك', 'Engine off': 'المحرك متوقف', 'Game over': 'انتهت المباراة', 'Starting…': 'جارٍ التشغيل…', 'Depth {n}': 'العمق {n}',
+  'Play this move': 'العب هذه النقلة', 'best was {san}': 'الأفضل كان {san}',
+  'Make a move on the board, or import a PGN to begin.': 'حرّك قطعة على الرقعة، أو استورد PGN للبدء.',
+  'Undo': 'تراجع', 'Delete this move and everything after it': 'احذف هذه النقلة وكل ما بعدها', 'Import': 'استيراد', 'PGN': 'PGN', 'Full': 'ملء',
+  'Game review': 'مراجعة المباراة', 'Stockfish checks every move of the main line.': 'يفحص Stockfish كل نقلة في الخط الرئيسي.', 'Review': 'راجع', 'Re-run': 'أعد',
+  'Accuracy': 'الدقة', 'Evaluation over the game': 'التقييم على امتداد المباراة', 'Copy FEN': 'انسخ FEN', 'Copy PGN': 'انسخ PGN',
+  'Import a game or position': 'استورد مباراة أو وضعاً', 'Paste a PGN, or a FEN to set up a position.': 'الصق PGN، أو FEN لإعداد وضع.', 'PGN or FEN': 'PGN أو FEN',
+  'Choose a .pgn file': 'اختر ملف ‎.pgn', 'Load': 'حمّل',
+  'That PGN could not be read. Check it is a single, complete game.': 'تعذّرت قراءة PGN. تأكد أنه مباراة واحدة كاملة.', 'That FEN is not a legal position.': 'هذا الـ FEN ليس وضعاً قانونياً.',
+  'Add some moves first — there is nothing to review yet.': 'أضف بعض النقلات أولاً — لا يوجد ما يُراجع بعد.', 'The engine could not be started.': 'تعذّر تشغيل المحرك.',
+  '{what} copied to the clipboard.': 'نُسخ {what}.', 'Copy failed. Your browser blocked clipboard access.': 'فشل النسخ. منع المتصفح الوصول إلى الحافظة.',
+  'compatibility mode': 'وضع التوافق', 'server': 'السيرفر',
+
+  /* ── Puzzles ── */
+  'Every puzzle comes from a real game position and has a single engine-verified solution.': 'كل لغز مأخوذ من وضع مباراة حقيقية وله حل واحد تحقق منه المحرك.',
+  'Puzzle mode': 'نوع الألغاز', 'Training': 'تدريب', 'Daily': 'يومي', 'Streak': 'سلسلة', 'Puzzles are unavailable': 'الألغاز غير متاحة',
+  'Loading puzzle…': 'جارٍ تحميل اللغز…', 'Solved!': 'حُلّ!', 'Puzzle complete': 'انتهى اللغز', 'Not that one — try again': 'ليست هذه — حاول مجدداً',
+  'Your puzzle rating: {rating}': 'تصنيفك في الألغاز: {rating}', 'to earn a puzzle rating': 'لتحصل على تصنيف في الألغاز',
+  'Already attempted — rating unchanged': 'حاولته من قبل — التصنيف لم يتغير', 'Daily puzzle — the same for everyone today': 'لغز اليوم — نفسه للجميع اليوم', 'Find the best move': 'جد أفضل نقلة',
+  'More puzzles': 'ألغاز أخرى', 'New streak': 'سلسلة جديدة', 'Next puzzle': 'اللغز التالي', 'Show solution': 'اعرض الحل', 'Theme': 'النوع', 'Puzzle theme': 'نوع اللغز',
+  'Mixed': 'منوّع', 'Tactics': 'تكتيكات', 'Checkmates': 'كش مات', 'Endgames': 'نهايات', 'Endgame': 'نهاية', 'Mate in 1': 'مات بنقلة', 'Mate in 2': 'مات بنقلتين', 'Mate in 3': 'مات بثلاث نقلات', 'Checkmate_theme': 'كش مات',
+  'Puzzle streak': 'سلسلة الألغاز', 'Puzzles get harder with each solve. One wrong move ends the run.': 'تزداد الألغاز صعوبة مع كل حل. نقلة خاطئة واحدة تنهي السلسلة.',
+  'Best on this device: {n}': 'أفضل نتيجة على هذا الجهاز: {n}', 'Your performance': 'أداؤك', 'to track your puzzle rating and statistics.': 'لتتابع تصنيفك وإحصاءاتك في الألغاز.',
+  'Rating': 'التصنيف', 'Solved': 'المحلولة', 'Success': 'النجاح', 'Missed': 'لم يُحل', 'This session': 'هذه الجلسة', 'No puzzle is available yet.': 'لا يوجد لغز متاح بعد.',
+  'Rating {n}': 'التصنيف {n}', 'solved {pct}% of {n}': 'حلّه {pct}٪ من {n}',
+  'It is a forced checkmate in {n}: Stockfish found no other first move that mates.': 'كش مات إجباري في {n}: لم يجد Stockfish نقلة أولى أخرى تؤدي إلى المات.',
+  'The first move wins material by force, and the follow-up is the only way to keep the advantage. Every alternative leaves the position roughly level.':
+    'النقلة الأولى تكسب قطعاً بالقوة، والمتابعة هي الطريقة الوحيدة للحفاظ على الأفضلية. كل بديل يترك الوضع متعادلاً تقريباً.',
+  'This is the only move that wins material by force — Stockfish rates every alternative at least three pawns worse.':
+    'هذه النقلة الوحيدة التي تكسب قطعاً بالقوة — يقيّم Stockfish كل بديل بأنه أسوأ بثلاثة جنود على الأقل.',
+
+  /* ── Openings ── */
+  'Step through 3,800 named lines by ECO code. Result bars show games played on Tabiya from each position.': 'تصفّح ٣٨٠٠ خط مسمّى حسب رمز ECO. تُظهر أشرطة النتائج المباريات الملعوبة على Tabiya من كل وضع.',
+  'Start': 'البداية', 'Starting position': 'وضع البداية', 'Choose a first move below or play one on the board.': 'اختر نقلة أولى من الأسفل أو العبها على الرقعة.',
+  'Back': 'رجوع', 'Reset': 'إعادة', 'Move': 'النقلة', 'Opening': 'الافتتاحية', 'Tabiya games': 'مباريات Tabiya', 'no games yet': 'لا مباريات بعد',
+  '{n} named line follows': 'يتبعه خط مسمّى واحد', '{n} named lines follow': 'يتبعه {n} خطوط مسمّاة', 'Played here, not a named line': 'لُعبت هنا، وليست خطاً مسمّى',
+  'End of the book for this line. Keep playing on the board, or take it to analysis.': 'انتهى الكتاب لهذا الخط. تابع اللعب على الرقعة أو انقله إلى التحليل.',
+  'Search by name or ECO code (e.g. Najdorf, B90)': 'ابحث بالاسم أو رمز ECO (مثل Najdorf أو B90)', 'Search openings': 'ابحث في الافتتاحيات',
+  'No opening matches “{q}”.': 'لا توجد افتتاحية تطابق «{q}».', 'Popular openings': 'افتتاحيات شائعة', 'The opening book could not be loaded': 'تعذّر تحميل كتاب الافتتاحيات',
+
+  /* ── Leaderboard ── */
+  'Ranked by current rating.': 'الترتيب حسب التصنيف الحالي.', 'Ranked by points scored in the last {n} days (win 1, draw ½).': 'الترتيب حسب النقاط في آخر {n} يوماً (الفوز ١ والتعادل ½).',
+  'Rating category': 'فئة التصنيف', 'Period': 'الفترة', 'Scope': 'النطاق', 'All time': 'كل الأوقات', 'Month': 'الشهر', 'Week': 'الأسبوع',
+  'Global': 'عالمي', 'Country': 'الدولة', 'Following': 'من أتابعهم', 'Player': 'اللاعب', 'Points': 'النقاط', 'Games': 'المباريات', 'Wins': 'الانتصارات',
+  'Sign in to compare yourself with the players you follow.': 'سجّل الدخول لتقارن نفسك باللاعبين الذين تتابعهم.', 'Set your country in Settings to see your national ranking.': 'حدّد دولتك في الإعدادات لترى ترتيبك الوطني.',
+  'Open settings': 'افتح الإعدادات', 'The leaderboard could not be loaded': 'تعذّر تحميل قائمة المتصدرين', 'No ranked players yet': 'لا يوجد لاعبون مصنّفون بعد',
+  'Finish a {cat} game to claim the first spot.': 'أنهِ مباراة {cat} لتأخذ المركز الأول.',
+
+  /* ── Watch ── */
+  'Games being played right now. Open one to follow it move by move.': 'مباريات تُلعب الآن. افتح واحدة لتتابعها نقلةً نقلة.', 'No games in progress': 'لا توجد مباريات جارية',
+  'Be the first on the board.': 'كن أول من يلعب.', 'Play now': 'العب الآن', 'move {n}': 'النقلة {n}', '{white} versus {black}': '{white} ضد {black}',
+
+  /* ── Profile ── */
+  'Player not found': 'اللاعب غير موجود', 'Browse the leaderboard': 'تصفّح المتصدرين', 'Last seen {date}': 'آخر ظهور {date}', 'Joined {date}': 'انضم {date}',
+  '{n} follower': '{n} متابع', '{n} followers': '{n} متابعين', 'Edit profile': 'عدّل الملف الشخصي', 'Follow': 'تابِع', 'Challenge': 'تحدَّ',
+  '{n} games': '{n} مباراة', '{n} attempts': '{n} محاولة', '{cat} rating': 'تصنيف {cat}', 'Peak': 'الأعلى',
+  'The chart appears after two rated results in this category.': 'يظهر الرسم بعد نتيجتين مصنّفتين في هذه الفئة.',
+  'Recent games': 'آخر المباريات', 'No finished games yet': 'لا توجد مباريات منتهية بعد', 'Play your first game': 'العب مباراتك الأولى', 'Check back later.': 'عد لاحقاً.',
+  'vs': 'ضد', 'Win': 'فوز', 'Loss': 'خسارة', 'Statistics': 'الإحصاءات', 'Total games': 'مجموع المباريات', 'Win rate': 'نسبة الفوز',
+  'Favourite openings': 'الافتتاحيات المفضلة', 'Openings appear here once games have been played.': 'تظهر الافتتاحيات هنا بعد لعب مباريات.',
+  '{n} · {pct}% won': '{n} · فوز {pct}٪', 'Achievements': 'الإنجازات', 'None yet — they are earned by playing and solving.': 'لا شيء بعد — تُكسب باللعب وحل الألغاز.',
+  'Friends': 'الأصدقاء', 'Players who follow each other.': 'لاعبون يتابع كل منهم الآخر.', 'Not following anyone yet.': 'لا تتابع أحداً بعد.', 'Friend': 'صديق',
+  'Challenge {name}': 'تحدَّ {name}', '{name} is online and will be notified immediately.': '{name} متصل وسيصله إشعار فوراً.',
+  "{name} is offline. You'll get a link you can send them.": '{name} غير متصل. ستحصل على رابط ترسله له.', 'Send challenge_': 'أرسل التحدي',
+  'First game': 'أول مباراة', 'First win': 'أول فوز', '25 games': '٢٥ مباراة', 'Centurion · 100 games': 'المئوي · ١٠٠ مباراة', 'Peak 1600+': 'قمة ‎1600+', 'Peak 1800+': 'قمة ‎1800+',
+  'Peak 2000+': 'قمة ‎2000+', '10 puzzles solved': '١٠ ألغاز محلولة', '100 puzzles solved': '١٠٠ لغز محلول', '10 followers': '١٠ متابعين',
+
+  /* ── Settings ── */
+  'Appearance and game preferences are saved on this device. Account details are saved to your profile.': 'تُحفظ إعدادات المظهر واللعب على هذا الجهاز، وتُحفظ بيانات الحساب في ملفك الشخصي.',
+  'Appearance': 'المظهر', 'Colour theme': 'الوضع', 'Dark': 'داكن', 'Light': 'فاتح', 'Board': 'الرقعة', 'Board theme': 'شكل الرقعة', 'Pieces': 'القطع', 'Piece style': 'شكل القطع',
+  'Preview': 'معاينة', '— click a piece and move it to try the animation': '— اضغط قطعة وحرّكها لتجرب الحركة', 'Flip': 'اقلب', 'Game': 'اللعب',
+  'Sounds': 'الأصوات', 'Moves, captures, checks, game start and game end.': 'النقلات والأكل والكش وبداية المباراة ونهايتها.', 'Volume': 'مستوى الصوت', 'Test': 'جرّب',
+  'Piece animation': 'حركة القطع', 'Slides, captures, check and board flips.': 'الانزلاق والأكل والكش وقلب الرقعة.', 'Animation speed': 'سرعة الحركة', 'Fast': 'سريع', 'Normal': 'عادي', 'Slow': 'بطيء',
+  'Legal move dots': 'نقاط النقلات الممكنة', 'Show where the selected piece can go.': 'أظهر أين يمكن للقطعة المختارة أن تتحرك.', 'Board coordinates': 'إحداثيات الرقعة',
+  'Always promote to a queen': 'الترقية إلى وزير دائماً', 'Skip the promotion picker.': 'تخطَّ نافذة اختيار الترقية.',
+  'Account': 'الحساب', 'You are playing as a guest.': 'تلعب كزائر.', 'or': 'أو', 'sign in': 'سجّل الدخول', 'to set up a profile.': 'لإعداد ملف شخصي.',
+  'Profile': 'الملف الشخصي', 'Upload picture': 'ارفع صورة', 'Remove': 'إزالة', 'Profile picture': 'الصورة الشخصية', 'Not set': 'غير محدد', 'Bio': 'نبذة',
+  'Save profile': 'احفظ الملف', 'Email: {email}': 'البريد: {email}', 'Password': 'كلمة المرور', 'Current password': 'كلمة المرور الحالية', 'New password': 'كلمة المرور الجديدة',
+  'Change password': 'غيّر كلمة المرور', 'Profile saved.': 'حُفظ الملف الشخصي.', 'Password changed.': 'تغيّرت كلمة المرور.',
+  'Choose an image file.': 'اختر ملف صورة.', 'That image could not be read.': 'تعذّرت قراءة الصورة.', 'At least 8 characters.': '٨ أحرف على الأقل.',
+
+  /* ── Accounts ── */
+  'Welcome back': 'أهلاً بعودتك', 'Username or email': 'اسم المستخدم أو البريد', 'Forgot your password?': 'نسيت كلمة المرور؟', 'New to Tabiya?': 'جديد على Tabiya؟',
+  'Private to {domains} accounts.': 'خاص بحسابات {domains}.', 'Resend confirmation email': 'أعد إرسال رسالة التأكيد',
+  'Enter your email address above, then press resend.': 'اكتب بريدك في الأعلى، ثم اضغط إعادة الإرسال.', 'A new confirmation link is on its way.': 'رابط تأكيد جديد في الطريق إليك.',
+  'Create your account': 'أنشئ حسابك', 'Free, with rated games, puzzle ratings and your full game history.': 'مجاني، مع مباريات مصنّفة وتصنيف للألغاز وسجل كامل لمبارياتك.',
+  'Tabiya is private to {domains} accounts.': 'Tabiya خاص بحسابات {domains}.', 'Use your {domains} work address.': 'استخدم بريد العمل {domains}.',
+  '3–20 characters. Letters, numbers, - and _.': 'من ٣ إلى ٢٠ حرفاً: حروف إنجليزية وأرقام و - و _.', 'Email': 'البريد الإلكتروني', 'Already have an account?': 'لديك حساب؟',
+  'Check your inbox': 'تفقّد بريدك', 'We sent a confirmation link to {email}. Open it to activate your account. The link expires in 24 hours.': 'أرسلنا رابط تأكيد إلى {email}. افتحه لتفعيل حسابك. ينتهي الرابط خلال ٢٤ ساعة.',
+  'Back to sign in': 'العودة لتسجيل الدخول', 'Reset password': 'إعادة تعيين كلمة المرور', "Enter the email you signed up with and we'll send a reset link.": 'اكتب البريد الذي سجّلت به وسنرسل لك رابط إعادة التعيين.',
+  'Send reset link': 'أرسل الرابط', 'If an account exists for {email}, a reset link is on its way. It expires in one hour.': 'إذا كان هناك حساب لـ {email} فرابط إعادة التعيين في الطريق. ينتهي خلال ساعة.',
+  'This reset link is incomplete': 'رابط إعادة التعيين ناقص', 'Request a new one': 'اطلب رابطاً جديداً', 'Choose a new password': 'اختر كلمة مرور جديدة', 'Update password': 'حدّث كلمة المرور',
+  'Password updated. Sign in with your new password.': 'تم تحديث كلمة المرور. سجّل الدخول بكلمة المرور الجديدة.',
+  'Confirming…': 'جارٍ التأكيد…', 'Link not valid': 'الرابط غير صالح', 'This confirmation link is incomplete.': 'رابط التأكيد ناقص.', 'to request a new one.': 'لطلب رابط جديد.',
+  'Email confirmed. Welcome to Tabiya!': 'تم تأكيد البريد. أهلاً بك في Tabiya!',
+
+  /* ── Browser-only edition ── */
+  'Browser-only edition · runs without a server': 'نسخة المتصفح · تعمل بلا سيرفر', 'Training, daily and streak': 'تدريب ويومي وسلسلة',
+  'Play Stockfish, review games with a full-strength engine, and solve puzzles checked move by move — all inside this page.': 'العب ضد Stockfish، وراجع مبارياتك بمحرك كامل القوة، وحل ألغازاً مدقّقة نقلةً نقلة — كل ذلك داخل هذه الصفحة.',
+  'Online play needs the server': 'اللعب أونلاين يحتاج إلى السيرفر',
+  'This page is the browser-only edition of Tabiya. It has no backend, so the features below are left out here rather than imitated. They are implemented and tested in the full project.':
+    'هذه نسخة المتصفح من Tabiya، وليس لها سيرفر، لذلك الميزات أدناه غير موجودة هنا بدل تقليدها. هي مبنية ومختبرة في المشروع الكامل.',
+  'Real-time games against other players, with pairing, invitation links and chat': 'مباريات مباشرة ضد لاعبين آخرين مع الاقتران وروابط الدعوة والمحادثة',
+  'Accounts, ratings, profiles and game history': 'الحسابات والتصنيفات والملفات الشخصية وسجل المباريات', 'Leaderboards and live games to watch': 'قوائم المتصدرين ومشاهدة المباريات المباشرة',
+  'Opening statistics from games played on your server': 'إحصاءات الافتتاحيات من المباريات الملعوبة على سيرفرك', 'To use them, run the full project.': 'لاستخدامها شغّل المشروع الكامل.',
+  'Back to home': 'العودة للرئيسية', 'PGN copied to the clipboard (file downloads are unavailable in this preview).': 'نُسخ PGN (تنزيل الملفات غير متاح في هذه المعاينة).',
+  'Could not copy the PGN. Use "Copy PGN" instead.': 'تعذّر نسخ PGN. استخدم «انسخ PGN» بدلاً من ذلك.',
+
+  /* ── Server and connection messages ── */
+  'Too many sign-ups from this address. Try again later.': 'محاولات تسجيل كثيرة من هذا العنوان. حاول لاحقاً.', 'That username is taken.': 'اسم المستخدم مأخوذ.',
+  'An account with that email already exists.': 'يوجد حساب بهذا البريد.', 'Enter your username or email.': 'اكتب اسم المستخدم أو البريد.', 'Enter your password.': 'اكتب كلمة المرور.',
+  'Too many attempts. Wait a few minutes and try again.': 'محاولات كثيرة. انتظر بضع دقائق ثم حاول مجدداً.', 'Incorrect username or password.': 'اسم المستخدم أو كلمة المرور غير صحيحة.',
+  'This account has been closed.': 'هذا الحساب مغلق.', 'Confirm your email address first — check your inbox for the link we sent.': 'أكّد بريدك أولاً — تفقّد بريدك للرابط الذي أرسلناه.',
+  'This site is only for {0} addresses.': 'هذا الموقع مخصص لعناوين {0} فقط.', 'Too many requests. Try again later.': 'طلبات كثيرة. حاول لاحقاً.',
+  'This reset link is invalid or has expired. Request a new one.': 'رابط إعادة التعيين غير صالح أو منتهٍ. اطلب رابطاً جديداً.',
+  'This confirmation link is invalid or has expired. Sign in to get a new one.': 'رابط التأكيد غير صالح أو منتهٍ. سجّل الدخول لتحصل على رابط جديد.',
+  'Please sign in to continue.': 'سجّل الدخول للمتابعة.', 'Something went wrong. Please try again.': 'حدث خطأ ما. حاول مجدداً.', 'Malformed request body.': 'طلب غير صالح.',
+  'Usernames are 3–20 characters: letters, numbers, - and _.': 'اسم المستخدم من ٣ إلى ٢٠ حرفاً: حروف إنجليزية وأرقام و - و _.', 'Enter a valid email address.': 'اكتب بريداً إلكترونياً صحيحاً.',
+  'Passwords need at least 8 characters.': 'كلمة المرور تحتاج ٨ أحرف على الأقل.', 'Bio is limited to 400 characters.': 'النبذة محدودة بـ ٤٠٠ حرف.', 'Pick a country from the list.': 'اختر دولة من القائمة.',
+  'Unsupported image.': 'صورة غير مدعومة.', 'Image is too large.': 'الصورة كبيرة جداً.', 'Your current password is incorrect.': 'كلمة المرور الحالية غير صحيحة.',
+  'Enter your current password.': 'اكتب كلمة المرور الحالية.', 'Player not found.': 'اللاعب غير موجود.', 'You cannot follow yourself.': 'لا يمكنك متابعة نفسك.', 'Game not found.': 'المباراة غير موجودة.',
+  'Sign in to see how you rank among the players you follow.': 'سجّل الدخول لترى ترتيبك بين من تتابعهم.', 'Puzzle not found.': 'اللغز غير موجود.',
+  'Invalid time control.': 'وقت لعب غير صالح.', 'Your account cannot play rated games.': 'حسابك لا يستطيع لعب مباريات مصنّفة.', 'Unlimited games cannot be rated.': 'المباريات بلا وقت لا يمكن أن تكون مصنّفة.',
+  'You cannot challenge yourself.': 'لا يمكنك تحدي نفسك.', 'This is a rated game. Sign in to accept it.': 'هذه مباراة مصنّفة. سجّل الدخول لتقبلها.', 'Game is not in progress.': 'المباراة ليست جارية.',
+  'Not your turn.': 'ليس دورك.', 'Illegal move.': 'نقلة غير قانونية.', 'Something went wrong on the server.': 'حدث خطأ في السيرفر.',
+  'The server did not respond. Check your connection.': 'لم يستجب السيرفر. تحقق من اتصالك.', 'Could not reach the server. Check your connection and try again.': 'تعذّر الوصول إلى السيرفر. تحقق من اتصالك وحاول مجدداً.',
+  'Request failed ({status}).': 'فشل الطلب ({status}).', 'Server engine is not available.': 'محرك السيرفر غير متاح.',
+  'The chess engine could not start here. If you opened this file in a preview panel, download it and open it directly in your browser.': 'تعذّر تشغيل محرك الشطرنج هنا. إذا فتحت الملف في نافذة معاينة، نزّله وافتحه مباشرة في متصفحك.',
+  'The chess engine failed to load.': 'فشل تحميل محرك الشطرنج.', 'Your browser could not start the chess engine.': 'لم يستطع متصفحك تشغيل محرك الشطرنج.',
+  'No puzzles available.': 'لا توجد ألغاز متاحة.', 'This needs the Tabiya server, which is not part of the browser-only edition.': 'هذا يحتاج إلى سيرفر Tabiya، وهو ليس جزءاً من نسخة المتصفح.',
+
+  /* ── Board themes ── */
+  'Walnut': 'جوز', 'Maple': 'قيقب', 'Rosewood': 'خشب الورد', 'Marble': 'رخام', 'Stone': 'حجر', 'Slate': 'أردواز', 'Glacier': 'جليد', 'Moss': 'طحلب', 'Emerald': 'زمرد',
+  'Sand': 'رمل', 'Coral': 'مرجان', 'Candy': 'حلوى', 'Dusk': 'غسق', 'Ink': 'حبر', 'Midnight': 'منتصف الليل', 'Cyber': 'سايبر', 'Original': 'تصميم أصلي',
+};

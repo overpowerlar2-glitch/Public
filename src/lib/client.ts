@@ -1,5 +1,6 @@
 'use client';
 import useSWR, { mutate } from 'swr';
+import { currentLang, translateMessage, tx } from './i18n';
 
 export async function api<T = unknown>(path: string, init?: Omit<RequestInit, 'body'> & { body?: unknown }): Promise<T> {
   let res: Response;
@@ -9,9 +10,9 @@ export async function api<T = unknown>(path: string, init?: Omit<RequestInit, 'b
       headers: init?.body !== undefined ? { 'content-type': 'application/json' } : undefined,
       body: init?.body !== undefined ? JSON.stringify(init.body) : undefined,
     });
-  } catch { throw new Error('Could not reach the server. Check your connection and try again.'); }
+  } catch { throw new Error(tx('Could not reach the server. Check your connection and try again.')); }
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error((data as { error?: string }).error || `Request failed (${res.status}).`);
+  if (!res.ok) throw new Error(translateMessage(currentLang(), (data as { error?: string }).error || '') || tx('Request failed ({status}).', { status: res.status }));
   return data as T;
 }
 

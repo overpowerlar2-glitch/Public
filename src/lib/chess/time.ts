@@ -28,9 +28,9 @@ export function categoryOf(tc: TimeControl): Category {
   return 'classical';
 }
 
-export function tcLabel(tc: TimeControl): string {
-  if (tc.days) return `${tc.days} day${tc.days > 1 ? 's' : ''}/move`;
-  if (tc.initial == null) return 'Unlimited';
+export function tcLabel(tc: TimeControl, tr: (s: string, v?: Record<string, string | number>) => string = (s, v) => s.replace('{n}', String(v?.n ?? ''))): string {
+  if (tc.days) return tr(tc.days > 1 ? '{n} days/move' : '{n} day/move', { n: tc.days });
+  if (tc.initial == null) return tr('Unlimited');
   const m = tc.initial / 60;
   return `${Number.isInteger(m) ? m : m.toFixed(1)}+${tc.increment}`;
 }

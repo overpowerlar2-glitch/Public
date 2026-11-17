@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Chess, type Square } from 'chess.js';
 import { ANIM_MS, useSettings } from '@/lib/store';
 import type { Color } from '@/lib/types';
+import { useT } from '@/lib/i18n';
 
 export type BoardMove = { from: string; to: string; promotion?: string };
 export type Arrow = { from: string; to: string; color?: string };
@@ -30,6 +31,7 @@ type Props = {
 const FILES = 'abcdefgh';
 
 export function Board({ fen, orientation = 'w', movable = null, onMove, lastMove, arrows, hint, wrong, blindfold, mini, label }: Props) {
+  const tr = useT();
   const { pieces: set, coords, legalDots, autoQueen, animation: animOn, animSpeed } = useSettings();
   const animation = animOn && !blindfold;
   const animMs = ANIM_MS[animSpeed] ?? ANIM_MS.normal;
@@ -205,7 +207,7 @@ export function Board({ fen, orientation = 'w', movable = null, onMove, lastMove
       className={`board ${canMove ? 'can-move' : ''} ${animation && (flipping || justFlipped) ? 'flipping' : ''}`}
       style={{ '--anim-ms': `${animMs}ms` } as React.CSSProperties}
       role="img"
-      aria-label={label ?? `Chess board, ${turn === 'w' ? 'White' : 'Black'} to move`}
+      aria-label={label ?? tr(turn === 'w' ? 'Chess board, White to move' : 'Chess board, Black to move')}
       onPointerDown={onPointerDown} onPointerMove={onPointerMove} onPointerUp={onPointerUp} onPointerCancel={onPointerUp}
       onContextMenu={(e) => e.preventDefault()}
     >
@@ -284,9 +286,9 @@ export function Board({ fen, orientation = 'w', movable = null, onMove, lastMove
         return (
           <>
             <div className="absolute inset-0 z-[9] bg-black/35" onPointerDown={(e) => { e.stopPropagation(); setPromo(null); }} />
-            <div className="promo" style={{ left: `${p.x * 12.5}%`, [top ? 'top' : 'bottom']: 0 }} role="dialog" aria-label="Choose promotion piece" onPointerDown={(e) => e.stopPropagation()}>
+            <div className="promo" style={{ left: `${p.x * 12.5}%`, [top ? 'top' : 'bottom']: 0 }} role="dialog" aria-label={tr("Choose promotion piece")} onPointerDown={(e) => e.stopPropagation()}>
               {(top ? ['q', 'n', 'r', 'b'] : ['b', 'r', 'n', 'q']).map((t) => (
-                <button key={t} aria-label={{ q: 'Queen', n: 'Knight', r: 'Rook', b: 'Bishop' }[t]} style={{ backgroundImage: img(turn, t) }}
+                <button key={t} aria-label={tr({ q: 'Queen', n: 'Knight', r: 'Rook', b: 'Bishop' }[t]!)} style={{ backgroundImage: img(turn, t) }}
                   onClick={() => { const m = promo; setPromo(null); onMove?.({ ...m, promotion: t }); }} />
               ))}
             </div>

@@ -12,6 +12,7 @@ import { api, refreshMe, useMe } from '@/lib/client';
 import { play, playMove } from '@/lib/sound';
 import type { PuzzleDTO } from '@/lib/puzzles';
 import type { Color } from '@/lib/types';
+import { tx, useT } from '@/lib/i18n';
 
 type Mode = 'training' | 'daily' | 'streak';
 type Status = 'loading' | 'lead' | 'solving' | 'solved' | 'failed';
@@ -35,14 +36,15 @@ function explain(p: PuzzleDTO) {
   });
   const mate = p.themes.find((t) => t.startsWith('mateIn'));
   const why = mate
-    ? `It is a forced checkmate in ${mate.slice(6)}: Stockfish found no other first move that mates.`
+    ? 'It is a forced checkmate in {n}: Stockfish found no other first move that mates.'
     : p.solution.length > 1
       ? 'The first move wins material by force, and the follow-up is the only way to keep the advantage. Every alternative leaves the position roughly level.'
       : 'This is the only move that wins material by force — Stockfish rates every alternative at least three pawns worse.';
-  return { line: text.trim(), why };
+  return { line: text.trim(), why, n: mate ? mate.slice(6) : '' }; // `why` is an English key, translated when shown
 }
 
 function Puzzles() {
+  const tr = useT();
   const router = useRouter();
   const params = useSearchParams();
   const mode = (['training', 'daily', 'streak'].includes(params.get('mode') ?? '') ? params.get('mode') : 'training') as Mode;
@@ -83,7 +85,7 @@ function Puzzles() {
         p = (await api<{ puzzle: PuzzleDTO }>(`/api/puzzles/next?${q}`)).puzzle;
       }
       if (my !== token.current) return;
-      if (!p) throw new Error('No puzzle is available yet.');
+      if (!p) throw new Error(tx('No puzzle is available yet.'));
       seen.current.push(p.id);
       setPuzzle(p); setFen(p.fen); setStatus('lead');
       // Show the position first, then play the opponent's move that creates the puzzle.
@@ -166,13 +168,13 @@ function Puzzles() {
 
   return (
     <div>
-      <PageHeader title="Puzzles" sub="Every puzzle comes from a real game position and has a single engine-verified solution.">
-        <Segmented label="Puzzle mode" value={mode} onChange={(m) => router.replace(m === 'training' ? '/puzzles' : `/puzzles?mode=${m}`)} options={[{ value: 'training', label: 'Training' }, { value: 'daily', label: 'Daily' }, { value: 'streak', label: 'Streak' }]} />
+      <PageHeader title={tr("Puzzles")} sub={tr("Every puzzle comes from a real game position and has a single engine-verified solution.")}>
+        <Segmented label={tr("Puzzle mode")} value={mode} onChange={(m) => router.replace(m === 'training' ? '/puzzles' : `/puzzles?mode=${m}`)} options={[{ value: 'training', label: 'Training' }, { value: 'daily', label: 'Daily' }, { value: 'streak', label: 'Streak' }]} />
       </PageHeader>
 
       <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div className="mx-auto w-full" style={{ maxWidth: 'min(100%, calc(100dvh - 12rem))' }}>
-          {error ? <Empty title="Puzzles are unavailable">{error} <button className="text-accent hover:underline" onClick={() => loadNext(streak)}>Try again</button></Empty>
+          {error ? <Empty title={tr("Puzzles are unavailable")}>{error} <button className="text-accent hover:underline" onClick={() => loadNext(streak)}>{tr("Try again")}</button></Empty>
             : !fen || !solver ? <Skeleton className="aspect-square w-full" />
             : <div className={cx(wrong && 'shake')}><Board fen={fen} orientation={solver} movable={status === 'solving' ? solver : null} onMove={onMove} lastMove={last} hint={hint} wrong={wrong} /></div>}
         </div>
@@ -185,13 +187,12 @@ function Puzzles() {
                 : solver && <span className={cx('size-10 rounded-full border-2 border-line', solver === 'w' ? 'bg-[#f1efe9]' : 'bg-[#222]')} />}
               <div className="min-w-0 flex-1">
                 <p className="font-display text-2xl leading-tight">
-                  {status === 'loading' ? 'Loading puzzle…' : status === 'solved' ? 'Solved!' : status === 'failed' ? 'Puzzle complete' : mistake ? 'Not that one — try again' : `${solver === 'w' ? 'White' : 'Black'} to move`}
+                  {tr(status === 'loading' ? 'Loading puzzle…' : status === 'solved' ? 'Solved!' : status === 'failed' ? 'Puzzle complete' : mistake ? 'Not that one — try again' : solver === 'w' ? 'White to move' : 'Black to move')}
                 </p>
                 <p className="text-sm text-mute">
-                  {done && outcome?.rated ? <>Your puzzle rating: <span className="tnum font-mono text-ink">{outcome.rating}</span> <span className={cx('tnum font-mono', (outcome.diff ?? 0) >= 0 ? 'text-good' : 'text-bad')}>{(outcome.diff ?? 0) >= 0 ? '+' : ''}{outcome.diff}</span></>
-                    : done && !me ? <><Link href="/login" className="text-accent hover:underline">Sign in</Link> to earn a puzzle rating</>
-                    : done ? 'Already attempted — rating unchanged'
-                    : mode === 'daily' ? 'Daily puzzle — the same for everyone today' : 'Find the best move'}
+                  {done && outcome?.rated ? <>{tr('Your puzzle rating: {rating}', { rating: outcome.rating ?? '' })} <span className={cx('tnum font-mono', (outcome.diff ?? 0) >= 0 ? 'text-good' : 'text-bad')}>{(outcome.diff ?? 0) >= 0 ? '+' : ''}{outcome.diff}</span></>
+                    : done && !me ? <><Link href="/login" className="text-accent hover:underline">{tr("Sign in")}</Link> {tr("to earn a puzzle rating")}</>
+                    : tr(done ? 'Already attempted — rating unchanged' : mode === 'daily' ? 'Daily puzzle — the same for everyone today' : 'Find the best move')}
                 </p>
               </div>
               {mode === 'streak' && <span className="flex items-center gap-1 font-mono text-2xl font-semibold text-accent"><Flame className="size-5" />{streak}</span>}
@@ -200,10 +201,10 @@ function Puzzles() {
             {ex && puzzle && (
               <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="border-t border-line px-4 py-3 text-sm">
                 <p className="font-mono text-[13px] font-semibold">{ex.line}</p>
-                <p className="mt-1.5 text-mute">{ex.why}</p>
+                <p className="mt-1.5 text-mute">{tr(ex.why, { n: ex.n })}</p>
                 <div className="mt-3 flex flex-wrap items-center gap-1.5">
-                  {puzzle.themes.map((t) => <span key={t} className="rounded-full bg-raised px-2.5 py-0.5 text-xs">{THEME_LABEL[t] ?? t}</span>)}
-                  <span className="ml-auto text-xs text-mute">Rating <span className="tnum font-mono text-ink">{puzzle.rating}</span>{puzzle.plays > 0 && <> · solved {Math.round((puzzle.solves / puzzle.plays) * 100)}% of {puzzle.plays}</>}</span>
+                  {puzzle.themes.map((t) => <span key={t} className="rounded-full bg-raised px-2.5 py-0.5 text-xs">{tr(THEME_LABEL[t] === 'Checkmate' ? 'Checkmate_theme' : THEME_LABEL[t] ?? t)}</span>)}
+                  <span className="ms-auto text-xs text-mute">{tr('Rating {n}', { n: puzzle.rating })}{puzzle.plays > 0 && <> · {tr('solved {pct}% of {n}', { pct: Math.round((puzzle.solves / puzzle.plays) * 100), n: puzzle.plays })}</>}</span>
                 </div>
               </motion.div>
             )}
@@ -211,41 +212,41 @@ function Puzzles() {
             <div className="flex flex-wrap gap-2 border-t border-line p-3">
               {done ? (
                 <>
-                  {mode === 'daily' ? <Button variant="primary" onClick={() => router.replace('/puzzles')}>More puzzles <ArrowRight className="size-4" /></Button>
-                    : mode === 'streak' && streakOver ? <Button variant="primary" onClick={() => { setStreak(0); setStreakOver(false); loadNext(0); }}><RotateCcw className="size-4" /> New streak</Button>
-                    : <Button variant="primary" onClick={() => loadNext(streak + (mode === 'streak' && status === 'solved' ? 1 : 0))}>Next puzzle <ArrowRight className="size-4" /></Button>}
-                  {fen && <Button href={`/analysis?fen=${encodeURIComponent(fen)}`} variant="ghost"><Microscope className="size-4" /> Analyse</Button>}
+                  {mode === 'daily' ? <Button variant="primary" onClick={() => router.replace('/puzzles')}>{tr("More puzzles")} <ArrowRight className="size-4" /></Button>
+                    : mode === 'streak' && streakOver ? <Button variant="primary" onClick={() => { setStreak(0); setStreakOver(false); loadNext(0); }}><RotateCcw className="size-4" /> {tr("New streak")}</Button>
+                    : <Button variant="primary" onClick={() => loadNext(streak + (mode === 'streak' && status === 'solved' ? 1 : 0))}>{tr("Next puzzle")} <ArrowRight className="size-4" /></Button>}
+                  {fen && <Button href={`/analysis?fen=${encodeURIComponent(fen)}`} variant="ghost"><Microscope className="size-4" /> {tr("Analyse")}</Button>}
                 </>
               ) : (
                 <>
-                  <Button variant="ghost" disabled={status !== 'solving'} onClick={() => puzzle && setHint(puzzle.solution[step.current].slice(0, 2))}><Lightbulb className="size-4" /> Hint</Button>
-                  <Button variant="ghost" disabled={status !== 'solving'} onClick={showSolution}><Eye className="size-4" /> Show solution</Button>
+                  <Button variant="ghost" disabled={status !== 'solving'} onClick={() => puzzle && setHint(puzzle.solution[step.current].slice(0, 2))}><Lightbulb className="size-4" /> {tr("Hint")}</Button>
+                  <Button variant="ghost" disabled={status !== 'solving'} onClick={showSolution}><Eye className="size-4" /> {tr("Show solution")}</Button>
                 </>
               )}
             </div>
           </Card>
 
           {mode === 'training' && (
-            <Card className="p-4"><p className="mb-2 text-[13px] font-medium">Theme</p><Segmented size="sm" label="Puzzle theme" value={theme} onChange={setTheme} options={THEMES} /></Card>
+            <Card className="p-4"><p className="mb-2 text-[13px] font-medium">{tr("Theme")}</p><Segmented size="sm" label={tr("Puzzle theme")} value={theme} onChange={setTheme} options={THEMES} /></Card>
           )}
           {mode === 'streak' && (
-            <Card className="p-4 text-sm"><p className="font-semibold">Puzzle streak</p><p className="mt-1 text-mute">Puzzles get harder with each solve. One wrong move ends the run.</p><p className="mt-2">Best on this device: <span className="tnum font-mono font-semibold text-accent">{best}</span></p></Card>
+            <Card className="p-4 text-sm"><p className="font-semibold">{tr("Puzzle streak")}</p><p className="mt-1 text-mute">{tr("Puzzles get harder with each solve. One wrong move ends the run.")}</p><p className="mt-2">{tr('Best on this device: {n}', { n: best })}</p></Card>
           )}
 
           <Card className="p-4">
-            <p className="mb-3 text-[13px] font-semibold uppercase tracking-[0.12em] text-mute">Your performance</p>
-            {!me ? <p className="text-sm text-mute"><Link href="/register" className="text-accent hover:underline">Create an account</Link> to track your puzzle rating and statistics.</p>
+            <p className="mb-3 text-[13px] font-semibold uppercase tracking-[0.12em] text-mute">{tr("Your performance")}</p>
+            {!me ? <p className="text-sm text-mute"><Link href="/register" className="text-accent hover:underline">{tr("Create an account")}</Link> {tr("to track your puzzle rating and statistics.")}</p>
               : !stats ? <Skeleton className="h-20" /> : (
                 <>
                   <div className="grid grid-cols-3 gap-2 text-center">
-                    {[['Rating', stats.rating ?? 1500], ['Solved', stats.solved], ['Success', solveRate != null ? `${solveRate}%` : '–']].map(([l, v]) => <div key={l as string} className="rounded-lg bg-raised py-2.5"><p className="tnum font-mono text-xl font-semibold">{v}</p><p className="text-xs text-mute">{l}</p></div>)}
+                    {[['Rating', stats.rating ?? 1500], ['Solved', stats.solved], ['Success', solveRate != null ? `${solveRate}%` : '–']].map(([l, v]) => <div key={l as string} className="rounded-lg bg-raised py-2.5"><p className="tnum font-mono text-xl font-semibold">{v}</p><p className="text-xs text-mute">{tr(l as string)}</p></div>)}
                   </div>
                   {stats.themes.length > 0 && <div className="mt-3 space-y-1.5">{stats.themes.filter((t) => !t.theme.startsWith('mateIn')).map((t) => (
-                    <div key={t.theme} className="flex items-center gap-2 text-xs"><span className="w-20 text-mute">{THEME_LABEL[t.theme] ?? t.theme}</span><span className="h-1.5 flex-1 overflow-hidden rounded-full bg-raised"><span className="block h-full bg-good" style={{ width: `${(t.solved / t.attempts) * 100}%` }} /></span><span className="tnum w-12 text-right font-mono">{t.solved}/{t.attempts}</span></div>
+                    <div key={t.theme} className="flex items-center gap-2 text-xs"><span className="w-20 text-mute">{tr(THEME_LABEL[t.theme] ?? t.theme)}</span><span className="h-1.5 flex-1 overflow-hidden rounded-full bg-raised"><span className="block h-full bg-good" style={{ width: `${(t.solved / t.attempts) * 100}%` }} /></span><span className="tnum w-12 text-end font-mono">{t.solved}/{t.attempts}</span></div>
                   ))}</div>}
                 </>
               )}
-            {session.length > 0 && <div className="mt-3 flex flex-wrap gap-1" aria-label="This session">{session.map((s, i) => <span key={i} className={cx('size-2.5 rounded-full', s ? 'bg-good' : 'bg-bad')} title={s ? 'Solved' : 'Missed'} />)}</div>}
+            {session.length > 0 && <div className="mt-3 flex flex-wrap gap-1" aria-label={tr("This session")}>{session.map((s, i) => <span key={i} className={cx('size-2.5 rounded-full', s ? 'bg-good' : 'bg-bad')} title={tr(s ? 'Solved' : 'Missed')} />)}</div>}
           </Card>
         </div>
       </div>
