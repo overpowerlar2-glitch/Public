@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import useSWR from 'swr';
 import { BookOpen, Eye, LogIn, LogOut, Microscope, Moon, Puzzle, Search, Settings, Sun, Swords, Trophy, Home, Play } from 'lucide-react';
-import { api, refreshMe, useMe } from '@/lib/client';
+import { api, useMe } from '@/lib/client';
 import { useSettings } from '@/lib/store';
-import { emitAck, getSocket, resetSocket } from '@/lib/socket';
+import { emitAck, getSocket } from '@/lib/socket';
 import { Avatar, Button, cx, flag, toast } from './ui';
 
 const NAV = [
@@ -104,7 +104,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
   useEffect(() => setMounted(true), []);
 
   async function logout() {
-    try { await api('/api/auth/logout', { method: 'POST' }); await refreshMe(); resetSocket(); router.push('/'); toast.info('Signed out.'); }
+    try { await api('/api/auth/logout', { method: 'POST' }); window.location.assign(restricted ? '/login' : '/'); }
     catch (e) { toast.error((e as Error).message); }
   }
 

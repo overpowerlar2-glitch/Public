@@ -1,15 +1,12 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { AuthCard } from '@/components/auth-card';
-import { Field, Input, toast } from '@/components/ui';
-import { api, refreshMe, useMe } from '@/lib/client';
+import { Field, Input } from '@/components/ui';
+import { api, useMe } from '@/lib/client';
 import { Card } from '@/components/ui';
-import { resetSocket } from '@/lib/socket';
 
 export default function RegisterPage() {
-  const router = useRouter();
   const { domains } = useMe();
   const [f, setF] = useState({ username: '', email: '', password: '' });
   const [sent, setSent] = useState(false);
@@ -27,7 +24,7 @@ export default function RegisterPage() {
       onSubmit={async () => {
         const r = await api<{ verify?: boolean }>('/api/auth/register', { method: 'POST', body: f });
         if (r.verify) return setSent(true);
-        await refreshMe(); resetSocket(); toast.success('Account created. Welcome to Tabiya!'); router.push('/');
+        window.location.assign('/');
       }}
       footer={<>Already have an account? <Link href="/login" className="font-medium text-accent hover:underline">Sign in</Link></>}>
       <Field label="Username" hint="3–20 characters. Letters, numbers, - and _."><Input value={f.username} onChange={on('username')} autoComplete="username" autoFocus required maxLength={20} /></Field>

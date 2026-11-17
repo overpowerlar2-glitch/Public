@@ -1,14 +1,13 @@
 'use client';
 import { Suspense, useState } from 'react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { AuthCard } from '@/components/auth-card';
 import { Button, Field, Input, toast } from '@/components/ui';
 import { api, refreshMe, useMe } from '@/lib/client';
 import { resetSocket } from '@/lib/socket';
 
 function Login() {
-  const router = useRouter();
   const next = useSearchParams().get('next');
   const { domains } = useMe();
   const [login, setLogin] = useState('');
@@ -28,7 +27,9 @@ function Login() {
         try {
           const u = await api<{ username: string }>('/api/auth/login', { method: 'POST', body: { login, password } });
           await refreshMe(); resetSocket(); toast.success(`Signed in as ${u.username}.`);
-          router.push(next && next.startsWith('/') && !next.startsWith('//') ? next : '/');
+          // Full page load, not client-side navigation: links prefetched while signed out are cached as
+          // redirects to this page, and the client router would keep following them.
+          window.location.assign(next && next.startsWith('/') && !next.startsWith('//') ? next : '/');
         } catch (e) { if ((e as Error).message.startsWith('Confirm your email')) setUnverified(true); throw e; }
       }}
       footer={<>New to Tabiya? <Link href="/register" className="font-medium text-accent hover:underline">Create an account</Link></>}>
