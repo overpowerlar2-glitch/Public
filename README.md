@@ -14,9 +14,9 @@ docker compose up --build
 
 The first build takes several minutes (it also compiles native Stockfish; `STOCKFISH=0 docker compose up --build` skips that). Then:
 
-- the site is at http://localhost:3000, private to `@totersapp.com` addresses by default
+- the site is at http://localhost:3000, open to everyone; visitors can play without an account
 - confirmation emails are caught by Mailpit at http://localhost:8025; nothing is really sent
-- `ALLOWED_EMAIL_DOMAINS= docker compose up` opens the site to any address
+- `ALLOWED_EMAIL_DOMAINS=totersapp.com docker compose up` makes it private to that domain
 - `docker compose down` stops it; add `-v` to also delete the database
 
 The Docker files were checked for syntax, but the image build itself has not been run yet (the build environment could not reach Docker Hub).
@@ -66,7 +66,7 @@ Check a running server: `node scripts/e2e.mjs http://localhost:3000` (34 checks 
 - Disconnect detection with a 60-second forfeit window, reconnection to the same seat, "game in progress" pill on every page
 - Spectating and a live games page
 - Active games are written to the database on every move and restored after a server restart
-- Guests can play casual games without an account
+- Anonymous play, as on Lichess: visitors get a guest name and can quick-pair, invite by link, play the computer, solve puzzles and analyse without an account. Guest games are always casual; rated games need an account
 
 **Engine** — two back ends behind one interface. If `bin/stockfish` exists, computer play, hints, analysis and game review run on native Stockfish 19 (full network) on the server through a process pool; each search is time-boxed to 10 seconds and each connection gets one search at a time. Otherwise, or if the server engine stops answering, the page uses Stockfish 19 lite (WASM) in the browser.
 

@@ -18,8 +18,8 @@ services:
     environment:
       DATABASE_URL: postgresql://tabiya:tabiya@db:5432/tabiya
       APP_URL: ${APP_URL:-http://localhost:3000}
-      # Who may sign up. Empty it (ALLOWED_EMAIL_DOMAINS=) to open the site to everyone.
-      ALLOWED_EMAIL_DOMAINS: ${ALLOWED_EMAIL_DOMAINS-totersapp.com}
+      # Open to everyone by default, including anonymous play. Set e.g. ALLOWED_EMAIL_DOMAINS=totersapp.com to make it private.
+      ALLOWED_EMAIL_DOMAINS: ${ALLOWED_EMAIL_DOMAINS:-}
       # Real mail server for production, e.g. smtps://user:pass@smtp.example.com. Defaults to the local Mailpit.
       SMTP_URL: ${SMTP_URL:-smtp://mail:1025}
       MAIL_FROM: ${MAIL_FROM:-Tabiya <no-reply@localhost>}
