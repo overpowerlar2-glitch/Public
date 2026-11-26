@@ -1,0 +1,5 @@
+{
+  "name": "noomi-store",
+  "private": true,
+  "engines": { "node": "22.x" }
+}
