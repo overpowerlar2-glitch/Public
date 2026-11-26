@@ -1,3 +1,5 @@
+const { saveOrder } = require('../lib/orders');
+
 const PAY = { cod: 'الدفع نقداً عند الاستلام', 'card-on-delivery': 'بطاقة عند الاستلام', bank: 'تحويل بنكي' };
 const money = (n) => '$' + Number(n || 0).toFixed(2).replace(/\.00$/, '');
 const s = (v, max = 300) => String(v ?? '').slice(0, max);
@@ -26,17 +28,10 @@ function buildText(o) {
 
 const valid = (o) => o && o.id && o.customer && Array.isArray(o.items) && o.items.length > 0;
 
-module.exports = async (req, res) => {
-  if (req.method !== 'POST') return res.status(405).json({ ok: false });
-  let body = req.body;
-  if (typeof body === 'string') { try { body = JSON.parse(body); } catch { body = null; } }
-  const order = body && body.order;
-  if (!valid(order)) return res.status(400).json({ ok: false, error: 'invalid order' });
-
+async function sendTelegram(order) {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
-  if (!token || !chatId) return res.status(500).json({ ok: false, error: 'not configured' });
-
+  if (!token || !chatId) return false;
   try {
     const r = await fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
       method: 'POST',
@@ -44,13 +39,27 @@ module.exports = async (req, res) => {
       body: JSON.stringify({ chat_id: chatId, text: buildText(order) }),
     });
     const data = await r.json().catch(() => ({}));
-    if (!r.ok || !data.ok) {
-      console.error('telegram error', r.status, data.description);
-      return res.status(502).json({ ok: false, error: data.description || 'telegram error' });
-    }
-    return res.status(200).json({ ok: true });
+    if (!r.ok || !data.ok) console.error('telegram error', r.status, data.description);
+    return r.ok && data.ok;
   } catch (e) {
-    console.error('network', e && e.message);
-    return res.status(502).json({ ok: false, error: 'network' });
+    console.error('telegram network', e && e.message);
+    return false;
   }
+}
+
+module.exports = async (req, res) => {
+  if (req.method !== 'POST') return res.status(405).json({ ok: false });
+  let body = req.body;
+  if (typeof body === 'string') { try { body = JSON.parse(body); } catch { body = null; } }
+  const order = body && body.order;
+  if (!valid(order)) return res.status(400).json({ ok: false, error: 'invalid order' });
+
+  let saved = null;
+  try {
+    saved = await saveOrder(order);
+  } catch (e) {
+    console.error('save failed', e && e.message);
+  }
+  const sent = await sendTelegram(saved || order);
+  return res.status(sent || saved ? 200 : 502).json({ ok: sent || !!saved, saved: !!saved, telegram: sent });
 };

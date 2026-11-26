@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#11224C">
+<title>لوحة نعومي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a calm shop ledger, the owner checking takings at night
+   IDEA: the brass-ruled account book of a perfumer's workshop
+   PICTURE: the daily takings bar chart, large, under the totals
+   COLOUR and TYPE: navy #11224C ground band, paper, brass accent; IBM Plex Sans Arabic
+   LAYOUT: navy header with totals, chart, then the order ledger */
+:root{color-scheme:light;--bg:#F4F2ED;--card:#fff;--ink:#1A1612;--mute:#76716A;--line:#E3DED4;--navy:#11224C;--brass:#C9982F;--green:#3E5A46;--red:#8C2F2B;--sand:#EFE3C8}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "IBM Plex Sans Arabic",system-ui,sans-serif;overflow-x:clip}
+button,input,select{font:inherit}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;white-space:nowrap}
+header{background:var(--navy);color:#fff;padding:22px max(4vw,16px) 26px}
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;max-width:1240px;margin:0 auto}
+.brand{font-size:24px;font-weight:700;letter-spacing:.02em}.brand small{display:block;font-size:14px;font-weight:400;color:#C7CCDA}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tab{min-height:40px;padding:6px 14px;border-radius:999px;border:1px solid #ffffff40;background:transparent;color:#fff;cursor:pointer}
+.tab[aria-pressed=true]{background:var(--brass);border-color:var(--brass);color:var(--navy);font-weight:600}
+.kpis{max-width:1240px;margin:22px auto 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.kpi{border-top:2px solid var(--brass);padding-top:10px}
+.kpi b{display:block;font-size:clamp(24px,3.4vw,36px);line-height:1.15;font-weight:700}
+.kpi span{font-size:14px;color:#C7CCDA}
+main{max-width:1240px;margin:0 auto;padding:22px max(4vw,16px) 60px;display:grid;gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+h2{margin:0 0 12px;font-size:18px}
+.chart{display:flex;align-items:flex-end;gap:4px;height:200px;border-bottom:1px solid var(--line);padding-top:24px}
+.bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;position:relative}
+.bar i{display:block;width:100%;max-width:38px;background:var(--navy);border-radius:4px 4px 0 0;min-height:2px}
+.bar i.zero{background:var(--line)}
+.bar em{position:absolute;bottom:calc(var(--h) + 4px);font-style:normal;font-size:11px;color:var(--mute);white-space:nowrap}
+.xl{display:flex;gap:4px;margin-top:6px}.xl span{flex:1;text-align:center;font-size:11px;color:var(--mute);white-space:nowrap;overflow:hidden}
+.split{display:grid;grid-template-columns:1.6fr 1fr;gap:18px}
+.st-row{display:grid;grid-template-columns:7em 1fr 3em;align-items:center;gap:10px;margin:8px 0;font-size:15px}
+.st-row div{height:10px;border-radius:5px;background:var(--line);overflow:hidden}.st-row div i{display:block;height:100%}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.tools input{flex:1;min-width:200px;height:44px;border:1px solid var(--line);border-radius:8px;padding:0 12px;font-size:16px;background:#fff}
+.btn{height:44px;padding:0 16px;border-radius:8px;border:1px solid var(--navy);background:var(--navy);color:#fff;cursor:pointer;font-weight:600}
+.btn.ghost{background:#fff;color:var(--navy)}
+.btn:focus-visible,.tab:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--brass);outline-offset:2px}
+.list{display:grid;gap:8px}
+details.o{border:1px solid var(--line);border-radius:10px;background:#fff}
+details.o summary{list-style:none;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:12px 14px;cursor:pointer;min-height:56px}
+details.o summary::-webkit-details-marker{display:none}
+.who b{display:block}.who span,.when{font-size:13px;color:var(--mute)}
+.pill{font-size:13px;font-weight:600;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.pending{background:var(--sand);color:#6B4E12}.confirmed{background:#E4E8F2;color:var(--navy)}.shipped{background:var(--navy);color:#fff}.delivered{background:#E2ECE4;color:var(--green)}.cancelled{background:#F4E2E1;color:var(--red)}
+.body{border-top:1px solid var(--line);padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:18px;font-size:15px}
+.body h3{margin:0 0 6px;font-size:14px;color:var(--mute);font-weight:500}
+.body p{margin:2px 0}.body a{color:var(--navy);font-weight:600}
+.items div{display:flex;justify-content:space-between;gap:10px;padding:3px 0}
+.items .t{border-top:1px solid var(--line);margin-top:6px;padding-top:8px;font-weight:700}
+.body select{height:44px;border:1px solid var(--line);border-radius:8px;padding:0 10px;background:#fff;margin-top:8px;width:100%;max-width:240px}
+.empty{padding:40px 10px;text-align:center;color:var(--mute)}
+.login{min-height:100vh;display:grid;place-items:center;padding:20px}
+.login form{width:min(380px,100%);background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px;display:grid;gap:12px}
+.login h1{margin:0;font-size:24px;color:var(--navy)}.login p{margin:0;color:var(--mute)}
+.login input{height:48px;border:1px solid var(--line);border-radius:8px;padding:0 12px;font-size:16px;direction:ltr}
+.err{color:var(--red);font-size:14px;min-height:1.4em}
+.toast{position:fixed;bottom:18px;inset-inline:0;margin:auto;width:fit-content;max-width:90vw;background:var(--ink);color:#fff;padding:10px 16px;border-radius:8px;opacity:0;transition:opacity .25s;pointer-events:none}
+.toast.on{opacity:1}
+[hidden]{display:none!important}
+@media(max-width:800px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.split{grid-template-columns:1fr}}
+@media(max-width:600px){details.o summary{grid-template-columns:minmax(0,1fr) auto;row-gap:4px}.when{grid-column:1}.body{grid-template-columns:1fr}.bar em{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<section class="login" id="login">
+  <form id="loginForm">
+    <h1>لوحة نعومي</h1>
+    <p>اكتب كلمة السر حتى تشوف الطلبات والمبيعات.</p>
+    <input id="pw" type="password" autocomplete="current-password" placeholder="كلمة السر" required>
+    <div class="err" id="loginErr"></div>
+    <button class="btn" type="submit">دخول</button>
+  </form>
+</section>
+
+<div id="app" hidden>
+  <header>
+    <div class="top">
+      <div class="brand">نعومي <small>المبيعات والطلبات</small></div>
+      <div class="tabs" id="ranges">
+        <button class="tab" data-r="1" aria-pressed="false">اليوم</button>
+        <button class="tab" data-r="7" aria-pressed="true">٧ أيام</button>
+        <button class="tab" data-r="30" aria-pressed="false">٣٠ يوم</button>
+        <button class="tab" data-r="0" aria-pressed="false">الكل</button>
+      </div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><b class="num" id="kRev">—</b><span>المبيعات (بدون الملغية)</span></div>
+      <div class="kpi"><b class="num" id="kCount">—</b><span>عدد الطلبات</span></div>
+      <div class="kpi"><b class="num" id="kAvg">—</b><span>متوسط الطلب</span></div>
+      <div class="kpi"><b class="num" id="kPend">—</b><span>طلبات تنتظر التأكيد</span></div>
+    </div>
+  </header>
+  <main>
+    <div class="split">
+      <section class="card">
+        <h2 id="chartTitle">المبيعات حسب اليوم</h2>
+        <div class="chart" id="chart"></div>
+        <div class="xl" id="xl"></div>
+      </section>
+      <section class="card">
+        <h2>حالة الطلبات</h2>
+        <div id="status"></div>
+      </section>
+    </div>
+    <section class="card">
+      <h2>الطلبات</h2>
+      <div class="tools">
+        <input id="q" type="search" placeholder="ابحث بالاسم، الرقم، المدينة أو رقم الطلب">
+        <button class="btn ghost" id="refresh" type="button">تحديث</button>
+        <button class="btn ghost" id="csv" type="button">تنزيل Excel (CSV)</button>
+      </div>
+      <div class="list" id="list"></div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+{
+const ST = {pending:'بانتظار التأكيد',confirmed:'مؤكد',shipped:'بالطريق',delivered:'تم التوصيل',cancelled:'ملغي'};
+const STC = {pending:'#C9982F',confirmed:'#5A6B9A',shipped:'#11224C',delivered:'#3E5A46',cancelled:'#8C2F2B'};
+const PAY = {cod:'نقداً عند الاستلام','card-on-delivery':'بطاقة عند الاستلام',bank:'تحويل بنكي'};
+const TZ = 'Asia/Baghdad';
+const $ = (id) => document.getElementById(id);
+const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money = (n) => '$' + Number(n || 0).toLocaleString('en-US', {maximumFractionDigits: 2});
+const dayKey = (d) => new Intl.DateTimeFormat('en-CA', {timeZone: TZ}).format(d);
+const fmtWhen = (iso) => new Intl.DateTimeFormat('ar-IQ', {timeZone: TZ, day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit'}).format(new Date(iso));
+const fmtDay = (key) => new Intl.DateTimeFormat('ar-IQ', {timeZone: 'UTC', day: 'numeric', month: 'numeric'}).format(new Date(key + 'T00:00:00Z'));
+
+let key = '';
+try { key = sessionStorage.getItem('noomi-admin') || ''; } catch {}
+let orders = [];
+let range = 7;
+
+function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('on'), 2400); }
+
+async function api(method, body) {
+  const r = await fetch('/api/admin', {method, headers: {'x-admin-key': key, 'Content-Type': 'application/json'}, body: body ? JSON.stringify(body) : undefined});
+  if (r.status === 401) throw new Error('auth');
+  const data = await r.json();
+  if (!data.ok) throw new Error(data.error || 'error');
+  return data;
+}
+
+async function load() {
+  $('list').innerHTML = '<div class="empty">جاري التحميل…</div>';
+  try {
+    orders = (await api('GET')).orders;
+    render();
+  } catch (e) {
+    if (e.message === 'auth') return logout('كلمة السر غلط');
+    $('list').innerHTML = '<div class="empty">ما كدرنا نجيب الطلبات. اضغط تحديث وجرب مرة ثانية.</div>';
+  }
+}
+
+function inRange(o) {
+  if (!range) return true;
+  const days = new Set();
+  for (let i = 0; i < range; i++) days.add(dayKey(new Date(Date.now() - i * 864e5)));
+  return days.has(dayKey(new Date(o.receivedAt)));
+}
+
+function render() {
+  const sel = orders.filter(inRange);
+  const live = sel.filter((o) => o.status !== 'cancelled');
+  const rev = live.reduce((a, o) => a + Number(o.total || 0), 0);
+  $('kRev').textContent = money(rev);
+  $('kCount').textContent = sel.length.toLocaleString('en-US');
+  $('kAvg').textContent = live.length ? money(rev / live.length) : '—';
+  $('kPend').textContent = orders.filter((o) => o.status === 'pending').length.toLocaleString('en-US');
+
+  // Daily chart: the chosen range, or the last 30 days for "all".
+  const span = range === 1 ? 7 : (range || 30);
+  const keys = [];
+  for (let i = span - 1; i >= 0; i--) keys.push(dayKey(new Date(Date.now() - i * 864e5)));
+  const per = Object.fromEntries(keys.map((k) => [k, 0]));
+  for (const o of orders) { const k = dayKey(new Date(o.receivedAt)); if (k in per && o.status !== 'cancelled') per[k] += Number(o.total || 0); }
+  const max = Math.max(1, ...Object.values(per));
+  $('chartTitle').textContent = 'المبيعات حسب اليوم، آخر ' + span.toLocaleString('ar-IQ') + ' يوم';
+  $('chart').innerHTML = keys.map((k) => { const h = per[k] / max * 85; return `<div class="bar" style="--h:${h}%" title="${esc(fmtDay(k))}: ${esc(money(per[k]))}"><em class="num">${per[k] ? esc(money(Math.round(per[k]))) : ''}</em><i class="${per[k] ? '' : 'zero'}" style="height:${Math.max(h, 1)}%"></i></div>`; }).join('');
+  const step = span > 14 ? 5 : 1;
+  $('xl').innerHTML = keys.map((k, i) => `<span>${i % step === 0 || i === keys.length - 1 ? esc(fmtDay(k)) : ''}</span>`).join('');
+
+  const counts = Object.fromEntries(Object.keys(ST).map((s) => [s, 0]));
+  for (const o of sel) counts[o.status] = (counts[o.status] || 0) + 1;
+  const tot = Math.max(1, sel.length);
+  $('status').innerHTML = Object.keys(ST).map((s) => `<div class="st-row"><span>${ST[s]}</span><div><i style="width:${counts[s] / tot * 100}%;background:${STC[s]}"></i></div><span class="num">${counts[s]}</span></div>`).join('');
+
+  renderList();
+}
+
+function renderList() {
+  const q = $('q').value.trim().toLowerCase();
+  const rows = orders.filter(inRange).filter((o) => !q || [o.id, o.customer?.name, o.customer?.phone, o.customer?.city, o.customer?.email].join(' ').toLowerCase().includes(q));
+  if (!rows.length) { $('list').innerHTML = `<div class="empty">${orders.length ? 'ماكو طلبات تطابق البحث أو الفترة.' : 'لهسه ماكو طلبات. أول طلب يوصل راح يطلع هنا.'}</div>`; return; }
+  $('list').innerHTML = rows.map((o) => {
+    const c = o.customer || {};
+    const count = (o.items || []).reduce((a, i) => a + Number(i.qty || 0), 0);
+    return `<details class="o">
+      <summary>
+        <span class="who"><b>${esc(c.name)}</b><span>${esc(c.city)} · ${count.toLocaleString('ar-IQ')} قطعة · <span class="num">${esc(o.id)}</span></span></span>
+        <span class="when">${esc(fmtWhen(o.receivedAt))}</span>
+        <span class="pill ${esc(o.status)}">${esc(ST[o.status] || o.status)}</span>
+        <b class="num">${esc(money(o.total))}</b>
+      </summary>
+      <div class="body">
+        <div>
+          <h3>الزبون</h3>
+          <p><b>${esc(c.name)}</b></p>
+          <p><a class="num" href="tel:${esc(String(c.phone).replace(/[^\d+]/g, ''))}">${esc(c.phone)}</a></p>
+          <p class="num" style="direction:ltr;text-align:right">${esc(c.email)}</p>
+          <p>${esc(c.address)}، ${esc(c.city)}</p>
+          ${c.notes ? `<p style="margin-top:8px;background:var(--bg);padding:8px;border-radius:6px">ملاحظة: ${esc(c.notes)}</p>` : ''}
+          <p style="margin-top:8px;color:var(--mute)">الدفع: ${esc(PAY[o.payment] || o.payment)}</p>
+          <label>تغيير الحالة<br><select data-key="${esc(o.key)}">${Object.keys(ST).map((s) => `<option value="${s}"${s === o.status ? ' selected' : ''}>${ST[s]}</option>`).join('')}</select></label>
+        </div>
+        <div class="items">
+          <h3>المنتجات</h3>
+          ${(o.items || []).map((i) => `<div><span>${esc(i.qty)} × ${esc(i.name)}</span><span class="num">${esc(money(i.price * i.qty))}</span></div>`).join('')}
+          <div><span>التوصيل</span><span class="num">${o.shipping ? esc(money(o.shipping)) : 'مجاني'}</span></div>
+          ${o.discount > 0 ? `<div><span>الخصم ${esc(o.promoCode || '')}</span><span class="num">-${esc(money(o.discount))}</span></div>` : ''}
+          <div class="t"><span>الإجمالي</span><span class="num">${esc(money(o.total))}</span></div>
+        </div>
+      </div>
+    </details>`;
+  }).join('');
+}
+
+function toCsv() {
+  const head = ['التاريخ', 'رقم الطلب', 'الاسم', 'الرقم', 'الإيميل', 'المدينة', 'العنوان', 'المنتجات', 'الإجمالي', 'الدفع', 'الحالة'];
+  const cell = (v) => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+  const lines = orders.filter(inRange).map((o) => [fmtWhen(o.receivedAt), o.id, o.customer?.name, o.customer?.phone, o.customer?.email, o.customer?.city, o.customer?.address, (o.items || []).map((i) => i.qty + ' x ' + i.name).join(' | '), o.total, PAY[o.payment] || o.payment, ST[o.status] || o.status].map(cell).join(','));
+  const blob = new Blob(['﻿' + [head.map(cell).join(','), ...lines].join('\n')], {type: 'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'noomi-orders-' + dayKey(new Date()) + '.csv';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+function logout(msg) {
+  key = '';
+  try { sessionStorage.removeItem('noomi-admin'); } catch {}
+  $('app').hidden = true; $('login').hidden = false;
+  $('loginErr').textContent = msg || '';
+}
+
+$('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  key = $('pw').value;
+  $('loginErr').textContent = '';
+  try {
+    orders = (await api('GET')).orders;
+    try { sessionStorage.setItem('noomi-admin', key); } catch {}
+    $('login').hidden = true; $('app').hidden = false;
+    render();
+  } catch (err) {
+    $('loginErr').textContent = err.message === 'auth' ? 'كلمة السر غلط' : 'صار خلل بالاتصال، جرب مرة ثانية';
+  }
+});
+
+$('ranges').addEventListener('click', (e) => {
+  const b = e.target.closest('.tab'); if (!b) return;
+  range = Number(b.dataset.r);
+  for (const t of document.querySelectorAll('.tab')) t.setAttribute('aria-pressed', String(t === b));
+  render();
+});
+$('q').addEventListener('input', renderList);
+$('refresh').addEventListener('click', load);
+$('csv').addEventListener('click', toCsv);
+$('list').addEventListener('change', async (e) => {
+  const s = e.target.closest('select[data-key]'); if (!s) return;
+  s.disabled = true;
+  try {
+    const {order} = await api('POST', {key: s.dataset.key, status: s.value});
+    orders = orders.map((o) => (o.key === order.key ? order : o));
+    toast('صارت الحالة: ' + ST[order.status]);
+    render();
+  } catch (err) {
+    if (err.message === 'auth') return logout('انتهت الجلسة، ادخل مرة ثانية');
+    toast('ما تغيرت الحالة، جرب مرة ثانية'); s.disabled = false;
+  }
+});
+
+if (key) { $('login').hidden = true; $('app').hidden = false; load(); }
+}
+</script>
+</body>
+</html>
