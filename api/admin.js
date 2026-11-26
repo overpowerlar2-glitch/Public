@@ -1,5 +1,6 @@
 const crypto = require('crypto');
-const { listOrders, updateStatus } = require('../lib/orders');
+const { listOrders, updateOrder } = require('../lib/orders');
+const tg = require('../lib/telegram');
 
 function authorized(req) {
   const expected = process.env.ADMIN_PASSWORD || '';
@@ -18,12 +19,17 @@ module.exports = async (req, res) => {
   }
   try {
     if (req.method === 'GET') {
+      await tg.ensureWebhook().catch(() => {});
       return res.status(200).json({ ok: true, orders: await listOrders() });
     }
     if (req.method === 'POST') {
       let body = req.body;
       if (typeof body === 'string') { try { body = JSON.parse(body); } catch { body = {}; } }
-      const order = await updateStatus(body && body.key, body && body.status);
+      const change = {};
+      if (body && body.status !== undefined) change.status = body.status;
+      if (body && body.read !== undefined) change.read = !!body.read;
+      const order = await updateOrder(body && body.key, change, 'لوحة التحكم');
+      await tg.syncOrder(order); // keep the Telegram message in step with the dashboard
       return res.status(200).json({ ok: true, order });
     }
     return res.status(405).json({ ok: false });

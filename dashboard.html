@@ -60,6 +60,12 @@ details.o summary::-webkit-details-marker{display:none}
 .items div{display:flex;justify-content:space-between;gap:10px;padding:3px 0}
 .items .t{border-top:1px solid var(--line);margin-top:6px;padding-top:8px;font-weight:700}
 .body select{height:44px;border:1px solid var(--line);border-radius:8px;padding:0 10px;background:#fff;margin-top:8px;width:100%;max-width:240px}
+details.o.unread{border-color:var(--brass);box-shadow:inset -4px 0 0 var(--brass)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--brass);margin-inline-end:6px;vertical-align:middle}
+details.o.done .who b,details.o.done .items .it span:first-child{text-decoration:line-through;text-decoration-thickness:1.5px;text-decoration-color:var(--green)}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.acts .btn{height:40px;font-size:14px}.btn.ok{background:var(--green);border-color:var(--green)}.btn.warn{background:#fff;color:var(--red);border-color:var(--red)}
+.meta{font-size:13px;color:var(--mute);margin-top:8px}
 .empty{padding:40px 10px;text-align:center;color:var(--mute)}
 .login{min-height:100vh;display:grid;place-items:center;padding:20px}
 .login form{width:min(380px,100%);background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px;display:grid;gap:12px}
@@ -100,7 +106,7 @@ details.o summary::-webkit-details-marker{display:none}
       <div class="kpi"><b class="num" id="kRev">—</b><span>المبيعات (بدون الملغية)</span></div>
       <div class="kpi"><b class="num" id="kCount">—</b><span>عدد الطلبات</span></div>
       <div class="kpi"><b class="num" id="kAvg">—</b><span>متوسط الطلب</span></div>
-      <div class="kpi"><b class="num" id="kPend">—</b><span>طلبات تنتظر التأكيد</span></div>
+      <div class="kpi"><b class="num" id="kPend">—</b><span>طلبات جديدة غير مقروءة</span></div>
     </div>
   </header>
   <main>
@@ -130,7 +136,7 @@ details.o summary::-webkit-details-marker{display:none}
 
 <script>
 {
-const ST = {pending:'بانتظار التأكيد',confirmed:'مؤكد',shipped:'بالطريق',delivered:'تم التوصيل',cancelled:'ملغي'};
+const ST = {pending:'بانتظار التثبيت',confirmed:'مثبت',shipped:'بالطريق',delivered:'تم التوصيل',cancelled:'ملغي'};
 const STC = {pending:'#C9982F',confirmed:'#5A6B9A',shipped:'#11224C',delivered:'#3E5A46',cancelled:'#8C2F2B'};
 const PAY = {cod:'نقداً عند الاستلام','card-on-delivery':'بطاقة عند الاستلام',bank:'تحويل بنكي'};
 const TZ = 'Asia/Baghdad';
@@ -181,7 +187,7 @@ function render() {
   $('kRev').textContent = money(rev);
   $('kCount').textContent = sel.length.toLocaleString('en-US');
   $('kAvg').textContent = live.length ? money(rev / live.length) : '—';
-  $('kPend').textContent = orders.filter((o) => o.status === 'pending').length.toLocaleString('en-US');
+  $('kPend').textContent = orders.filter((o) => !o.read && o.status === 'pending').length.toLocaleString('en-US');
 
   // Daily chart: the chosen range, or the last 30 days for "all".
   const span = range === 1 ? 7 : (range || 30);
@@ -210,9 +216,20 @@ function renderList() {
   $('list').innerHTML = rows.map((o) => {
     const c = o.customer || {};
     const count = (o.items || []).reduce((a, i) => a + Number(i.qty || 0), 0);
-    return `<details class="o">
+    const cls = ['o', !o.read && o.status === 'pending' ? 'unread' : '', o.status !== 'pending' ? 'done' : ''].join(' ');
+    const k = esc(o.key);
+    const acts = [
+      o.status === 'pending' ? `<button class="btn ghost" data-act="read" data-key="${k}" data-v="${o.read ? '0' : '1'}">${o.read ? '↩️ غير مقروء' : '👁 تمت القراءة'}</button>` : '',
+      o.status === 'pending' ? `<button class="btn ok" data-act="status" data-key="${k}" data-v="confirmed">✅ تثبيت الطلب</button>` : '',
+      o.status === 'confirmed' ? `<button class="btn" data-act="status" data-key="${k}" data-v="shipped">🚚 بالطريق</button><button class="btn ghost" data-act="status" data-key="${k}" data-v="pending">↩️ إلغاء التثبيت</button>` : '',
+      o.status === 'shipped' ? `<button class="btn ok" data-act="status" data-key="${k}" data-v="delivered">📦 تم التوصيل</button>` : '',
+      o.status === 'pending' ? `<button class="btn warn" data-act="status" data-key="${k}" data-v="cancelled">❌ إلغاء</button>` : '',
+      o.status === 'cancelled' ? `<button class="btn ghost" data-act="status" data-key="${k}" data-v="pending">↩️ استرجاع</button>` : '',
+    ].join('');
+    const meta = [o.confirmedBy && o.status !== 'pending' ? `✅ ثبّته ${esc(o.confirmedBy)} · ${esc(fmtWhen(o.confirmedAt))}` : '', o.read && o.readBy && o.status === 'pending' ? `👁 قرأه ${esc(o.readBy)}` : ''].filter(Boolean).join('<br>');
+    return `<details class="${cls}" data-k="${k}">
       <summary>
-        <span class="who"><b>${esc(c.name)}</b><span>${esc(c.city)} · ${count.toLocaleString('ar-IQ')} قطعة · <span class="num">${esc(o.id)}</span></span></span>
+        <span class="who"><b>${!o.read && o.status === 'pending' ? '<i class="dot" aria-label="غير مقروء"></i>' : ''}${esc(c.name)}</b><span>${esc(c.city)} · ${count.toLocaleString('ar-IQ')} قطعة · <span class="num">${esc(o.id)}</span></span></span>
         <span class="when">${esc(fmtWhen(o.receivedAt))}</span>
         <span class="pill ${esc(o.status)}">${esc(ST[o.status] || o.status)}</span>
         <b class="num">${esc(money(o.total))}</b>
@@ -226,11 +243,13 @@ function renderList() {
           <p>${esc(c.address)}، ${esc(c.city)}</p>
           ${c.notes ? `<p style="margin-top:8px;background:var(--bg);padding:8px;border-radius:6px">ملاحظة: ${esc(c.notes)}</p>` : ''}
           <p style="margin-top:8px;color:var(--mute)">الدفع: ${esc(PAY[o.payment] || o.payment)}</p>
-          <label>تغيير الحالة<br><select data-key="${esc(o.key)}">${Object.keys(ST).map((s) => `<option value="${s}"${s === o.status ? ' selected' : ''}>${ST[s]}</option>`).join('')}</select></label>
+          <div class="acts">${acts}</div>
+          ${meta ? `<p class="meta">${meta}</p>` : ''}
+          <label class="meta">أو اختار الحالة<br><select data-key="${esc(o.key)}">${Object.keys(ST).map((s) => `<option value="${s}"${s === o.status ? ' selected' : ''}>${ST[s]}</option>`).join('')}</select></label>
         </div>
         <div class="items">
           <h3>المنتجات</h3>
-          ${(o.items || []).map((i) => `<div><span>${esc(i.qty)} × ${esc(i.name)}</span><span class="num">${esc(money(i.price * i.qty))}</span></div>`).join('')}
+          ${(o.items || []).map((i) => `<div class="it"><span>${esc(i.qty)} × ${esc(i.name)}</span><span class="num">${esc(money(i.price * i.qty))}</span></div>`).join('')}
           <div><span>التوصيل</span><span class="num">${o.shipping ? esc(money(o.shipping)) : 'مجاني'}</span></div>
           ${o.discount > 0 ? `<div><span>الخصم ${esc(o.promoCode || '')}</span><span class="num">-${esc(money(o.discount))}</span></div>` : ''}
           <div class="t"><span>الإجمالي</span><span class="num">${esc(money(o.total))}</span></div>
@@ -282,18 +301,28 @@ $('ranges').addEventListener('click', (e) => {
 $('q').addEventListener('input', renderList);
 $('refresh').addEventListener('click', load);
 $('csv').addEventListener('click', toCsv);
-$('list').addEventListener('change', async (e) => {
-  const s = e.target.closest('select[data-key]'); if (!s) return;
-  s.disabled = true;
+async function change(key, payload, el) {
+  if (el) el.disabled = true;
   try {
-    const {order} = await api('POST', {key: s.dataset.key, status: s.value});
+    const {order} = await api('POST', {key, ...payload});
     orders = orders.map((o) => (o.key === order.key ? order : o));
-    toast('صارت الحالة: ' + ST[order.status]);
+    toast(payload.status ? 'صارت الحالة: ' + ST[order.status] : order.read ? 'انقرأ الطلب' : 'رجع غير مقروء');
+    const open = [...document.querySelectorAll('details.o[open]')].map((d) => d.dataset.k);
     render();
+    for (const d of document.querySelectorAll('details.o')) if (open.includes(d.dataset.k)) d.open = true;
   } catch (err) {
     if (err.message === 'auth') return logout('انتهت الجلسة، ادخل مرة ثانية');
-    toast('ما تغيرت الحالة، جرب مرة ثانية'); s.disabled = false;
+    toast('ما تغير شي، جرب مرة ثانية'); if (el) el.disabled = false;
   }
+}
+$('list').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-act]'); if (!b) return;
+  change(b.dataset.key, b.dataset.act === 'read' ? {read: b.dataset.v === '1'} : {status: b.dataset.v}, b);
+});
+setInterval(() => { if (key && !document.hidden && !document.querySelector('details.o[open]')) api('GET').then((d) => { orders = d.orders; render(); }).catch(() => {}); }, 30000);
+$('list').addEventListener('change', async (e) => {
+  const s = e.target.closest('select[data-key]'); if (!s) return;
+  change(s.dataset.key, {status: s.value}, s);
 });
 
 if (key) { $('login').hidden = true; $('app').hidden = false; load(); }

@@ -1,51 +1,7 @@
-const { saveOrder } = require('../lib/orders');
-
-const PAY = { cod: 'الدفع نقداً عند الاستلام', 'card-on-delivery': 'بطاقة عند الاستلام', bank: 'تحويل بنكي' };
-const money = (n) => '$' + Number(n || 0).toFixed(2).replace(/\.00$/, '');
-const s = (v, max = 300) => String(v ?? '').slice(0, max);
-
-function buildText(o) {
-  const c = o.customer || {};
-  const items = Array.isArray(o.items) ? o.items.slice(0, 50) : [];
-  const lines = [
-    '🛍️ طلب جديد ' + s(o.id, 40),
-    '',
-    '👤 الاسم: ' + s(c.name),
-    '📞 الرقم: ' + s(c.phone, 40),
-    '✉️ الإيميل: ' + s(c.email),
-    '📍 العنوان: ' + s(c.address) + '، ' + s(c.city),
-  ];
-  if (c.notes) lines.push('📝 ملاحظات: ' + s(c.notes, 500));
-  lines.push('', '📦 المنتجات:');
-  for (const it of items) lines.push('• ' + s(it.qty, 5) + ' × ' + s(it.name, 120) + ' = ' + money(Number(it.price) * Number(it.qty)));
-  lines.push('', 'المجموع الفرعي: ' + money(o.subtotal));
-  if (Number(o.discount) > 0) lines.push('الخصم' + (o.promoCode ? ' (' + s(o.promoCode, 30) + ')' : '') + ': -' + money(o.discount));
-  lines.push('التوصيل: ' + (Number(o.shipping) ? money(o.shipping) : 'مجاني'));
-  lines.push('💰 الإجمالي: ' + money(o.total));
-  lines.push('💳 الدفع: ' + (PAY[o.payment] || s(o.payment, 40)));
-  return lines.join('\n').slice(0, 4000);
-}
+const { saveOrder, setTelegramMessage } = require('../lib/orders');
+const tg = require('../lib/telegram');
 
 const valid = (o) => o && o.id && o.customer && Array.isArray(o.items) && o.items.length > 0;
-
-async function sendTelegram(order) {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-  if (!token || !chatId) return false;
-  try {
-    const r = await fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: chatId, text: buildText(order) }),
-    });
-    const data = await r.json().catch(() => ({}));
-    if (!r.ok || !data.ok) console.error('telegram error', r.status, data.description);
-    return r.ok && data.ok;
-  } catch (e) {
-    console.error('telegram network', e && e.message);
-    return false;
-  }
-}
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ ok: false });
@@ -54,12 +10,20 @@ module.exports = async (req, res) => {
   const order = body && body.order;
   if (!valid(order)) return res.status(400).json({ ok: false, error: 'invalid order' });
 
-  let saved = null;
+  let record = null;
   try {
-    saved = await saveOrder(order);
+    record = await saveOrder(order);
   } catch (e) {
     console.error('save failed', e && e.message);
   }
-  const sent = await sendTelegram(saved || order);
-  return res.status(sent || saved ? 200 : 502).json({ ok: sent || !!saved, saved: !!saved, telegram: sent });
+
+  // The message is always built on the server from the saved order, in one format.
+  let messageId = null;
+  if (record) {
+    messageId = await tg.sendOrder(record);
+    if (messageId) await setTelegramMessage(record.key, messageId).catch((e) => console.error('save msg id', e && e.message));
+    await tg.ensureWebhook().catch(() => {});
+  }
+  const ok = !!record || !!messageId;
+  return res.status(ok ? 200 : 502).json({ ok, saved: !!record, telegram: !!messageId });
 };
