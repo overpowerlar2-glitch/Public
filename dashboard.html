@@ -61,8 +61,11 @@ details.o summary::-webkit-details-marker{display:none}
 .items .t{border-top:1px solid var(--line);margin-top:6px;padding-top:8px;font-weight:700}
 .body select{height:44px;border:1px solid var(--line);border-radius:8px;padding:0 10px;background:#fff;margin-top:8px;width:100%;max-width:240px}
 details.o.unread{border-color:var(--brass);box-shadow:inset -4px 0 0 var(--brass)}
-.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--brass);margin-inline-end:6px;vertical-align:middle}
-details.o.done .who b,details.o.done .items .it span:first-child{text-decoration:line-through;text-decoration-thickness:1.5px;text-decoration-color:var(--green)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--brass);margin-inline-end:6px;vertical-align:middle;box-shadow:0 0 0 0 #C9982F99;animation:ping 1.8s ease-out infinite}
+@keyframes ping{70%{box-shadow:0 0 0 8px #C9982F00}100%{box-shadow:0 0 0 0 #C9982F00}}
+details.o.done .who b,details.o.done .items .it span:first-child{background:linear-gradient(var(--green),var(--green)) no-repeat right 58%/100% 2px}
+details.o.strike-in .who b,details.o.strike-in .items .it span:first-child{animation:strike .7s cubic-bezier(.65,0,.35,1) both}
+@keyframes strike{from{background-size:0 2px}}
 .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .acts .btn{height:40px;font-size:14px}.btn.ok{background:var(--green);border-color:var(--green)}.btn.warn{background:#fff;color:var(--red);border-color:var(--red)}
 .meta{font-size:13px;color:var(--mute);margin-top:8px}
@@ -72,9 +75,39 @@ details.o.done .who b,details.o.done .items .it span:first-child{text-decoration
 .login h1{margin:0;font-size:24px;color:var(--navy)}.login p{margin:0;color:var(--mute)}
 .login input{height:48px;border:1px solid var(--line);border-radius:8px;padding:0 12px;font-size:16px;direction:ltr}
 .err{color:var(--red);font-size:14px;min-height:1.4em}
-.toast{position:fixed;bottom:18px;inset-inline:0;margin:auto;width:fit-content;max-width:90vw;background:var(--ink);color:#fff;padding:10px 16px;border-radius:8px;opacity:0;transition:opacity .25s;pointer-events:none}
-.toast.on{opacity:1}
+.toast{position:fixed;bottom:18px;inset-inline:0;margin:auto;width:fit-content;max-width:90vw;background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;opacity:0;transform:translateY(16px) scale(.96);transition:opacity .3s,transform .4s cubic-bezier(.2,1.4,.4,1);pointer-events:none;z-index:50;box-shadow:0 10px 30px #0003}
+.toast.on{opacity:1;transform:none}
 [hidden]{display:none!important}
+/* ---- motion ---- */
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
+@keyframes grow{from{transform:scaleY(0)}}
+@keyframes fillx{from{transform:scaleX(0)}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 #C9982F00}50%{box-shadow:0 0 0 6px #C9982F40}}
+@keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+@keyframes sheen{from{transform:translateX(120%)}to{transform:translateX(-120%)}}
+@keyframes fly{to{transform:translate(var(--x),var(--y)) scale(.3) rotate(var(--r));opacity:0}}
+header{position:relative;overflow:hidden}
+header::after{content:"";position:absolute;inset-inline:0;bottom:0;height:3px;background:linear-gradient(90deg,transparent,var(--brass),transparent);animation:sheen 4.5s ease-in-out infinite}
+.kpi{animation:rise .6s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*90ms)}
+.card{animation:rise .6s cubic-bezier(.2,.7,.2,1) both;animation-delay:.15s;transition:box-shadow .3s,transform .3s}
+.card:hover{box-shadow:0 8px 24px #11224C12}
+.bar i{transform-origin:bottom;animation:grow .8s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*22ms + .2s)}
+.bar:hover i{filter:brightness(1.35)}
+.bar em{animation:rise .4s both;animation-delay:calc(var(--i)*22ms + .6s)}
+.rk .bar2 i,.st-row div i{transform-origin:right;animation:fillx 1s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*80ms + .3s)}
+details.o{animation:rise .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(min(var(--i),12)*45ms);transition:border-color .3s,box-shadow .3s,transform .2s}
+details.o:hover{transform:translateY(-1px);box-shadow:0 6px 18px #11224C10}
+details.o.fresh{animation:rise .5s both,glow 1.4s ease-in-out 3}
+details.o[open] .body{animation:rise .35s cubic-bezier(.2,.7,.2,1) both}
+.btn{transition:transform .15s,background .2s,box-shadow .2s}.btn:active{transform:scale(.96)}
+.btn.ok:hover{box-shadow:0 6px 16px #3E5A4655}
+.quiet .kpi,.quiet .card,.quiet .bar i,.quiet .bar em,.quiet .rk .bar2 i,.quiet .st-row div i,.quiet details.o:not(.fresh){animation:none}
+.live{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#C7CCDA;margin-top:4px}
+.live i{width:8px;height:8px;border-radius:50%;background:#5FD38A;box-shadow:0 0 0 0 #5FD38A99;animation:ping 2s ease-out infinite}
+.sk{height:56px;border-radius:10px;background:linear-gradient(90deg,var(--line) 25%,#f6f3ec 50%,var(--line) 75%);background-size:200% 100%;animation:shimmer 1.4s linear infinite}
+.spark{position:fixed;width:8px;height:8px;border-radius:2px;pointer-events:none;z-index:60;animation:fly .9s cubic-bezier(.2,.7,.3,1) forwards}
+.login form{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
+.login h1{background:linear-gradient(90deg,var(--navy),var(--brass),var(--navy));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 5s linear infinite}
 .delta{display:block;font-size:13px;margin-top:2px;color:#C7CCDA}.delta.up{color:#9FD3A9}.delta.down{color:#F2A9A4}
 .tri{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 .rank{display:grid;gap:10px}
@@ -100,7 +133,7 @@ details.o.done .who b,details.o.done .items .it span:first-child{text-decoration
 @media(max-width:900px){.tri{grid-template-columns:1fr}}
 @media(max-width:800px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.split{grid-template-columns:1fr}}
 @media(max-width:600px){details.o summary{grid-template-columns:minmax(0,1fr) auto;row-gap:4px}.when{grid-column:1}.body{grid-template-columns:1fr}.bar em{display:none}}
-@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -117,7 +150,7 @@ details.o.done .who b,details.o.done .items .it span:first-child{text-decoration
 <div id="app" hidden>
   <header>
     <div class="top">
-      <div class="brand">نعومي <small>المبيعات والطلبات</small></div>
+      <div class="brand">نعومي <small>المبيعات والطلبات</small><span class="live"><i></i><span id="liveTxt">مباشر</span></span></div>
       <div class="tabs" id="ranges">
         <button class="tab" data-r="1" aria-pressed="false">اليوم</button>
         <button class="tab" data-r="7" aria-pressed="true">٧ أيام</button>
@@ -126,10 +159,10 @@ details.o.done .who b,details.o.done .items .it span:first-child{text-decoration
       </div>
     </div>
     <div class="kpis">
-      <div class="kpi"><b class="num" id="kRev">—</b><span>المبيعات (بدون الملغية)</span><small class="delta" id="dRev"></small></div>
-      <div class="kpi"><b class="num" id="kCount">—</b><span>عدد الطلبات</span><small class="delta" id="dCount"></small></div>
-      <div class="kpi"><b class="num" id="kAvg">—</b><span>متوسط الطلب</span></div>
-      <div class="kpi"><b class="num" id="kPend">—</b><span>طلبات جديدة غير مقروءة</span></div>
+      <div class="kpi" style="--i:0"><b class="num" id="kRev">—</b><span>المبيعات (بدون الملغية)</span><small class="delta" id="dRev"></small></div>
+      <div class="kpi" style="--i:1"><b class="num" id="kCount">—</b><span>عدد الطلبات</span><small class="delta" id="dCount"></small></div>
+      <div class="kpi" style="--i:2"><b class="num" id="kAvg">—</b><span>متوسط الطلب</span></div>
+      <div class="kpi" style="--i:3"><b class="num" id="kPend">—</b><span>طلبات جديدة غير مقروءة</span></div>
     </div>
   </header>
   <main>
@@ -180,6 +213,53 @@ let key = '';
 try { key = sessionStorage.getItem('noomi-admin') || ''; } catch {}
 let orders = [];
 let range = 7;
+let known = null;           // order keys already seen, to spot new arrivals
+let fresh = new Set();
+let audio = null;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function countTo(el, to, fmt, quiet) {
+  const from = Number(el.dataset.v || 0);
+  el.dataset.v = to;
+  if (quiet || reduce || from === to) { el.textContent = fmt(to); return; }
+  const t0 = performance.now(), dur = 900;
+  const step = (t) => {
+    const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+    el.textContent = fmt(from + (to - from) * e);
+    if (p < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+function chime() {
+  try {
+    audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+    [880, 1320].forEach((f, i) => {
+      const o = audio.createOscillator(), g = audio.createGain();
+      o.type = 'sine'; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, audio.currentTime + i * 0.14);
+      g.gain.exponentialRampToValueAtTime(0.18, audio.currentTime + i * 0.14 + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, audio.currentTime + i * 0.14 + 0.5);
+      o.connect(g).connect(audio.destination); o.start(audio.currentTime + i * 0.14); o.stop(audio.currentTime + i * 0.14 + 0.55);
+    });
+  } catch {}
+}
+function burst(x, y) {
+  if (reduce) return;
+  const colors = ['#C9982F', '#3E5A46', '#11224C', '#E8C56A'];
+  for (let i = 0; i < 22; i++) {
+    const s = document.createElement('i');
+    s.className = 'spark';
+    const a = Math.random() * Math.PI * 2, d = 50 + Math.random() * 70;
+    s.style.cssText = `left:${x}px;top:${y}px;background:${colors[i % 4]};--x:${Math.cos(a) * d}px;--y:${Math.sin(a) * d - 30}px;--r:${Math.random() * 360}deg`;
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 1000);
+  }
+}
+function setLive() {
+  $('liveTxt').textContent = 'مباشر · تحدث ' + new Intl.DateTimeFormat('ar-IQ', {timeZone: TZ, hour: 'numeric', minute: '2-digit'}).format(new Date());
+  const unread = orders.filter((o) => !o.read && o.status === 'pending').length;
+  document.title = (unread ? `(${unread}) ` : '') + 'لوحة نعومي';
+}
 
 function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('on'), 2400); }
 
@@ -192,9 +272,10 @@ async function api(method, body) {
 }
 
 async function load() {
-  $('list').innerHTML = '<div class="empty">جاري التحميل…</div>';
+  $('list').innerHTML = '<div class="sk"></div><div class="sk"></div><div class="sk"></div>';
   try {
     orders = (await api('GET')).orders;
+    known = new Set(orders.map((o) => o.key));
     render();
   } catch (e) {
     if (e.message === 'auth') return logout('كلمة السر غلط');
@@ -232,7 +313,7 @@ function waText(o) {
 function rankRows(rows, fmt) {
   if (!rows.length) return '<p class="mute">ماكو بيانات بهالفترة.</p>';
   const max = Math.max(...rows.map((r) => r.v), 1);
-  return rows.map((r) => `<div class="rk"><span>${esc(r.label)}</span><b class="num">${esc(fmt(r.v))}</b>${r.sub ? `<small>${esc(r.sub)}</small><span></span>` : ''}<div class="bar2"><i style="width:${r.v / max * 100}%"></i></div></div>`).join('');
+  return rows.map((r, idx) => `<div class="rk" style="--i:${idx}"><span>${esc(r.label)}</span><b class="num">${esc(fmt(r.v))}</b>${r.sub ? `<small>${esc(r.sub)}</small><span></span>` : ''}<div class="bar2"><i style="width:${r.v / max * 100}%"></i></div></div>`).join('');
 }
 function printOrder(o) {
   const c = o.customer || {};
@@ -255,14 +336,17 @@ function printOrder(o) {
   setTimeout(() => window.print(), 50);
 }
 
-function render() {
+function render(quiet) {
+  document.body.classList.toggle('quiet', !!quiet);
   const sel = orders.filter(inRange);
   const live = sel.filter((o) => o.status !== 'cancelled');
   const rev = live.reduce((a, o) => a + Number(o.total || 0), 0);
-  $('kRev').textContent = money(rev);
-  $('kCount').textContent = sel.length.toLocaleString('en-US');
-  $('kAvg').textContent = live.length ? money(rev / live.length) : '—';
-  $('kPend').textContent = orders.filter((o) => !o.read && o.status === 'pending').length.toLocaleString('en-US');
+  const whole = (v) => Math.round(v).toLocaleString('en-US');
+  countTo($('kRev'), rev, (v) => money(Math.round(v)), quiet);
+  countTo($('kCount'), sel.length, whole, quiet);
+  if (live.length) countTo($('kAvg'), rev / live.length, (v) => money(Math.round(v * 100) / 100), quiet); else { $('kAvg').textContent = '—'; $('kAvg').dataset.v = 0; }
+  countTo($('kPend'), orders.filter((o) => !o.read && o.status === 'pending').length, whole, quiet);
+  setLive();
   if (range) {
     const prev = orders.filter((o) => inDays(o, range, range * 2));
     const prevLive = prev.filter((o) => o.status !== 'cancelled');
@@ -292,14 +376,14 @@ function render() {
   for (const o of orders) { const k = dayKey(new Date(o.receivedAt)); if (k in per && o.status !== 'cancelled') per[k] += Number(o.total || 0); }
   const max = Math.max(1, ...Object.values(per));
   $('chartTitle').textContent = 'المبيعات حسب اليوم، آخر ' + span.toLocaleString('ar-IQ') + ' يوم';
-  $('chart').innerHTML = keys.map((k) => { const h = per[k] / max * 85; return `<div class="bar" style="--h:${h}%" title="${esc(fmtDay(k))}: ${esc(money(per[k]))}"><em class="num">${per[k] ? esc(money(Math.round(per[k]))) : ''}</em><i class="${per[k] ? '' : 'zero'}" style="height:${Math.max(h, 1)}%"></i></div>`; }).join('');
+  $('chart').innerHTML = keys.map((k, idx) => { const h = per[k] / max * 85; return `<div class="bar" style="--h:${h}%;--i:${idx}" title="${esc(fmtDay(k))}: ${esc(money(per[k]))}"><em class="num">${per[k] ? esc(money(Math.round(per[k]))) : ''}</em><i class="${per[k] ? '' : 'zero'}" style="height:${Math.max(h, 1)}%"></i></div>`; }).join('');
   const step = span > 14 ? 5 : 1;
   $('xl').innerHTML = keys.map((k, i) => `<span>${i % step === 0 || i === keys.length - 1 ? esc(fmtDay(k)) : ''}</span>`).join('');
 
   const counts = Object.fromEntries(Object.keys(ST).map((s) => [s, 0]));
   for (const o of sel) counts[o.status] = (counts[o.status] || 0) + 1;
   const tot = Math.max(1, sel.length);
-  $('status').innerHTML = Object.keys(ST).map((s) => `<div class="st-row"><span>${ST[s]}</span><div><i style="width:${counts[s] / tot * 100}%;background:${STC[s]}"></i></div><span class="num">${counts[s]}</span></div>`).join('');
+  $('status').innerHTML = Object.keys(ST).map((s, idx) => `<div class="st-row"><span>${ST[s]}</span><div><i style="--i:${idx};width:${counts[s] / tot * 100}%;background:${STC[s]}"></i></div><span class="num">${counts[s]}</span></div>`).join('');
 
   renderList();
 }
@@ -308,10 +392,10 @@ function renderList() {
   const q = $('q').value.trim().toLowerCase();
   const rows = orders.filter(inRange).filter((o) => !q || [o.id, o.customer?.name, o.customer?.phone, o.customer?.city, o.customer?.email].join(' ').toLowerCase().includes(q));
   if (!rows.length) { $('list').innerHTML = `<div class="empty">${orders.length ? 'ماكو طلبات تطابق البحث أو الفترة.' : 'لهسه ماكو طلبات. أول طلب يوصل راح يطلع هنا.'}</div>`; return; }
-  $('list').innerHTML = rows.map((o) => {
+  $('list').innerHTML = rows.map((o, idx) => {
     const c = o.customer || {};
     const count = (o.items || []).reduce((a, i) => a + Number(i.qty || 0), 0);
-    const cls = ['o', !o.read && o.status === 'pending' ? 'unread' : '', o.status !== 'pending' ? 'done' : ''].join(' ');
+    const cls = ['o', !o.read && o.status === 'pending' ? 'unread' : '', o.status !== 'pending' ? 'done' : '', fresh.has(o.key) ? 'fresh' : ''].join(' ');
     const k = esc(o.key);
     const acts = [
       o.status === 'pending' ? `<button class="btn ghost" data-act="read" data-key="${k}" data-v="${o.read ? '0' : '1'}">${o.read ? '↩️ غير مقروء' : '👁 تمت القراءة'}</button>` : '',
@@ -322,7 +406,7 @@ function renderList() {
       o.status === 'cancelled' ? `<button class="btn ghost" data-act="status" data-key="${k}" data-v="pending">↩️ استرجاع</button>` : '',
     ].join('');
     const meta = [o.confirmedBy && o.status !== 'pending' ? `✅ ثبّته ${esc(o.confirmedBy)} · ${esc(fmtWhen(o.confirmedAt))}` : '', o.read && o.readBy && o.status === 'pending' ? `👁 قرأه ${esc(o.readBy)}` : ''].filter(Boolean).join('<br>');
-    return `<details class="${cls}" data-k="${k}">
+    return `<details class="${cls}" data-k="${k}" style="--i:${idx}">
       <summary>
         <span class="who"><b>${!o.read && o.status === 'pending' ? '<i class="dot" aria-label="غير مقروء"></i>' : ''}${esc(c.name)}</b><span>${o.note ? '📝 ' : ''}${esc(c.city)} · ${count.toLocaleString('ar-IQ')} قطعة · <span class="num">${esc(o.id)}</span></span></span>
         <span class="when">${esc(fmtWhen(o.receivedAt))}</span>
@@ -389,6 +473,8 @@ $('loginForm').addEventListener('submit', async (e) => {
   try {
     orders = (await api('GET')).orders;
     try { sessionStorage.setItem('noomi-admin', key); } catch {}
+    try { audio = new (window.AudioContext || window.webkitAudioContext)(); } catch {}
+    known = new Set(orders.map((o) => o.key));
     $('login').hidden = true; $('app').hidden = false;
     render();
   } catch (err) {
@@ -402,18 +488,23 @@ $('ranges').addEventListener('click', (e) => {
   for (const t of document.querySelectorAll('.tab')) t.setAttribute('aria-pressed', String(t === b));
   render();
 });
-$('q').addEventListener('input', renderList);
+$('q').addEventListener('input', () => { document.body.classList.add('quiet'); renderList(); });
 $('refresh').addEventListener('click', load);
 $('csv').addEventListener('click', toCsv);
 async function change(key, payload, el) {
+  const rect = el && el.getBoundingClientRect();
   if (el) el.disabled = true;
   try {
     const {order} = await api('POST', {key, ...payload});
     orders = orders.map((o) => (o.key === order.key ? order : o));
     toast(payload.note !== undefined ? 'انحفظت الملاحظة' : payload.status ? 'صارت الحالة: ' + ST[order.status] : order.read ? 'انقرأ الطلب' : 'رجع غير مقروء');
     const open = [...document.querySelectorAll('details.o[open]')].map((d) => d.dataset.k);
-    render();
-    for (const d of document.querySelectorAll('details.o')) if (open.includes(d.dataset.k)) d.open = true;
+    render(true);
+    for (const d of document.querySelectorAll('details.o')) {
+      if (open.includes(d.dataset.k)) d.open = true;
+      if (d.dataset.k === order.key && payload.status === 'confirmed') d.classList.add('strike-in');
+    }
+    if (payload.status === 'confirmed' && rect) burst(rect.left + rect.width / 2, rect.top + rect.height / 2);
   } catch (err) {
     if (err.message === 'auth') return logout('انتهت الجلسة، ادخل مرة ثانية');
     toast('ما تغير شي، جرب مرة ثانية'); if (el) el.disabled = false;
@@ -425,12 +516,30 @@ $('list').addEventListener('click', (e) => {
   if (b.dataset.act === 'note') { const t = [...document.querySelectorAll('textarea[data-note]')].find((x) => x.dataset.note === b.dataset.key); return change(b.dataset.key, {note: t ? t.value : ''}, b); }
   change(b.dataset.key, b.dataset.act === 'read' ? {read: b.dataset.v === '1'} : {status: b.dataset.v}, b);
 });
-setInterval(() => { if (key && !document.hidden && !document.querySelector('details.o[open]')) api('GET').then((d) => { orders = d.orders; render(); }).catch(() => {}); }, 30000);
+async function poll() {
+  if (!key || document.hidden) return;
+  try {
+    const d = await api('GET');
+    orders = d.orders;
+    const nw = orders.filter((o) => known && !known.has(o.key));
+    known = new Set(orders.map((o) => o.key));
+    if (nw.length) {
+      nw.forEach((o) => fresh.add(o.key));
+      chime();
+      toast(nw.length === 1 ? `🛍️ وصل طلب جديد من ${nw[0].customer?.name || 'زبون'}` : `🛍️ وصلت ${nw.length} طلبات جديدة`);
+      setTimeout(() => { nw.forEach((o) => fresh.delete(o.key)); }, 6000);
+    }
+    if (document.querySelector('details.o[open]') && !nw.length) { setLive(); return; }
+    render(true);
+  } catch {}
+}
+setInterval(poll, 20000);
 $('list').addEventListener('change', async (e) => {
   const s = e.target.closest('select[data-key]'); if (!s) return;
   change(s.dataset.key, {status: s.value}, s);
 });
 
+document.addEventListener('pointerdown', () => { try { audio = audio || new (window.AudioContext || window.webkitAudioContext)(); audio.resume(); } catch {} }, {once: true});
 if (key) { $('login').hidden = true; $('app').hidden = false; load(); }
 }
 </script>
