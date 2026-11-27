@@ -1,35 +1,21 @@
-const crypto = require('crypto');
 const { listOrders, updateOrder } = require('../lib/orders');
+const { requireAdmin, body } = require('../lib/auth');
 const tg = require('../lib/telegram');
 
-function authorized(req) {
-  const expected = process.env.ADMIN_PASSWORD || '';
-  const given = String(req.headers['x-admin-key'] || '');
-  if (!expected || !given) return false;
-  const a = crypto.createHash('sha256').update(given).digest();
-  const b = crypto.createHash('sha256').update(expected).digest();
-  return crypto.timingSafeEqual(a, b);
-}
-
 module.exports = async (req, res) => {
-  res.setHeader('Cache-Control', 'no-store');
-  if (!authorized(req)) {
-    await new Promise((r) => setTimeout(r, 600));
-    return res.status(401).json({ ok: false, error: 'unauthorized' });
-  }
+  if (!(await requireAdmin(req, res))) return;
   try {
     if (req.method === 'GET') {
       await tg.ensureWebhook().catch(() => {});
       return res.status(200).json({ ok: true, orders: await listOrders() });
     }
     if (req.method === 'POST') {
-      let body = req.body;
-      if (typeof body === 'string') { try { body = JSON.parse(body); } catch { body = {}; } }
+      const b = body(req);
       const change = {};
-      if (body && body.status !== undefined) change.status = body.status;
-      if (body && body.read !== undefined) change.read = !!body.read;
-      if (body && typeof body.note === 'string') change.note = body.note;
-      const order = await updateOrder(body && body.key, change, 'لوحة التحكم');
+      if (b.status !== undefined) change.status = b.status;
+      if (b.read !== undefined) change.read = !!b.read;
+      if (typeof b.note === 'string') change.note = b.note;
+      const order = await updateOrder(b.key, change, 'لوحة التحكم');
       if (change.status !== undefined || change.read !== undefined) await tg.syncOrder(order); // keep the Telegram message in step
       return res.status(200).json({ ok: true, order });
     }

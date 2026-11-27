@@ -1,0 +1,661 @@
+{
+ "categories": [
+  {
+   "id": "candles",
+   "name": "Candles",
+   "blurb": "Hand-poured coconut and rapeseed wax"
+  },
+  {
+   "id": "diffusers",
+   "name": "Reed diffusers",
+   "blurb": "Steady scent for three months"
+  },
+  {
+   "id": "sprays",
+   "name": "Room sprays",
+   "blurb": "For linen, rooms and guests arriving"
+  },
+  {
+   "id": "perfume",
+   "name": "Perfume oils",
+   "blurb": "Alcohol-free, worn close to the skin"
+  },
+  {
+   "id": "gifts",
+   "name": "Gift sets",
+   "blurb": "Boxed and ready to give"
+  }
+ ],
+ "products": [
+  {
+   "slug": "black-lime-cardamom-candle",
+   "name": "Black Lime & Cardamom Candle",
+   "category": "candles",
+   "price": 48,
+   "short": "Sun-dried lime, green cardamom, smoked tea",
+   "description": "Our first scent and still the one people come back for. Noomi basra, the sun-dried black lime of Gulf kitchens, gives a sour, smoky brightness. Green cardamom and a little black tea round it into something you want in the room all evening.",
+   "notes": {
+    "top": "Black lime, bergamot",
+    "heart": "Green cardamom, black tea",
+    "base": "Guaiac wood, soft musk"
+   },
+   "details": [
+    "220 g, about 50 hours of burn time",
+    "Coconut and rapeseed wax, cotton wick",
+    "Smoked glass vessel, reusable",
+    "Burn for 2 to 3 hours the first time so the wax melts edge to edge.",
+    "Trim the wick to 5 mm before each burn.",
+    "Never leave a burning candle unattended."
+   ],
+   "size": "220 g",
+   "rating": 4.9,
+   "reviews": 412,
+   "sold": 3180,
+   "stock": 46,
+   "featured": true,
+   "bestSeller": true,
+   "art": {
+    "kind": "tumbler",
+    "tint": "#DCD9CC",
+    "body": "#3B332A",
+    "label": "#F3EFE4",
+    "ink": "#221B16",
+    "title": [
+     "Black Lime",
+     "& Cardamom"
+    ]
+   },
+   "id": "p01",
+   "createdAt": "2026-01-05T00:00:00.000Z"
+  },
+  {
+   "slug": "date-palm-dusk-candle",
+   "name": "Date Palm Dusk Candle",
+   "category": "candles",
+   "price": 48,
+   "compareAt": 56,
+   "short": "Date syrup, toasted sesame, warm amber",
+   "description": "The sweetness of date syrup poured over tahini, held back by dry palm wood so it never turns sugary. A warm, low scent for late afternoons and long dinners.",
+   "notes": {
+    "top": "Date syrup, orange peel",
+    "heart": "Toasted sesame, cinnamon leaf",
+    "base": "Palm wood, amber"
+   },
+   "details": [
+    "220 g, about 50 hours of burn time",
+    "Coconut and rapeseed wax, cotton wick",
+    "Amber glass vessel, reusable",
+    "Burn for 2 to 3 hours the first time so the wax melts edge to edge.",
+    "Trim the wick to 5 mm before each burn.",
+    "Never leave a burning candle unattended."
+   ],
+   "size": "220 g",
+   "rating": 4.8,
+   "reviews": 268,
+   "sold": 2240,
+   "stock": 31,
+   "bestSeller": true,
+   "art": {
+    "kind": "tumbler",
+    "tint": "#E9DCC3",
+    "body": "#8A4B1F",
+    "label": "#F3EFE4",
+    "ink": "#221B16",
+    "title": [
+     "Date Palm",
+     "Dusk"
+    ]
+   },
+   "id": "p02",
+   "createdAt": "2026-01-22T00:00:00.000Z"
+  },
+  {
+   "slug": "rain-on-clay-candle",
+   "name": "Rain on Clay Candle",
+   "category": "candles",
+   "price": 52,
+   "short": "Wet earth, vetiver, river reeds",
+   "description": "The first rain of autumn on a sun-baked courtyard. Mineral and green rather than sweet, with vetiver root and a cool thread of reed. Poured into an unglazed clay-coloured ceramic.",
+   "notes": {
+    "top": "Rain accord, reed",
+    "heart": "Vetiver root, iris",
+    "base": "Clay, cedar"
+   },
+   "details": [
+    "240 g, about 55 hours of burn time",
+    "Coconut and rapeseed wax, cotton wick",
+    "Stoneware vessel, glazed inside",
+    "Burn for 2 to 3 hours the first time so the wax melts edge to edge.",
+    "Trim the wick to 5 mm before each burn.",
+    "Never leave a burning candle unattended."
+   ],
+   "size": "240 g",
+   "rating": 4.7,
+   "reviews": 143,
+   "sold": 1120,
+   "stock": 22,
+   "featured": true,
+   "isNew": true,
+   "art": {
+    "kind": "crock",
+    "tint": "#D6DEDD",
+    "body": "#B58E6F",
+    "label": "#3A2A1F",
+    "ink": "#221B16",
+    "title": [
+     "Rain",
+     "on Clay"
+    ]
+   },
+   "id": "p03",
+   "createdAt": "2026-02-08T00:00:00.000Z"
+  },
+  {
+   "slug": "damask-rose-oud-candle",
+   "name": "Damask Rose & Oud Candle",
+   "category": "candles",
+   "price": 58,
+   "short": "Dark rose, saffron, smoked oud",
+   "description": "A rose with weight to it. Damask rose and saffron sit over oud and labdanum, the way rosewater and incense share the air in an old house. Rich without being loud.",
+   "notes": {
+    "top": "Saffron, pink pepper",
+    "heart": "Damask rose, geranium",
+    "base": "Oud, labdanum"
+   },
+   "details": [
+    "220 g, about 50 hours of burn time",
+    "Coconut and rapeseed wax, cotton wick",
+    "Garnet glass vessel, reusable",
+    "Burn for 2 to 3 hours the first time so the wax melts edge to edge.",
+    "Trim the wick to 5 mm before each burn.",
+    "Never leave a burning candle unattended."
+   ],
+   "size": "220 g",
+   "rating": 4.9,
+   "reviews": 327,
+   "sold": 2610,
+   "stock": 4,
+   "featured": true,
+   "bestSeller": true,
+   "art": {
+    "kind": "tumbler",
+    "tint": "#E8D5D3",
+    "body": "#6E1F2B",
+    "label": "#F3EFE4",
+    "ink": "#221B16",
+    "title": [
+     "Damask Rose",
+     "& Oud"
+    ]
+   },
+   "id": "p04",
+   "createdAt": "2026-02-25T00:00:00.000Z"
+  },
+  {
+   "slug": "fig-leaf-courtyard-candle",
+   "name": "Fig Leaf Courtyard Candle",
+   "category": "candles",
+   "price": 48,
+   "short": "Crushed fig leaf, green almond, cool stone",
+   "description": "Shade under a fig tree at noon. Green, milky fig leaf and unripe almond over a cool mineral base. The freshest candle we make, and the easiest to burn every day.",
+   "notes": {
+    "top": "Fig leaf, green almond",
+    "heart": "Fig milk, jasmine tea",
+    "base": "Wet stone, white cedar"
+   },
+   "details": [
+    "240 g, about 55 hours of burn time",
+    "Coconut and rapeseed wax, cotton wick",
+    "Stoneware vessel, glazed inside",
+    "Burn for 2 to 3 hours the first time so the wax melts edge to edge.",
+    "Trim the wick to 5 mm before each burn.",
+    "Never leave a burning candle unattended."
+   ],
+   "size": "240 g",
+   "rating": 4.6,
+   "reviews": 96,
+   "sold": 870,
+   "stock": 38,
+   "isNew": true,
+   "art": {
+    "kind": "crock",
+    "tint": "#DDE4D4",
+    "body": "#5E7257",
+    "label": "#F1EEDF",
+    "ink": "#221B16",
+    "title": [
+     "Fig Leaf",
+     "Courtyard"
+    ]
+   },
+   "id": "p05",
+   "createdAt": "2026-03-14T00:00:00.000Z"
+  },
+  {
+   "slug": "saffron-smoke-three-wick",
+   "name": "Saffron Smoke Three-Wick Candle",
+   "category": "candles",
+   "price": 96,
+   "compareAt": 112,
+   "short": "Saffron, frankincense, charred cedar",
+   "description": "Our largest candle, in a lapis-glazed bowl wide enough to scent an open living room. Saffron and frankincense over cedar that has been lightly charred. Lights in three places and fills the room in ten minutes.",
+   "notes": {
+    "top": "Saffron, cardamom",
+    "heart": "Frankincense, leather",
+    "base": "Charred cedar, benzoin"
+   },
+   "details": [
+    "620 g, about 70 hours of burn time",
+    "Three cotton wicks",
+    "Hand-glazed ceramic bowl, each one slightly different",
+    "Burn for 2 to 3 hours the first time so the wax melts edge to edge.",
+    "Trim the wick to 5 mm before each burn.",
+    "Never leave a burning candle unattended."
+   ],
+   "size": "620 g",
+   "rating": 4.8,
+   "reviews": 74,
+   "sold": 540,
+   "stock": 12,
+   "featured": true,
+   "art": {
+    "kind": "threewick",
+    "tint": "#E4DFD0",
+    "body": "#1B3672",
+    "label": "#E9CF8C",
+    "ink": "#221B16",
+    "title": [
+     "Saffron",
+     "Smoke"
+    ]
+   },
+   "id": "p06",
+   "createdAt": "2026-03-31T00:00:00.000Z"
+  },
+  {
+   "slug": "orange-blossom-reed-diffuser",
+   "name": "Orange Blossom Reed Diffuser",
+   "category": "diffusers",
+   "price": 64,
+   "short": "Orange blossom water, honey, white tea",
+   "description": "The orange blossom water that goes into sweets and morning coffee, lifted with neroli and a spoon of honey. Bright and clean, and steady for around three months.",
+   "notes": {
+    "top": "Neroli, petitgrain",
+    "heart": "Orange blossom, honey",
+    "base": "White tea, musk"
+   },
+   "details": [
+    "200 ml, lasts about 12 weeks",
+    "Eight natural rattan reeds included",
+    "Alcohol-free base",
+    "Turn the reeds once a week for a stronger scent."
+   ],
+   "size": "200 ml",
+   "rating": 4.7,
+   "reviews": 189,
+   "sold": 1490,
+   "stock": 27,
+   "bestSeller": true,
+   "art": {
+    "kind": "diffuser",
+    "tint": "#F0E7D2",
+    "body": "#D9A441",
+    "label": "#F3EFE4",
+    "ink": "#221B16",
+    "title": [
+     "Orange",
+     "Blossom"
+    ]
+   },
+   "id": "p07",
+   "createdAt": "2026-04-17T00:00:00.000Z"
+  },
+  {
+   "slug": "black-lime-reed-diffuser",
+   "name": "Black Lime Reed Diffuser",
+   "category": "diffusers",
+   "price": 64,
+   "compareAt": 72,
+   "short": "Our signature scent, all day",
+   "description": "Black Lime & Cardamom without the flame. The same sour-smoky lime and green cardamom, tuned a little brighter so it stays fresh in hallways and bathrooms.",
+   "notes": {
+    "top": "Black lime, bergamot",
+    "heart": "Green cardamom, black tea",
+    "base": "Guaiac wood, soft musk"
+   },
+   "details": [
+    "200 ml, lasts about 12 weeks",
+    "Eight natural rattan reeds included",
+    "Alcohol-free base",
+    "Turn the reeds once a week for a stronger scent."
+   ],
+   "size": "200 ml",
+   "rating": 4.8,
+   "reviews": 156,
+   "sold": 1310,
+   "stock": 19,
+   "art": {
+    "kind": "diffuser",
+    "tint": "#D9DBD0",
+    "body": "#3B332A",
+    "label": "#F3EFE4",
+    "ink": "#221B16",
+    "title": [
+     "Black",
+     "Lime"
+    ]
+   },
+   "id": "p08",
+   "createdAt": "2026-05-04T00:00:00.000Z"
+  },
+  {
+   "slug": "cedar-myrrh-reed-diffuser",
+   "name": "Cedar & Myrrh Reed Diffuser",
+   "category": "diffusers",
+   "price": 68,
+   "short": "Cedar of Lebanon, myrrh resin, dry tobacco",
+   "description": "A quiet, resinous scent for studies and bedrooms. Cedar and myrrh with a dry tobacco leaf note that keeps it from feeling churchy.",
+   "notes": {
+    "top": "Cypress, black pepper",
+    "heart": "Cedarwood, tobacco leaf",
+    "base": "Myrrh, vanilla husk"
+   },
+   "details": [
+    "200 ml, lasts about 12 weeks",
+    "Eight natural rattan reeds included",
+    "Alcohol-free base",
+    "Turn the reeds once a week for a stronger scent."
+   ],
+   "size": "200 ml",
+   "rating": 4.6,
+   "reviews": 88,
+   "sold": 760,
+   "stock": 0,
+   "art": {
+    "kind": "diffuser",
+    "tint": "#DAD3C6",
+    "body": "#5A3A22",
+    "label": "#F3EFE4",
+    "ink": "#221B16",
+    "title": [
+     "Cedar",
+     "& Myrrh"
+    ]
+   },
+   "id": "p09",
+   "createdAt": "2026-05-21T00:00:00.000Z"
+  },
+  {
+   "slug": "rosewater-linen-mist",
+   "name": "Rosewater Linen Mist",
+   "category": "sprays",
+   "price": 32,
+   "short": "Rosewater, clean cotton, a little cucumber",
+   "description": "A light rosewater spray for pillows, curtains and freshly made beds. Dries without marks on most fabrics and fades to clean cotton.",
+   "notes": {
+    "top": "Cucumber water, lemon",
+    "heart": "Rosewater, peony",
+    "base": "Cotton musk"
+   },
+   "details": [
+    "100 ml, around 800 sprays",
+    "Safe on most fabrics. Test on a hidden area first.",
+    "Recyclable glass bottle"
+   ],
+   "size": "100 ml",
+   "rating": 4.7,
+   "reviews": 204,
+   "sold": 1890,
+   "stock": 54,
+   "featured": true,
+   "art": {
+    "kind": "spray",
+    "tint": "#F0E1DF",
+    "body": "#D9A3A8",
+    "label": "#F3EFE4",
+    "ink": "#221B16",
+    "title": [
+     "Rose",
+     "water"
+    ]
+   },
+   "id": "p10",
+   "createdAt": "2026-06-07T00:00:00.000Z"
+  },
+  {
+   "slug": "cardamom-coffee-room-spray",
+   "name": "Cardamom Coffee Room Spray",
+   "category": "sprays",
+   "price": 34,
+   "short": "Fresh-ground coffee, cardamom, burnt sugar",
+   "description": "The moment the dallah comes off the heat. Roasted coffee and crushed cardamom with a trace of caramelised sugar. Two sprays before guests arrive is enough.",
+   "notes": {
+    "top": "Cardamom, clove",
+    "heart": "Roasted coffee",
+    "base": "Burnt sugar, sandalwood"
+   },
+   "details": [
+    "100 ml, around 800 sprays",
+    "Spray into the air, away from polished surfaces.",
+    "Recyclable glass bottle"
+   ],
+   "size": "100 ml",
+   "rating": 4.8,
+   "reviews": 131,
+   "sold": 1040,
+   "stock": 33,
+   "isNew": true,
+   "art": {
+    "kind": "spray",
+    "tint": "#E2D8C8",
+    "body": "#4A3526",
+    "label": "#F3EFE4",
+    "ink": "#221B16",
+    "title": [
+     "Cardamom",
+     "Coffee"
+    ]
+   },
+   "id": "p11",
+   "createdAt": "2026-06-24T00:00:00.000Z"
+  },
+  {
+   "slug": "tigris-mint-room-spray",
+   "name": "Tigris Mint Room Spray",
+   "category": "sprays",
+   "price": 32,
+   "compareAt": 38,
+   "short": "River mint, lime peel, cool tea",
+   "description": "Wild mint from the riverbank with lime peel and iced tea. A fast, cooling reset for kitchens and warm afternoons.",
+   "notes": {
+    "top": "River mint, lime peel",
+    "heart": "Iced black tea",
+    "base": "Green vetiver"
+   },
+   "details": [
+    "100 ml, around 800 sprays",
+    "Spray into the air, away from polished surfaces.",
+    "Recyclable glass bottle"
+   ],
+   "size": "100 ml",
+   "rating": 4.5,
+   "reviews": 67,
+   "sold": 620,
+   "stock": 41,
+   "art": {
+    "kind": "spray",
+    "tint": "#DCE8E2",
+    "body": "#6FA596",
+    "label": "#F3EFE4",
+    "ink": "#221B16",
+    "title": [
+     "Tigris",
+     "Mint"
+    ]
+   },
+   "id": "p12",
+   "createdAt": "2026-07-11T00:00:00.000Z"
+  },
+  {
+   "slug": "oud-al-layl-perfume-oil",
+   "name": "Oud Al-Layl Perfume Oil",
+   "category": "perfume",
+   "price": 74,
+   "short": "Night oud, rose absolute, incense",
+   "description": "A concentrated, alcohol-free oil in the attar tradition. Dark oud softened with rose absolute and a ribbon of incense. One touch at the wrist lasts through the evening.",
+   "notes": {
+    "top": "Saffron, incense",
+    "heart": "Rose absolute",
+    "base": "Oud, ambergris accord"
+   },
+   "details": [
+    "10 ml roll-on",
+    "Alcohol-free, in fractionated coconut oil",
+    "Lasts 8 hours or more on skin",
+    "Patch test before first use."
+   ],
+   "size": "10 ml",
+   "rating": 4.9,
+   "reviews": 238,
+   "sold": 1730,
+   "stock": 16,
+   "bestSeller": true,
+   "art": {
+    "kind": "roller",
+    "tint": "#D8D4CC",
+    "body": "#2A2019",
+    "label": "#E9CF8C",
+    "ink": "#221B16",
+    "title": [
+     "Oud",
+     "Al-Layl"
+    ]
+   },
+   "id": "p13",
+   "createdAt": "2026-07-28T00:00:00.000Z"
+  },
+  {
+   "slug": "amber-resin-perfume-oil",
+   "name": "Amber Resin Perfume Oil",
+   "category": "perfume",
+   "price": 68,
+   "short": "Golden amber, vanilla husk, sandalwood",
+   "description": "Warm, skin-close amber with dry vanilla and sandalwood. Easy to wear alone and good layered under any of our other scents.",
+   "notes": {
+    "top": "Mandarin, cardamom",
+    "heart": "Amber resin, vanilla husk",
+    "base": "Sandalwood, musk"
+   },
+   "details": [
+    "10 ml roll-on",
+    "Alcohol-free, in fractionated coconut oil",
+    "Lasts 6 to 8 hours on skin",
+    "Patch test before first use."
+   ],
+   "size": "10 ml",
+   "rating": 4.7,
+   "reviews": 112,
+   "sold": 930,
+   "stock": 24,
+   "art": {
+    "kind": "roller",
+    "tint": "#EFE2CB",
+    "body": "#B8651B",
+    "label": "#F3EFE4",
+    "ink": "#221B16",
+    "title": [
+     "Amber",
+     "Resin"
+    ]
+   },
+   "id": "p14",
+   "createdAt": "2026-08-14T00:00:00.000Z"
+  },
+  {
+   "slug": "courtyard-trio-gift-set",
+   "name": "The Courtyard Trio",
+   "category": "gifts",
+   "price": 78,
+   "compareAt": 92,
+   "short": "Three 90 g candles in a gift box",
+   "description": "Black Lime & Cardamom, Damask Rose & Oud and Fig Leaf Courtyard in travel size. Boxed with a handwritten card if you leave us a note at checkout.",
+   "notes": {
+    "top": "Black lime, saffron, fig leaf",
+    "heart": "Cardamom, rose, fig milk",
+    "base": "Guaiac, oud, wet stone"
+   },
+   "details": [
+    "Three 90 g candles, about 20 hours each",
+    "Rigid gift box with lapis sleeve",
+    "Add a gift message in the order notes",
+    "Burn for 2 to 3 hours the first time so the wax melts edge to edge.",
+    "Trim the wick to 5 mm before each burn.",
+    "Never leave a burning candle unattended."
+   ],
+   "size": "3 × 90 g",
+   "rating": 4.9,
+   "reviews": 183,
+   "sold": 1560,
+   "stock": 20,
+   "featured": true,
+   "bestSeller": true,
+   "art": {
+    "kind": "trio",
+    "tint": "#E3E4DA",
+    "body": "#3B332A",
+    "label": "#F3EFE4",
+    "ink": "#221B16",
+    "title": [
+     "Noomi",
+     ""
+    ],
+    "alt": [
+     "#6E1F2B",
+     "#5E7257"
+    ]
+   },
+   "id": "p15",
+   "createdAt": "2026-08-31T00:00:00.000Z"
+  },
+  {
+   "slug": "discovery-set-of-six",
+   "name": "Discovery Set of Six",
+   "category": "gifts",
+   "price": 42,
+   "short": "Six votives to find your scent",
+   "description": "Not sure where to start? Six 40 g votives covering the whole candle range. Each set includes a $10 voucher toward your first full-size candle.",
+   "notes": {
+    "top": "Six scents",
+    "heart": "One box",
+    "base": "A $10 voucher inside"
+   },
+   "details": [
+    "Six 40 g votives, about 8 hours each",
+    "Lapis gift box",
+    "$10 voucher toward a full-size candle",
+    "Burn for 2 to 3 hours the first time so the wax melts edge to edge.",
+    "Trim the wick to 5 mm before each burn.",
+    "Never leave a burning candle unattended."
+   ],
+   "size": "6 × 40 g",
+   "rating": 4.8,
+   "reviews": 291,
+   "sold": 2050,
+   "stock": 63,
+   "isNew": true,
+   "art": {
+    "kind": "box",
+    "tint": "#DEE3EA",
+    "body": "#1B3672",
+    "label": "#F3EFE4",
+    "ink": "#221B16",
+    "title": [
+     "Discovery",
+     "Set"
+    ]
+   },
+   "id": "p16",
+   "createdAt": "2026-09-17T00:00:00.000Z"
+  }
+ ]
+}
