@@ -28,8 +28,9 @@ module.exports = async (req, res) => {
       const change = {};
       if (body && body.status !== undefined) change.status = body.status;
       if (body && body.read !== undefined) change.read = !!body.read;
+      if (body && typeof body.note === 'string') change.note = body.note;
       const order = await updateOrder(body && body.key, change, 'لوحة التحكم');
-      await tg.syncOrder(order); // keep the Telegram message in step with the dashboard
+      if (change.status !== undefined || change.read !== undefined) await tg.syncOrder(order); // keep the Telegram message in step
       return res.status(200).json({ ok: true, order });
     }
     return res.status(405).json({ ok: false });

@@ -38,7 +38,7 @@ h2{margin:0 0 12px;font-size:18px}
 .bar i{display:block;width:100%;max-width:38px;background:var(--navy);border-radius:4px 4px 0 0;min-height:2px}
 .bar i.zero{background:var(--line)}
 .bar em{position:absolute;bottom:calc(var(--h) + 4px);font-style:normal;font-size:11px;color:var(--mute);white-space:nowrap}
-.xl{display:flex;gap:4px;margin-top:6px}.xl span{flex:1;text-align:center;font-size:11px;color:var(--mute);white-space:nowrap;overflow:hidden}
+.xl{display:flex;gap:4px;margin-top:6px}.xl span{flex:1;text-align:center;font-size:11px;color:var(--mute);white-space:nowrap;overflow:visible;width:0}
 .split{display:grid;grid-template-columns:1.6fr 1fr;gap:18px}
 .st-row{display:grid;grid-template-columns:7em 1fr 3em;align-items:center;gap:10px;margin:8px 0;font-size:15px}
 .st-row div{height:10px;border-radius:5px;background:var(--line);overflow:hidden}.st-row div i{display:block;height:100%}
@@ -75,6 +75,29 @@ details.o.done .who b,details.o.done .items .it span:first-child{text-decoration
 .toast{position:fixed;bottom:18px;inset-inline:0;margin:auto;width:fit-content;max-width:90vw;background:var(--ink);color:#fff;padding:10px 16px;border-radius:8px;opacity:0;transition:opacity .25s;pointer-events:none}
 .toast.on{opacity:1}
 [hidden]{display:none!important}
+.delta{display:block;font-size:13px;margin-top:2px;color:#C7CCDA}.delta.up{color:#9FD3A9}.delta.down{color:#F2A9A4}
+.tri{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.rank{display:grid;gap:10px}
+.rk{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;font-size:15px}
+.rk .bar2{grid-column:1/-1;height:6px;border-radius:3px;background:var(--line);overflow:hidden}.rk .bar2 i{display:block;height:100%;background:var(--navy)}
+.rk small{color:var(--mute);font-size:13px}
+.wa{background:#1F8A4C;border-color:#1F8A4C;color:#fff;text-decoration:none;display:inline-flex;align-items:center}
+.note{width:100%;min-height:72px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font:inherit;font-size:16px;resize:vertical;margin-top:6px}
+.mute{color:var(--mute);font-size:13px}
+#print{display:none}
+@media print{
+  body{background:#fff}#app,#login,.toast{display:none!important}
+  #print{display:block;color:#000;font-size:13px;padding:0}
+  .rc{max-width:148mm;margin:0 auto}
+  .rc h1{font-size:22px;letter-spacing:.3em;text-align:center;margin:0 0 2px;font-family:serif}
+  .rc .sub{text-align:center;margin:0 0 12px;color:#444}
+  .rc table{width:100%;border-collapse:collapse;margin:8px 0}.rc td,.rc th{border-bottom:1px solid #ccc;padding:5px 2px;text-align:start}
+  .rc .due{border:2px solid #000;padding:10px;text-align:center;font-size:18px;font-weight:700;margin:10px 0}
+  .rc .row{display:flex;justify-content:space-between;gap:10px}
+  .rc .sign{margin-top:28px;display:flex;justify-content:space-between}
+  @page{size:A5;margin:10mm}
+}
+@media(max-width:900px){.tri{grid-template-columns:1fr}}
 @media(max-width:800px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.split{grid-template-columns:1fr}}
 @media(max-width:600px){details.o summary{grid-template-columns:minmax(0,1fr) auto;row-gap:4px}.when{grid-column:1}.body{grid-template-columns:1fr}.bar em{display:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -103,8 +126,8 @@ details.o.done .who b,details.o.done .items .it span:first-child{text-decoration
       </div>
     </div>
     <div class="kpis">
-      <div class="kpi"><b class="num" id="kRev">—</b><span>المبيعات (بدون الملغية)</span></div>
-      <div class="kpi"><b class="num" id="kCount">—</b><span>عدد الطلبات</span></div>
+      <div class="kpi"><b class="num" id="kRev">—</b><span>المبيعات (بدون الملغية)</span><small class="delta" id="dRev"></small></div>
+      <div class="kpi"><b class="num" id="kCount">—</b><span>عدد الطلبات</span><small class="delta" id="dCount"></small></div>
       <div class="kpi"><b class="num" id="kAvg">—</b><span>متوسط الطلب</span></div>
       <div class="kpi"><b class="num" id="kPend">—</b><span>طلبات جديدة غير مقروءة</span></div>
     </div>
@@ -121,6 +144,11 @@ details.o.done .who b,details.o.done .items .it span:first-child{text-decoration
         <div id="status"></div>
       </section>
     </div>
+    <div class="tri">
+      <section class="card"><h2>أكثر المنتجات مبيعاً</h2><div class="rank" id="topProducts"></div></section>
+      <section class="card"><h2>المبيعات حسب المدينة</h2><div class="rank" id="topCities"></div></section>
+      <section class="card"><h2>الزبائن المتكررين</h2><div class="rank" id="repeat"></div></section>
+    </div>
     <section class="card">
       <h2>الطلبات</h2>
       <div class="tools">
@@ -133,6 +161,7 @@ details.o.done .who b,details.o.done .items .it span:first-child{text-decoration
   </main>
 </div>
 <div class="toast" id="toast" role="status"></div>
+<div id="print"></div>
 
 <script>
 {
@@ -173,11 +202,57 @@ async function load() {
   }
 }
 
-function inRange(o) {
-  if (!range) return true;
+function inDays(o, from, to) {
   const days = new Set();
-  for (let i = 0; i < range; i++) days.add(dayKey(new Date(Date.now() - i * 864e5)));
+  for (let i = from; i < to; i++) days.add(dayKey(new Date(Date.now() - i * 864e5)));
   return days.has(dayKey(new Date(o.receivedAt)));
+}
+const inRange = (o) => !range || inDays(o, 0, range);
+const pct = (now, before) => before ? Math.round((now - before) / before * 100) : null;
+function delta(el, now, before) {
+  const p = range ? pct(now, before) : null;
+  el.className = 'delta' + (p > 0 ? ' up' : p < 0 ? ' down' : '');
+  el.textContent = !range ? '' : p === null ? (now ? 'ماكو فترة قبلها للمقارنة' : '') : (p > 0 ? '▲ ' : p < 0 ? '▼ ' : '') + Math.abs(p) + '% عن ' + (range === 1 ? 'البارحة' : 'الفترة اللي قبلها');
+}
+// Iraqi numbers: 07xx… becomes 9647xx… for WhatsApp.
+function waNumber(phone) {
+  let d = String(phone || '').replace(/\D/g, '');
+  if (d.startsWith('00')) d = d.slice(2);
+  if (d.startsWith('0')) d = '964' + d.slice(1);
+  if (d.length === 10 && d.startsWith('7')) d = '964' + d;
+  return d;
+}
+function waText(o) {
+  const name = (o.customer?.name || '').split(' ')[0];
+  if (o.status === 'confirmed') return `هلا ${name}، طلبك ${o.id} من نعومي تثبت ✅ وراح نجهزه ونوصله قريباً. المبلغ ${money(o.total)}.`;
+  if (o.status === 'shipped') return `هلا ${name}، طلبك ${o.id} من نعومي طلع ويه المندوب 🚚 وراح يتصل بيك قبل لا يوصل. خلي المبلغ ${money(o.total)} حاضر.`;
+  if (o.status === 'delivered') return `هلا ${name}، نتمنى عجبك طلبك من نعومي 🤍 إذا عندك أي ملاحظة كلنا.`;
+  return `هلا ${name}، وصلنا طلبك ${o.id} من نعومي بمبلغ ${money(o.total)}. نثبتلك الطلب؟`;
+}
+function rankRows(rows, fmt) {
+  if (!rows.length) return '<p class="mute">ماكو بيانات بهالفترة.</p>';
+  const max = Math.max(...rows.map((r) => r.v), 1);
+  return rows.map((r) => `<div class="rk"><span>${esc(r.label)}</span><b class="num">${esc(fmt(r.v))}</b>${r.sub ? `<small>${esc(r.sub)}</small><span></span>` : ''}<div class="bar2"><i style="width:${r.v / max * 100}%"></i></div></div>`).join('');
+}
+function printOrder(o) {
+  const c = o.customer || {};
+  const paid = o.payment === 'bank';
+  $('print').innerHTML = `<div class="rc">
+    <h1>NOOMI</h1><p class="sub">نعومي · معطرات البيت</p>
+    <div class="row"><b>طلب ${esc(o.id)}</b><span>${esc(fmtWhen(o.receivedAt))}</span></div>
+    <p><b>${esc(c.name)}</b><br><span class="num">${esc(c.phone)}</span><br>${esc(c.city)}، ${esc(c.address)}</p>
+    ${c.notes ? `<p>ملاحظة الزبون: ${esc(c.notes)}</p>` : ''}
+    <table><thead><tr><th>المنتج</th><th>العدد</th><th>المبلغ</th></tr></thead><tbody>
+    ${(o.items || []).map((i) => `<tr><td>${esc(i.name)}</td><td>${esc(i.qty)}</td><td class="num">${esc(money(i.price * i.qty))}</td></tr>`).join('')}
+    </tbody></table>
+    <div class="row"><span>المجموع</span><span class="num">${esc(money(o.subtotal))}</span></div>
+    ${o.discount > 0 ? `<div class="row"><span>الخصم</span><span class="num">-${esc(money(o.discount))}</span></div>` : ''}
+    <div class="row"><span>التوصيل</span><span>${o.shipping ? esc(money(o.shipping)) : 'مجاني'}</span></div>
+    <div class="due">${paid ? 'مدفوع بالتحويل البنكي' : 'المبلغ المطلوب من الزبون: <span class="num">' + esc(money(o.total)) + '</span>'}</div>
+    <p>الدفع: ${esc(PAY[o.payment] || o.payment)}</p>
+    <div class="sign"><span>توقيع المستلم: ..................</span><span>المندوب: ..................</span></div>
+  </div>`;
+  setTimeout(() => window.print(), 50);
 }
 
 function render() {
@@ -188,6 +263,26 @@ function render() {
   $('kCount').textContent = sel.length.toLocaleString('en-US');
   $('kAvg').textContent = live.length ? money(rev / live.length) : '—';
   $('kPend').textContent = orders.filter((o) => !o.read && o.status === 'pending').length.toLocaleString('en-US');
+  if (range) {
+    const prev = orders.filter((o) => inDays(o, range, range * 2));
+    const prevLive = prev.filter((o) => o.status !== 'cancelled');
+    delta($('dRev'), rev, prevLive.reduce((a, o) => a + Number(o.total || 0), 0));
+    delta($('dCount'), sel.length, prev.length);
+  } else { $('dRev').textContent = ''; $('dCount').textContent = ''; }
+
+  const prod = {}, city = {}, cust = {};
+  for (const o of live) {
+    for (const i of o.items || []) { const p = prod[i.name] ||= {qty: 0, rev: 0}; p.qty += Number(i.qty || 0); p.rev += i.qty * i.price; }
+    const cn = (o.customer?.city || 'غير محدد').trim(); const ct = city[cn] ||= {n: 0, rev: 0}; ct.n++; ct.rev += Number(o.total || 0);
+  }
+  for (const o of orders.filter((o) => o.status !== 'cancelled')) {
+    const k = waNumber(o.customer?.phone) || o.customer?.email; if (!k) continue;
+    const cu = cust[k] ||= {name: o.customer?.name, n: 0, rev: 0}; cu.n++; cu.rev += Number(o.total || 0);
+  }
+  $('topProducts').innerHTML = rankRows(Object.entries(prod).sort((a, b) => b[1].rev - a[1].rev).slice(0, 6).map(([k, v]) => ({label: k, v: v.rev, sub: v.qty + ' قطعة'})), money);
+  $('topCities').innerHTML = rankRows(Object.entries(city).sort((a, b) => b[1].rev - a[1].rev).slice(0, 6).map(([k, v]) => ({label: k, v: v.rev, sub: v.n + (v.n === 1 ? ' طلب' : ' طلبات')})), money);
+  const rep = Object.values(cust).filter((c) => c.n > 1).sort((a, b) => b.rev - a.rev).slice(0, 6);
+  $('repeat').innerHTML = rep.length ? rankRows(rep.map((c) => ({label: c.name, v: c.rev, sub: c.n + ' طلبات'})), money) : '<p class="mute">لهسه ماكو زبون طلب أكثر من مرة. من يرجع زبون يطلب، يطلع هنا.</p>';
 
   // Daily chart: the chosen range, or the last 30 days for "all".
   const span = range === 1 ? 7 : (range || 30);
@@ -229,7 +324,7 @@ function renderList() {
     const meta = [o.confirmedBy && o.status !== 'pending' ? `✅ ثبّته ${esc(o.confirmedBy)} · ${esc(fmtWhen(o.confirmedAt))}` : '', o.read && o.readBy && o.status === 'pending' ? `👁 قرأه ${esc(o.readBy)}` : ''].filter(Boolean).join('<br>');
     return `<details class="${cls}" data-k="${k}">
       <summary>
-        <span class="who"><b>${!o.read && o.status === 'pending' ? '<i class="dot" aria-label="غير مقروء"></i>' : ''}${esc(c.name)}</b><span>${esc(c.city)} · ${count.toLocaleString('ar-IQ')} قطعة · <span class="num">${esc(o.id)}</span></span></span>
+        <span class="who"><b>${!o.read && o.status === 'pending' ? '<i class="dot" aria-label="غير مقروء"></i>' : ''}${esc(c.name)}</b><span>${o.note ? '📝 ' : ''}${esc(c.city)} · ${count.toLocaleString('ar-IQ')} قطعة · <span class="num">${esc(o.id)}</span></span></span>
         <span class="when">${esc(fmtWhen(o.receivedAt))}</span>
         <span class="pill ${esc(o.status)}">${esc(ST[o.status] || o.status)}</span>
         <b class="num">${esc(money(o.total))}</b>
@@ -244,6 +339,15 @@ function renderList() {
           ${c.notes ? `<p style="margin-top:8px;background:var(--bg);padding:8px;border-radius:6px">ملاحظة: ${esc(c.notes)}</p>` : ''}
           <p style="margin-top:8px;color:var(--mute)">الدفع: ${esc(PAY[o.payment] || o.payment)}</p>
           <div class="acts">${acts}</div>
+          <div class="acts">
+            <a class="btn wa" href="https://wa.me/${esc(waNumber(c.phone))}?text=${encodeURIComponent(waText(o))}" target="_blank" rel="noreferrer">واتساب الزبون</a>
+            <button class="btn ghost" data-act="print" data-key="${k}">🖨 طباعة الوصل</button>
+          </div>
+          <label class="meta">ملاحظة داخلية (ما يشوفها الزبون)
+            <textarea class="note" data-note="${k}" placeholder="مثلاً: اتصلت وما رد، يريده بعد العصر">${esc(o.note || '')}</textarea>
+          </label>
+          <button class="btn ghost" data-act="note" data-key="${k}" style="margin-top:6px;height:40px">حفظ الملاحظة</button>
+          ${o.note && o.noteAt ? `<p class="meta">آخر تعديل ${esc(fmtWhen(o.noteAt))}</p>` : ''}
           ${meta ? `<p class="meta">${meta}</p>` : ''}
           <label class="meta">أو اختار الحالة<br><select data-key="${esc(o.key)}">${Object.keys(ST).map((s) => `<option value="${s}"${s === o.status ? ' selected' : ''}>${ST[s]}</option>`).join('')}</select></label>
         </div>
@@ -260,9 +364,9 @@ function renderList() {
 }
 
 function toCsv() {
-  const head = ['التاريخ', 'رقم الطلب', 'الاسم', 'الرقم', 'الإيميل', 'المدينة', 'العنوان', 'المنتجات', 'الإجمالي', 'الدفع', 'الحالة'];
+  const head = ['التاريخ', 'رقم الطلب', 'الاسم', 'الرقم', 'الإيميل', 'المدينة', 'العنوان', 'المنتجات', 'الإجمالي', 'الدفع', 'الحالة', 'ملاحظة داخلية'];
   const cell = (v) => '"' + String(v ?? '').replace(/"/g, '""') + '"';
-  const lines = orders.filter(inRange).map((o) => [fmtWhen(o.receivedAt), o.id, o.customer?.name, o.customer?.phone, o.customer?.email, o.customer?.city, o.customer?.address, (o.items || []).map((i) => i.qty + ' x ' + i.name).join(' | '), o.total, PAY[o.payment] || o.payment, ST[o.status] || o.status].map(cell).join(','));
+  const lines = orders.filter(inRange).map((o) => [fmtWhen(o.receivedAt), o.id, o.customer?.name, o.customer?.phone, o.customer?.email, o.customer?.city, o.customer?.address, (o.items || []).map((i) => i.qty + ' x ' + i.name).join(' | '), o.total, PAY[o.payment] || o.payment, ST[o.status] || o.status, o.note || ''].map(cell).join(','));
   const blob = new Blob(['﻿' + [head.map(cell).join(','), ...lines].join('\n')], {type: 'text/csv;charset=utf-8'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -306,7 +410,7 @@ async function change(key, payload, el) {
   try {
     const {order} = await api('POST', {key, ...payload});
     orders = orders.map((o) => (o.key === order.key ? order : o));
-    toast(payload.status ? 'صارت الحالة: ' + ST[order.status] : order.read ? 'انقرأ الطلب' : 'رجع غير مقروء');
+    toast(payload.note !== undefined ? 'انحفظت الملاحظة' : payload.status ? 'صارت الحالة: ' + ST[order.status] : order.read ? 'انقرأ الطلب' : 'رجع غير مقروء');
     const open = [...document.querySelectorAll('details.o[open]')].map((d) => d.dataset.k);
     render();
     for (const d of document.querySelectorAll('details.o')) if (open.includes(d.dataset.k)) d.open = true;
@@ -317,6 +421,8 @@ async function change(key, payload, el) {
 }
 $('list').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-act]'); if (!b) return;
+  if (b.dataset.act === 'print') return printOrder(orders.find((o) => o.key === b.dataset.key));
+  if (b.dataset.act === 'note') { const t = [...document.querySelectorAll('textarea[data-note]')].find((x) => x.dataset.note === b.dataset.key); return change(b.dataset.key, {note: t ? t.value : ''}, b); }
   change(b.dataset.key, b.dataset.act === 'read' ? {read: b.dataset.v === '1'} : {status: b.dataset.v}, b);
 });
 setInterval(() => { if (key && !document.hidden && !document.querySelector('details.o[open]')) api('GET').then((d) => { orders = d.orders; render(); }).catch(() => {}); }, 30000);
